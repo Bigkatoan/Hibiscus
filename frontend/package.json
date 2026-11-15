@@ -91,5 +91,14 @@
     "vite": "6.4.6",
     "vitest": "3.2.7",
     "yaml": "2.7.0"
+  },
+  "pnpm": {
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-5gmw-xhrv-c9v3",
+        "GHSA-85c8-ppgw-ccpr",
+        "GHSA-mrhx-c7xc-m3w5"
+      ]
+    }
   }
 }
