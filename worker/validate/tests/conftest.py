@@ -34,5 +34,6 @@ def synth_ds(tmp_path: Path, synth_template: Path) -> Path:
 @pytest.fixture(scope="session")
 def golden_rar() -> Path:
     if not GOLDEN_RAR.is_file():
-        pytest.fail(f"golden archive missing: {GOLDEN_RAR} (set HIBISCUS_GOLDEN_RAR)")
+        # machine-local data (lab machine only): skip, never fail, where it is absent (CI runners)
+        pytest.skip(f"golden archive not available: {GOLDEN_RAR} (set HIBISCUS_GOLDEN_RAR)")
     return GOLDEN_RAR

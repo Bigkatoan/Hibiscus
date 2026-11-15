@@ -293,15 +293,9 @@ jobs:
       - uses: actions/setup-node@v7.1.0
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - name: pip-audit (every uv project with a lock file)
-        run: |
-          status=0
-          for p in backend worker cli deploy; do
-            [ -f "$p/uv.lock" ] || { echo "skip $p (no uv.lock)"; continue; }
-            echo "== $p"
-            uv export --project "$p" --locked --no-hashes --no-emit-project --format requirements-txt | grep -vE '^[[:space:]]*(#|$)' > "/tmp/$p-req.txt"  # newer pip-audit rejects comment lines
-            uvx --python "$PYTHON_VERSION" pip-audit --strict --disable-pip --no-deps -r "/tmp/$p-req.txt" || status=1
-          done
-          exit $status
+        # input preparation (colour-free export, URL / local-version pins) and the reviewed
+        # --ignore-vuln list live in the script, shared with `make audit`
+        run: tools/pip_audit.sh backend worker cli deploy
       - name: npm audit (high+)
         run: |
           status=0

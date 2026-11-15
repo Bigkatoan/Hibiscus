@@ -455,3 +455,21 @@ def test_session_retention(tmp_path: Path) -> None:
         old = time.time() - age * 86400
         os.utime(d, (old, old))
     assert prune(tmp_path, 30, 10**9) == ["s0"]
+
+
+def test_mock_leader_hand_can_mirror_the_follower() -> None:
+    from hibiscus_station.mock import MockArmWorld
+
+    follower = MockArmWorld("mock://f-mirror")
+    leader = MockArmWorld("mock://l-mirror", auto_sweep=True)
+    follower.place_all(1500.0)
+    leader.follow(follower)
+    leader.step()
+    assert {round(s.actual) for s in leader.servos.values()} == {1500}
+    follower.place_all(2600.0)
+    leader.step()
+    assert {round(s.actual) for s in leader.servos.values()} == {2600}
+    leader.follow(None)  # the sweep is back
+    time.sleep(0.05)
+    leader.step()
+    assert {round(s.actual) for s in leader.servos.values()} != {2600}

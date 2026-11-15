@@ -157,6 +157,24 @@ class MockArmWorld:
             if fail_registers is not None:
                 self.faults.fail_registers = set(fail_registers)
 
+    def follow(self, other: MockArmWorld | None) -> None:
+        """Demo/test hook: the "hand" holds every torque-off joint at ``other``'s position.
+
+        A leader mirroring the follower makes a teleop/record start deterministic (never
+        ``leader_far``) instead of waiting for the demo sweep to pass the follower pose, which a slow
+        host can miss. ``None`` gives the default hand back (the sweep, on a leader).
+        """
+        with self.lock:
+            if other is None or other is self:
+                self.hand = None
+                return
+            src = other
+
+            def mirror(motor: str, _t: float) -> float:
+                return src.servos[src.ids[motor]].actual  # a float read: no lock (no lock ordering)
+
+            self.hand = mirror
+
     def set_hand(self, motor: str, raw_present: float) -> None:
         """Move a torque-off joint by hand to a raw *present* position (calibration tests)."""
         with self.lock:

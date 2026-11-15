@@ -83,7 +83,7 @@ def checkpoint(tmp_path_factory: pytest.TempPathFactory) -> Path:
 
     out = Path.home() / ".cache" / "hibiscus-station-e2e" / "pretrained_model"  # under an import root
     shutil.rmtree(out, ignore_errors=True)
-    make_dummy_act(out, {"wrist_cam": (640, 360)})
+    make_dummy_act(out, {"wrist_cam": (360, 640)})  # (height, width): same as the real checkpoint
     return out
 
 
@@ -199,15 +199,26 @@ def test_station_ui_end_to_end(browser: Any, station_proc: tuple[str, str, Path]
             raise AssertionError(f"{exc}; status={json.dumps(status())[:800]}; alerts={alerts}") from None
 
     def start_with_leader(button: str, endpoint: str) -> None:
-        """Press a start button; the mock leader "hand" sweeps, so retry while it is too far (leader_far)."""
-        for _ in range(40):
-            with page.expect_response(lambda r: r.url.endswith(endpoint)) as resp:
-                page.get_by_role("button", name=button).click()
-            if resp.value.ok:
-                return
-            assert resp.value.json()["code"] == "leader_far", resp.value.text()
-            time.sleep(0.4)
-        raise AssertionError(f"{button}: the leader never came close to the follower")
+        """Press a start button with the mock leader "hand" holding the follower pose.
+
+        The demo hand sweeps every joint at its own frequency, so waiting for the sweep to pass the
+        follower pose is a matter of luck on a slow runner. The hand mirrors the follower for the
+        start only (the start check itself is unchanged; ``leader_far`` is covered by
+        tests/test_owner.py) and sweeps again afterwards, so the follower visibly follows it.
+        """
+        leader = {"port": "mock://leader"}
+        api("POST", "/mock/inject", {**leader, "hand": "follow", "follow_port": "mock://follower"})
+        try:
+            for _ in range(20):
+                with page.expect_response(lambda r: r.url.endswith(endpoint)) as resp:
+                    page.get_by_role("button", name=button).click()
+                if resp.value.ok:
+                    return
+                assert resp.value.json()["code"] == "leader_far", resp.value.text()
+                time.sleep(0.5)
+            raise AssertionError(f"{button}: the leader never came close to the follower")
+        finally:
+            api("POST", "/mock/inject", {**leader, "hand": "default"})
 
     def shot(name: str, *, dark: bool = False) -> None:
         page.screenshot(path=str(SHOTS / f"{name}.png"), full_page=False)

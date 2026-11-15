@@ -146,7 +146,10 @@ def _api(cfg: Config | None = None) -> HibiscusApi:
 
 
 def _print_json(data: Any) -> None:
-    out.print_json(json.dumps(data, default=str))
+    # Machine-readable output stays plain: rich's print_json highlights by default, and with
+    # FORCE_COLOR (CI) or a TTY that wraps keys/values in ANSI codes `jq` cannot parse.
+    out.file.write(json.dumps(data, default=str, indent=2) + "\n")
+    out.file.flush()
 
 
 def _short(ts: Any) -> str:

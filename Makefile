@@ -113,9 +113,7 @@ frontend-check: ## lint/typecheck/test/build the SPA (when frontend/package.json
 	  PATH=/tmp/pnpm/bin:$$PATH pnpm install --frozen-lockfile && PATH=/tmp/pnpm/bin:$$PATH pnpm lint && \
 	  PATH=/tmp/pnpm/bin:$$PATH pnpm typecheck && PATH=/tmp/pnpm/bin:$$PATH pnpm coverage'
 audit: ## pip-audit for each uv.lock + npm audit (high+)
-	@for p in $(PY_PROJECTS); do [ -f $(ROOT)/$$p/uv.lock ] || continue; echo "== pip-audit $$p"; \
-	  $(UV) export --project $(ROOT)/$$p --locked --no-hashes --no-emit-project --format requirements-txt > /tmp/hibiscus-$$p-req.txt; \
-	  $(UV) tool run --python 3.12 pip-audit --strict --disable-pip --no-deps -r /tmp/hibiscus-$$p-req.txt; done
+	env -u PYTHONPATH -u AMENT_PREFIX_PATH $(ROOT)/tools/pip_audit.sh $(PY_PROJECTS)
 	$(NODE) -v $(DEPLOY)/cloudflare/email-worker:/w -w /w $(NODE_IMAGE) npm audit --audit-level=high
 scan: ## trivy scan of built images (IMAGES="hibiscus/api:dev ..."), via docker save (no socket mount)
 	@for img in $${IMAGES:-hibiscus/api:dev hibiscus/web:dev hibiscus/worker-cpu:dev}; do echo "== trivy $$img"; \

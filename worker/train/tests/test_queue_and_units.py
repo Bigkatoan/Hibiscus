@@ -11,6 +11,7 @@ from sqlalchemy import Engine, text
 from core.events import Outbox
 from core.testing import Services, contract_metadata, insert_run, seed_basic
 from train import argv as argvmod
+from train.checkpoints import is_complete
 from train.classify import ExitFacts, classify, is_infra
 from train.dataset_cache import DatasetCache, DatasetUnavailableError, content_hash
 from train.queue import claim_run
@@ -280,3 +281,23 @@ def test_torch_arch_support(monkeypatch: pytest.MonkeyPatch) -> None:
     assert torch_supports("6.1") is True  # PTX JIT
     monkeypatch.setattr(torch.cuda, "get_arch_list", list)
     assert torch_supports("6.1") is None
+
+
+def test_checkpoint_complete_once_last_points_at_it_or_newer(tmp_path: Path) -> None:
+    """A checkpoint superseded by the next save before its upload started is still complete."""
+    ck = tmp_path / "checkpoints"
+    for step in (20, 40):
+        d = ck / f"{step:06d}"
+        (d / "pretrained_model").mkdir(parents=True)
+        (d / "training_state").mkdir(parents=True)
+        (d / "pretrained_model" / "config.json").write_text("{}")
+    (ck / "000020" / "training_state" / "training_step.json").write_text("{}")
+    assert not is_complete(tmp_path, 20)  # no ``last`` yet: still being written
+    (ck / "last").symlink_to("000020")
+    assert is_complete(tmp_path, 20) and not is_complete(tmp_path, 40)  # 40: no training_step.json
+    (ck / "000040" / "training_state" / "training_step.json").write_text("{}")
+    assert not is_complete(tmp_path, 40)  # files there, ``last`` not repointed yet
+    (ck / "last").unlink()
+    (ck / "last").symlink_to("000040")
+    assert is_complete(tmp_path, 20) and is_complete(tmp_path, 40)
+    assert not is_complete(tmp_path, 60)

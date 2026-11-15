@@ -401,6 +401,10 @@ class MockInject(BaseModel):
     motor: str | None = None
     temp_c: float | None = Field(None, ge=0, le=120)
     clear_temp: bool = False
+    #: "follow": the arm's demo "hand" mirrors ``follow_port`` (e.g. leader holds the follower pose);
+    #: "default": back to the normal hand (the sweep on a leader).
+    hand: Literal["follow", "default"] | None = None
+    follow_port: str = "mock://follower"
 
 
 def build_mock_router() -> APIRouter:
@@ -415,7 +419,14 @@ def build_mock_router() -> APIRouter:
             raise StationError("not_found", "mock hardware is not enabled")
         if not body.port.startswith("mock://"):
             raise StationError("validation_failed", "only mock:// ports")
-        get_world(body.port).inject(body.motor, temp_c=body.temp_c, clear_temp=body.clear_temp)
+        world = get_world(body.port)
+        world.inject(body.motor, temp_c=body.temp_c, clear_temp=body.clear_temp)
+        if body.hand == "follow":
+            if not body.follow_port.startswith("mock://"):
+                raise StationError("validation_failed", "only mock:// ports")
+            world.follow(get_world(body.follow_port))
+        elif body.hand == "default":
+            world.follow(None)
         return {"ok": True}
 
     return r

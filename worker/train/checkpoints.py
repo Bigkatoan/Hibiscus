@@ -38,14 +38,23 @@ def ckpt_dir(output_dir: Path, step: int) -> Path:
 
 
 def is_complete(output_dir: Path, step: int) -> bool:
+    """Checkpoint ``step`` is fully written.
+
+    lerobot-train repoints ``checkpoints/last`` only after a checkpoint is complete, so ``last``
+    pointing at ``step`` *or a newer step* means ``step`` is done. (Requiring ``last == step`` made
+    an upload that started after the next save never see its checkpoint as complete: it waited
+    ``checkpoint_complete_timeout_s`` and failed the attempt - seen with fast saves on slow hosts.)
+    """
     d = ckpt_dir(output_dir, step)
     last = output_dir / "checkpoints" / "last"
-    return (
+    if not (
         (d / "training_state" / "training_step.json").exists()
         and (d / "pretrained_model" / "config.json").exists()
         and last.is_symlink()
-        and os.readlink(last).rstrip("/").endswith(f"{step:06d}")
-    )
+    ):
+        return False
+    target = os.readlink(last).rstrip("/").rsplit("/", 1)[-1]
+    return target.isdigit() and int(target) >= step
 
 
 class CheckpointManager:

@@ -44,6 +44,10 @@ def openapi_schema(name: str) -> dict[str, Any]:
 
 @pytest.fixture(scope="session")
 def ckpt_root(tmp_path_factory: pytest.TempPathFactory) -> Path:
+    # every small_* checkpoint takes its features and normalizer stats from the golden dataset,
+    # which only exists on the lab machine (HIBISCUS_GOLDEN_DATASET); CI runners skip these tests.
+    if not (GOLDEN_DATASET / "meta" / "info.json").is_file():
+        pytest.skip(f"golden dataset not available: {GOLDEN_DATASET} (set HIBISCUS_GOLDEN_DATASET)")
     return tmp_path_factory.mktemp("ckpts")
 
 

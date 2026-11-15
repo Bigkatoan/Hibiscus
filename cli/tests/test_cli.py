@@ -256,3 +256,19 @@ def test_station_not_installed(runner: CliRunner, monkeypatch: pytest.MonkeyPatc
     assert r.exit_code == 1
     assert "uv tool install hibiscus-station" in r.output
     assert "uvx hibiscus-station" in r.output
+
+
+def test_json_output_is_plain(
+    logged_in: FakeHibiscus, runner: CliRunner, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """``--json`` must stay parseable when colour is forced (FORCE_COLOR=1 in CI, a TTY, ...)."""
+    from rich.console import Console
+
+    import hibiscus.main as main
+
+    monkeypatch.setattr(main, "out", Console(force_terminal=True, color_system="truecolor"))
+    logged_in.add_dataset("so101_picknplace", versions=1)
+    res = runner.invoke(app, ["datasets", "show", "so101_picknplace", "--json"])
+    assert res.exit_code == 0, res.output
+    assert "\x1b[" not in res.output
+    assert json.loads(res.output)["dataset"]["name"] == "so101_picknplace"
