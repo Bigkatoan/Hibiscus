@@ -8,7 +8,7 @@ dependencies = [
     "lerobot[training,diffusion,smolvla,pi,peft]==0.7.1",
     "sqlalchemy>=2.0.36,<2.1",
     "psycopg[binary]>=3.2,<4",
-    "redis>=5.2,<6",
+    "redis>=5.2,<9",
     "boto3>=1.35,<2",
     "nvidia-ml-py>=12.560",
     "onnx>=1.17",
