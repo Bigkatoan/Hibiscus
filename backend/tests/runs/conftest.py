@@ -35,7 +35,7 @@ from app.runs.settings import RunsSettings
 
 REPO = Path(__file__).resolve().parents[3]
 OPENAPI = yaml.safe_load((REPO / "api" / "openapi.yaml").read_text())
-GOLDEN = Path("~/datasets/robotics/so101_picknplace_20261114")
+GOLDEN = Path.home() / "datasets/robotics/so101_picknplace_20261114"
 PG_IMAGE = "postgres:16.16-trixie"
 REDIS_IMAGE = "redis:7.4.12-alpine"
 MINIO_IMAGE = "pgsty/minio:RELEASE.2026-08-04T00-00-00Z"

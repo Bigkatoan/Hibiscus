@@ -21,7 +21,7 @@ import pytest
 from tests.datasets.conftest import REPO, Services, assert_contract
 
 GOLDEN_RAR = Path(
-    os.environ.get("HIBISCUS_GOLDEN_RAR", "~/lelab/Picknplace_20261114_221710.rar")
+    os.environ.get("HIBISCUS_GOLDEN_RAR", str(Path.home() / "lelab/Picknplace_20261114_221710.rar"))
 )
 WORKER_PY = os.environ.get("HIBISCUS_WORKER_PYTHON")
 CAM = "observation.images.wrist_cam"
@@ -156,7 +156,7 @@ async def test_golden_rar_through_api_and_worker(
         mp4 = tf.extractfile(f"picknplace-20261114-v1/videos/{CAM}/chunk-000/file-000.mp4")
         assert mp4 is not None
         golden_mp4 = (
-            Path("~/datasets/robotics/so101_picknplace_20261114/videos")
+            (Path.home() / "datasets/robotics/so101_picknplace_20261114/videos")
             / CAM
             / "chunk-000/file-000.mp4"
         )

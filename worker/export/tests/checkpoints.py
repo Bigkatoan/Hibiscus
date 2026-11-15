@@ -12,17 +12,21 @@ from pathlib import Path
 from typing import Any
 
 GOLDEN_DATASET = Path(
-    os.environ.get("HIBISCUS_GOLDEN_DATASET", "~/datasets/robotics/so101_picknplace_20261114")
+    os.environ.get(
+        "HIBISCUS_GOLDEN_DATASET", str(Path.home() / "datasets/robotics/so101_picknplace_20261114")
+    )
 )
 GOLDEN_REPO_ID = "local/so101_picknplace_20261114"
 ACT_CHECKPOINT = Path(
     os.environ.get(
         "HIBISCUS_ACT_CHECKPOINT",
-        "~/lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model",
+        str(Path.home() / "lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model"),
     )
 )
-LELAB_PYTHON = Path(os.environ.get("HIBISCUS_LELAB_PYTHON", "~/lelab/leLab/.venv/bin/python"))
-TRAIN_LOG = Path("~/lelab/outputs/train/act_picknplace.log")
+LELAB_PYTHON = Path(
+    os.environ.get("HIBISCUS_LELAB_PYTHON", str(Path.home() / "lelab/leLab/.venv/bin/python"))
+)
+TRAIN_LOG = Path.home() / "lelab/outputs/train/act_picknplace.log"
 
 SMALL_OVERRIDES: dict[str, dict[str, Any]] = {
     "act": {

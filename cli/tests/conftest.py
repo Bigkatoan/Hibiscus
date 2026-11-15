@@ -9,11 +9,9 @@ import respx
 from hibiscus.api import Backoff, HibiscusApi
 from tests.fake_server import BASE, TOKEN, FakeHibiscus
 
-GOLDEN_DATASET = Path("~/datasets/robotics/so101_picknplace_20261114")
-GOLDEN_RAR = Path("~/lelab/Picknplace_20261114_221710.rar")
-ACT_CHECKPOINT = Path(
-    "~/lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model"
-)
+GOLDEN_DATASET = Path.home() / "datasets/robotics/so101_picknplace_20261114"
+GOLDEN_RAR = Path.home() / "lelab/Picknplace_20261114_221710.rar"
+ACT_CHECKPOINT = Path.home() / "lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model"
 
 
 @pytest.fixture(autouse=True)

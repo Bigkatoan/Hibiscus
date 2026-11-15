@@ -10,7 +10,7 @@ from conftest import Heartbeat, connect_calibrated, mock_profile, wait_for
 from hibiscus_station.models.importer import import_dir
 from hibiscus_station.station import RunRequest, Station
 
-ACT = Path("~/lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model")
+ACT = Path.home() / "lelab/outputs/train/act_picknplace/checkpoints/010000/pretrained_model"
 
 
 @pytest.mark.slow

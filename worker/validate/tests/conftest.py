@@ -9,10 +9,10 @@ import pytest
 from validate.tests.synth import SynthSpec, make_v30
 
 GOLDEN_RAR = Path(
-    os.environ.get("HIBISCUS_GOLDEN_RAR", "~/lelab/Picknplace_20261114_221710.rar")
+    os.environ.get("HIBISCUS_GOLDEN_RAR", str(Path.home() / "lelab/Picknplace_20261114_221710.rar"))
 )
 GOLDEN_DIR = Path(
-    os.environ.get("HIBISCUS_GOLDEN_DIR", "~/datasets/robotics/so101_picknplace_20261114")
+    os.environ.get("HIBISCUS_GOLDEN_DIR", str(Path.home() / "datasets/robotics/so101_picknplace_20261114"))
 )
 
 

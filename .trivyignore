@@ -1,0 +1,7 @@
+# Accepted findings (reviewed). Each entry: why it does not apply, and when to re-check.
+#
+# golang.org/x/net/html DoS via crafted HTML, in the caddy 2.11.9 binary (hibiscus-web image).
+# Hibiscus' Caddyfile never parses untrusted HTML (no templates / markdown handlers; it serves
+# the static SPA and reverse-proxies the API). No caddy release with x/net >= 0.62 exists yet
+# (2026-11-16); drop this line when bumping CADDY_IMAGE in deploy/docker/web.Dockerfile.
+CVE-2026-78661 exp:2027-01-31

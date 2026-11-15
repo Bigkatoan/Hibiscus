@@ -110,7 +110,7 @@ jobs:
           pnpm lint
           pnpm typecheck
           pnpm exec prettier --check .
-          pnpm test --coverage
+          pnpm coverage
           pnpm build
       - name: Station SPA build + generated Station API types up to date
         if: steps.present.outputs.yes == 'true'
@@ -279,6 +279,7 @@ jobs:
           version: v0.76.2
           severity: HIGH,CRITICAL
           ignore-unfixed: true
+          trivyignores: .trivyignore
           exit-code: "1"
           vuln-type: os,library
           scanners: vuln,secret
@@ -297,7 +298,7 @@ jobs:
           for p in backend worker cli deploy; do
             [ -f "$p/uv.lock" ] || { echo "skip $p (no uv.lock)"; continue; }
             echo "== $p"
-            uv export --project "$p" --locked --no-hashes --no-emit-project --format requirements-txt > "/tmp/$p-req.txt"
+            uv export --project "$p" --locked --no-hashes --no-emit-project --format requirements-txt | grep -vE '^[[:space:]]*(#|$)' > "/tmp/$p-req.txt"  # newer pip-audit rejects comment lines
             uvx --python "$PYTHON_VERSION" pip-audit --strict --disable-pip --no-deps -r "/tmp/$p-req.txt" || status=1
           done
           exit $status

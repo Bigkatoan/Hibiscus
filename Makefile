@@ -111,7 +111,7 @@ frontend-check: ## lint/typecheck/test/build the SPA (when frontend/package.json
 	@[ -f $(ROOT)/frontend/package.json ] || { echo "no frontend yet"; exit 0; }
 	$(NODE) -v $(ROOT):/w -w /w/frontend $(NODE_IMAGE) sh -c 'npm i -g pnpm@9.15.0 --prefix /tmp/pnpm >/dev/null && \
 	  PATH=/tmp/pnpm/bin:$$PATH pnpm install --frozen-lockfile && PATH=/tmp/pnpm/bin:$$PATH pnpm lint && \
-	  PATH=/tmp/pnpm/bin:$$PATH pnpm typecheck && PATH=/tmp/pnpm/bin:$$PATH pnpm test --coverage'
+	  PATH=/tmp/pnpm/bin:$$PATH pnpm typecheck && PATH=/tmp/pnpm/bin:$$PATH pnpm coverage'
 audit: ## pip-audit for each uv.lock + npm audit (high+)
 	@for p in $(PY_PROJECTS); do [ -f $(ROOT)/$$p/uv.lock ] || continue; echo "== pip-audit $$p"; \
 	  $(UV) export --project $(ROOT)/$$p --locked --no-hashes --no-emit-project --format requirements-txt > /tmp/hibiscus-$$p-req.txt; \

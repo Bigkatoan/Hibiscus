@@ -224,7 +224,7 @@ def test_supported_formats_round_trip(tmp_path: Path, fmt: str, filt: str | None
 
 
 def test_detect_rar_magic() -> None:
-    golden = Path("~/lelab/Picknplace_20261114_221710.rar")
+    golden = Path.home() / "lelab/Picknplace_20261114_221710.rar"
     if not golden.exists():
         pytest.skip("golden archive not present on this machine")
     assert detect_archive_format(golden) == "rar"
