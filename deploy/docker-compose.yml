@@ -114,7 +114,7 @@ services:
   # Data plane
   # ============================================================================================
   postgres:
-    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:16.16-trixie@sha256:dd2bf3ce2dc83a81674cf7f217fcfd8a5009a4b325dda5b843bfee82a06cff6f}
+    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:18.6-trixie@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42}
     restart: unless-stopped
     logging: *logging
     security_opt: ["no-new-privileges:true"]
@@ -467,7 +467,7 @@ services:
   # Backups (docs/runbook/backup-restore.md)
   # ============================================================================================
   backup:
-    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:16.16-trixie@sha256:dd2bf3ce2dc83a81674cf7f217fcfd8a5009a4b325dda5b843bfee82a06cff6f}
+    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:18.6-trixie@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42}
     restart: unless-stopped
     logging: *logging
     security_opt: ["no-new-privileges:true"]
