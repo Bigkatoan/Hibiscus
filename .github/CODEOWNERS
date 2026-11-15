@@ -1,0 +1,9 @@
+# Default reviewers for everything in the repository.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+*                       @Bigkatoan
+
+# Security-sensitive areas: changes always need an explicit maintainer review.
+/backend/app/auth/      @Bigkatoan
+/deploy/                @Bigkatoan
+/.github/               @Bigkatoan
+/api/openapi.yaml       @Bigkatoan

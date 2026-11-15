@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/bundle-schemas/manifest.schema.json",
+  "title": "Hibiscus bundle MANIFEST.json v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "bundle_name", "created_at", "hibiscus_version", "model_id", "run", "checkpoint_step",
+               "policy", "dataset", "software", "training", "checks", "files"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "bundle_name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{0,63}-r[0-9]+-step[0-9]+$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "hibiscus_version": {"type": "string"},
+    "model_id": {"type": "string", "format": "uuid"},
+    "run": {
+      "type": "object", "additionalProperties": false, "required": ["id", "number", "name", "workspace_id"],
+      "properties": {
+        "id": {"type": "string", "format": "uuid"},
+        "number": {"type": "integer", "minimum": 1},
+        "name": {"type": "string"},
+        "workspace_id": {"type": "string", "format": "uuid"}
+      }
+    },
+    "checkpoint_step": {"type": "integer", "minimum": 1},
+    "policy": {
+      "type": "object", "additionalProperties": false, "required": ["type", "onnx_support", "chunk_size", "n_action_steps"],
+      "properties": {
+        "type": {"enum": ["act", "diffusion", "vqbet", "tdmpc", "smolvla", "pi0", "pi05"]},
+        "onnx_support": {"enum": ["full", "split", "none"]},
+        "chunk_size": {"type": ["integer", "null"], "minimum": 1, "description": "act/smolvla/pi0*: chunk_size; diffusion: horizon; vqbet: action_chunk_size; tdmpc: horizon"},
+        "n_action_steps": {"type": ["integer", "null"], "minimum": 1},
+        "peft": {"type": ["object", "null"]}
+      }
+    },
+    "dataset": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset_id", "version_id", "version", "name", "content_hash", "repo_id", "robot_type", "fps", "camera_keys", "state_names", "action_names", "tasks"],
+      "properties": {
+        "dataset_id": {"type": "string", "format": "uuid"},
+        "version_id": {"type": "string", "format": "uuid"},
+        "version": {"type": "integer", "minimum": 1},
+        "name": {"type": "string"},
+        "content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "repo_id": {"type": "string"},
+        "robot_type": {"type": ["string", "null"]},
+        "fps": {"type": "number", "exclusiveMinimum": 0},
+        "camera_keys": {"type": "array", "items": {"type": "string", "pattern": "^observation\\.images\\."}},
+        "state_names": {"type": "array", "items": {"type": "string"}},
+        "action_names": {"type": "array", "items": {"type": "string"}},
+        "tasks": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "software": {
+      "type": "object", "additionalProperties": false,
+      "required": ["lerobot", "torch", "cuda", "python", "image_digest"],
+      "properties": {
+        "lerobot": {"type": "string"},
+        "torch": {"type": "string"},
+        "cuda": {"type": ["string", "null"]},
+        "python": {"type": "string"},
+        "onnx": {"type": ["string", "null"]},
+        "onnxruntime": {"type": ["string", "null"]},
+        "image_digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "training": {
+      "type": "object", "additionalProperties": false,
+      "required": ["seed", "total_steps", "batch_size", "mixed_precision", "gpu_name", "heldout_episodes", "train_episodes", "gpu_seconds"],
+      "properties": {
+        "seed": {"type": "integer"},
+        "total_steps": {"type": "integer", "minimum": 1},
+        "batch_size": {"type": "integer", "minimum": 1},
+        "mixed_precision": {"enum": ["no", "fp16", "bf16"]},
+        "gpu_name": {"type": "string"},
+        "heldout_episodes": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+        "train_episodes": {"type": "array", "items": {"type": "integer", "minimum": 0}},
+        "gpu_seconds": {"type": "number", "minimum": 0},
+        "final_loss": {"type": ["number", "null"]}
+      }
+    },
+    "checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["load_ok", "parity_ok", "onnx_status"],
+      "description": "Results known when the manifest is written. manifest_ok (hash re-check of the zip) is recorded in the DB only.",
+      "properties": {
+        "load_ok": {"type": "boolean"},
+        "lelab_compatible": {"type": "boolean", "description": "Loads and runs select_action in the LeLab venv (LeRobot 0.7.1 without optional extras) with no extra packages"},
+        "lelab_check": {"enum": ["lelab_venv", "emulated"], "description": "lelab_venv = checked with a LeLab interpreter; emulated = worker interpreter with the packages LeLab lacks hidden"},
+        "lelab_requirements": {"type": "array", "items": {"type": "string"}, "description": "pip requirements to install inside the LeLab venv before running this bundle (empty = none)"},
+        "parity_ok": {"type": ["boolean", "null"]},
+        "onnx_status": {"enum": ["not_supported", "passed", "failed", "skipped"]},
+        "eval": {"type": ["object", "null"], "properties": {"action_mae": {"type": "number"}, "action_mse": {"type": "number"}}}
+      }
+    },
+    "files": {
+      "type": "array", "minItems": 1,
+      "description": "Every file of the bundle except MANIFEST.json itself, sorted by path (bytewise).",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["path", "size", "sha256"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^(?!/)(?!.*\\.\\./)(?!MANIFEST\\.json$)[A-Za-z0-9_.@+/-]+$"},
+          "size": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

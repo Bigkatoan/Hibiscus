@@ -1,0 +1,23 @@
+# gitleaks configuration (pre-commit hook, .github/workflows/gitleaks.yml, tools/oss_export.py).
+# Default rules plus a narrow allowlist for fake values that only look like secrets.
+# Add an entry here only for a value that is provably not a credential, and say where it lives.
+title = "Hibiscus gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Fake credentials in tests and prose (never real secrets)"
+targetRules = ["generic-api-key"]
+regexTarget = "line"
+regexes = [
+  # email-worker tests, their JSON fixtures and backend/tests/contract: the shared fake HMAC test key
+  '''0123456789abcdef0123456789abcdef0123456789abcdef''',
+  # frontend/src/features/workspace/workspace.test.tsx: mocked PAT returned by MSW
+  '''token: "hbp_ab12cd34_secretsecretsecretsecretsecretsecret1234567"''',
+  '''token: "hbp_ab12cd34_x"''',
+  # deploy/tests/test_stack_smoke.py: internal service URL, not a key
+  '''"http://api:8000/api/v1/stub/echo"''',
+  # docs/ux/copy-deck.md: the words "Key rules" in prose
+  '''\(generated\)\. Key rules:''',
+]

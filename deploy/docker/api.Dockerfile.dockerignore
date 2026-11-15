@@ -1,0 +1,13 @@
+# BuildKit Dockerfile-specific ignore file (context = repo root).
+*
+!backend/
+!api/
+**/__pycache__
+**/*.py[cod]
+**/.venv
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+backend/tests/
+**/.env
+**/.env.*

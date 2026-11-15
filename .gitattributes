@@ -1,0 +1,32 @@
+# Normalise line endings; keep shell scripts LF even on Windows checkouts.
+* text=auto eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff2 binary
+*.onnx binary
+*.safetensors binary
+*.parquet binary
+*.mp4 binary
+
+# Generated / vendored: collapse in diffs and exclude from language stats
+frontend/src/api/generated/** linguist-generated=true
+cli/hibiscus/_generated/** linguist-generated=true
+frontend/src/components/pixel/sprites.gen.ts linguist-generated=true
+deploy/observability/grafana/dashboards/** linguist-generated=true
+api/policy-schemas/*.json linguist-generated=true
+*.lock linguist-generated=true -diff
+pnpm-lock.yaml linguist-generated=true -diff
+package-lock.json linguist-generated=true -diff
+
+# Docs count as documentation, not code
+docs/** linguist-documentation=true
+
+# Never ship internal material in `git archive` source tarballs
+docs/handoff/** export-ignore
+docs/qa/** export-ignore

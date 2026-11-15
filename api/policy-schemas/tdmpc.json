@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/policy-schemas/tdmpc.json",
+  "title": "TDMPCConfig (tdmpc)",
+  "description": "Configuration class for TDMPCPolicy.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "n_obs_steps": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of environment steps worth of observations to pass to the policy (takes the current step and additional steps going back).",
+      "minimum": 1,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_obs_steps"
+    },
+    "n_action_repeats": {
+      "type": "integer",
+      "default": 2,
+      "description": "The number of times to repeat the action returned by the planning. (hint: Google action repeats in Q-learning or ask your favorite chatbot)",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_action_repeats"
+    },
+    "horizon": {
+      "type": "integer",
+      "default": 5,
+      "description": "Horizon for model predictive control.",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.horizon"
+    },
+    "n_action_steps": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of action steps to take from the plan given by model predictive control. This is an alternative to using action repeats. If this is set to more than 1, then we require `n_action_repeats == 1`, `use_mpc == True` and `n_action_steps <= horizon`. Note that this approach of using multiple steps from the plan is not in the original implementation.",
+      "minimum": 1,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.n_action_steps"
+    },
+    "normalization_mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "MIN_MAX",
+          "MEAN_STD",
+          "IDENTITY",
+          "QUANTILES",
+          "QUANTILE10"
+        ]
+      },
+      "default": {
+        "VISUAL": "IDENTITY",
+        "STATE": "IDENTITY",
+        "ENV": "IDENTITY",
+        "ACTION": "MIN_MAX"
+      },
+      "description": "A dictionary that maps from a str value of FeatureType (e.g., \"STATE\", \"VISUAL\") to a corresponding NormalizationMode (e.g., NormalizationMode.MIN_MAX)",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.normalization_mapping"
+    },
+    "image_encoder_hidden_dim": {
+      "type": "integer",
+      "default": 32,
+      "description": "Number of channels for the convolutional layers used for image encoding.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.image_encoder_hidden_dim"
+    },
+    "state_encoder_hidden_dim": {
+      "type": "integer",
+      "default": 256,
+      "description": "Hidden dimension for MLP used for state vector encoding.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.state_encoder_hidden_dim"
+    },
+    "latent_dim": {
+      "type": "integer",
+      "default": 50,
+      "description": "Observation's latent embedding dimension.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.latent_dim"
+    },
+    "q_ensemble_size": {
+      "type": "integer",
+      "default": 5,
+      "description": "Number of Q function estimators to use in an ensemble for uncertainty estimation.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.q_ensemble_size"
+    },
+    "mlp_dim": {
+      "type": "integer",
+      "default": 512,
+      "description": "Hidden dimension of MLPs used for modelling the dynamics encoder, reward function, policy (π), Q ensemble, and V.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.mlp_dim"
+    },
+    "discount": {
+      "type": "number",
+      "default": 0.9,
+      "description": "Discount factor (γ) to use for the reinforcement learning formalism.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.discount"
+    },
+    "use_mpc": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to use model predictive control. The alternative is to just sample the policy model (π) for each step.",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.use_mpc"
+    },
+    "cem_iterations": {
+      "type": "integer",
+      "default": 6,
+      "description": "Number of iterations for the MPPI/CEM loop in MPC.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.cem_iterations"
+    },
+    "max_std": {
+      "type": "number",
+      "default": 2.0,
+      "description": "Maximum standard deviation for actions sampled from the gaussian PDF in CEM.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.max_std"
+    },
+    "min_std": {
+      "type": "number",
+      "default": 0.05,
+      "description": "Minimum standard deviation for noise applied to actions sampled from the policy model (π). Doubles up as the minimum standard deviation for actions sampled from the gaussian PDF in CEM.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.min_std"
+    },
+    "n_gaussian_samples": {
+      "type": "integer",
+      "default": 512,
+      "description": "Number of samples to draw from the gaussian distribution every CEM iteration. Must be non-zero.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_gaussian_samples"
+    },
+    "n_pi_samples": {
+      "type": "integer",
+      "default": 51,
+      "description": "Number of samples to draw from the policy / world model rollout every CEM iteration. Can be zero.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_pi_samples"
+    },
+    "uncertainty_regularizer_coeff": {
+      "type": "number",
+      "default": 1.0,
+      "description": "Coefficient for the uncertainty regularization used when estimating trajectory values (this is the λ coefficient in eqn 4 of FOWM).",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.uncertainty_regularizer_coeff"
+    },
+    "n_elites": {
+      "type": "integer",
+      "default": 50,
+      "description": "The number of elite samples to use for updating the gaussian parameters every CEM iteration.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_elites"
+    },
+    "elite_weighting_temperature": {
+      "type": "number",
+      "default": 0.5,
+      "description": "The temperature to use for softmax weighting (by trajectory value) of the elites, when updating the gaussian parameters for CEM.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.elite_weighting_temperature"
+    },
+    "gaussian_mean_momentum": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Momentum (α) used for EMA updates of the mean parameter μ of the gaussian parameters optimized in CEM. Updates are calculated as μ⁻ ← αμ⁻ + (1-α)μ.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gaussian_mean_momentum"
+    },
+    "max_random_shift_ratio": {
+      "type": "number",
+      "default": 0.0476,
+      "description": "Maximum random shift (as a proportion of the image size) to apply to the image(s) (in units of pixels) for training-time augmentation. If set to 0, no such augmentation is applied. Note that the input images are assumed to be square for this augmentation.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.max_random_shift_ratio"
+    },
+    "reward_coeff": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Loss weighting coefficient for the reward regression loss.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.reward_coeff"
+    },
+    "expectile_weight": {
+      "type": "number",
+      "default": 0.9,
+      "description": "Weighting (τ) used in expectile regression for the state value function (V). v_pred < v_target is weighted by τ and v_pred >= v_target is weighted by (1-τ). τ is expected to be in [0, 1]. Setting τ closer to 1 results in a more \"optimistic\" V. This is sensible to do because v_target is obtained by evaluating the learned state-action value functions (Q) with in-sample actions that may not be always optimal.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.expectile_weight"
+    },
+    "value_coeff": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Loss weighting coefficient for both the state-action value (Q) TD loss, and the state value (V) expectile regression loss.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.value_coeff"
+    },
+    "consistency_coeff": {
+      "type": "number",
+      "default": 20.0,
+      "description": "Loss weighting coefficient for the consistency loss.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.consistency_coeff"
+    },
+    "advantage_scaling": {
+      "type": "number",
+      "default": 3.0,
+      "description": "A factor by which the advantages are scaled prior to exponentiation for advantage weighted regression of the policy (π) estimator parameters. Note that the exponentiated advantages are clamped at 100.0.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.advantage_scaling"
+    },
+    "pi_coeff": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Loss weighting coefficient for the action regression loss.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.pi_coeff"
+    },
+    "temporal_decay_coeff": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Exponential decay coefficient for decaying the loss coefficient for future time- steps. Hint: each loss computation involves `horizon` steps worth of actions starting from the current time step.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.temporal_decay_coeff"
+    },
+    "target_model_momentum": {
+      "type": "number",
+      "default": 0.995,
+      "description": "Momentum (α) used for EMA updates of the target models. Updates are calculated as ϕ ← αϕ + (1-α)θ where ϕ are the parameters of the target model and θ are the parameters of the model being trained.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.target_model_momentum"
+    },
+    "optimizer_lr": {
+      "type": "number",
+      "default": 0.0003,
+      "description": "Training presets",
+      "exclusiveMinimum": 0,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.optimizer_lr"
+    }
+  },
+  "x-hibiscus": {
+    "policy_type": "tdmpc",
+    "config_class": "lerobot.policies.tdmpc.configuration_tdmpc.TDMPCConfig",
+    "lerobot_version": "0.7.1",
+    "generator_version": "1",
+    "cli_prefix": "--policy.",
+    "basic_order": [
+      "horizon",
+      "n_action_steps",
+      "use_mpc",
+      "optimizer_lr"
+    ],
+    "excluded": {
+      "input_features": "derived from the dataset version schema by the worker",
+      "output_features": "derived from the dataset version schema by the worker",
+      "device": "always 'cuda'; the GPU is chosen by the scheduler (CUDA_VISIBLE_DEVICES)",
+      "dtype": "torch.dtype is not JSON-serialisable; precision is controlled by train.mixed_precision",
+      "use_amp": "deprecated in 0.7.1; use train.mixed_precision (--accelerator.mixed_precision)",
+      "use_peft": "set implicitly when train.peft is provided",
+      "push_to_hub": "always false; Hub push is a separate Hibiscus action on a model",
+      "repo_id": "Hub push is a separate Hibiscus action",
+      "private": "Hub push is a separate Hibiscus action",
+      "tags": "Hub push is a separate Hibiscus action",
+      "license": "Hub push is a separate Hibiscus action",
+      "pretrained_path": "set from RunCreate.init_from (model or checkpoint) by the worker",
+      "pretrained_revision": "set from RunCreate.init_from by the worker"
+    },
+    "cross_field_rules": []
+  }
+}

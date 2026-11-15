@@ -1,0 +1,10 @@
+# BuildKit Dockerfile-specific ignore file (context = repo root).
+*
+!frontend/
+!api/
+!deploy/caddy/
+**/node_modules
+**/dist
+**/coverage
+**/.env
+**/.env.*

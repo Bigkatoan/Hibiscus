@@ -1,0 +1,8 @@
+# Extra constraints for the worker images (applied on top of worker/pyproject.toml).
+# The torch stack is pinned per variant by build args in worker.Dockerfile; LeRobot is pinned by
+# upstream commit there (LEROBOT_GIT_REF) and the build asserts it reports version 0.7.1
+# (ADR-0003: any bump needs an ADR note and a green golden E2E).
+av>=15.0,<16
+# The PyTorch CPU index serves an old setuptools (78.1.0: CVE-2025-47273 and vendored
+# jaraco.context / wheel CVEs found by trivy); require a fixed one (a lerobot dependency caps it at <85).
+setuptools>=80.9,<85

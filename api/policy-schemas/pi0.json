@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/policy-schemas/pi0.json",
+  "title": "PI0Config (pi0)",
+  "description": "PI0Config(n_obs_steps: int = 1, input_features: dict[str, lerobot.configs.types.PolicyFeature] | None = <factory>, output_features: dict[str, lerobot.configs.types.PolicyFeature] | None = <factory>, device: str | None = None, dtype: torch.dtype | None = torch.float32, use_amp: bool = False, use_peft: bool = False, push_to_hub: bool = True, repo_id: str | None = None, private: bool | None = None, tags: list[str] | None = None, license: str | None = None, pretrained_path: pathlib.Path | None = None, pretrained_revision: str | None = None, paligemma_variant: str = 'gemma_2b', action_expert_variant: str = 'gemma_300m', chunk_size: int = 50, n_action_steps: int = 50, max_state_dim: int = 32, max_action_dim: int = 32, num_inference_steps: int = 10, time_sampling_beta_alpha: float = 1.5, time_sampling_beta_beta: float = 1.0, time_sampling_scale: float = 0.999, time_sampling_offset: float = 0.001, min_period: float = 0.004, max_period: float = 4.0, use_relative_actions: bool = False, relative_exclude_joints: list[str] = <factory>, action_feature_names: list[str] | None = None, rtc_config: lerobot.policies.rtc.configuration_rtc.RTCConfig | None = None, image_resolution: tuple[int, int] = (224, 224), empty_cameras: int = 0, normalization_mapping: dict[str, lerobot.configs.types.NormalizationMode] = <factory>, gradient_checkpointing: bool = False, compile_model: bool = False, compile_mode: str = 'max-autotune', freeze_vision_encoder: bool = False, train_expert_only: bool = False, optimizer_lr: float = 2.5e-05, optimizer_betas: tuple[float, float] = (0.9, 0.95), optimizer_eps: float = 1e-08, optimizer_weight_decay: float = 0.01, optimizer_grad_clip_norm: float = 1.0, optimizer_fused: bool | None = None, scheduler_warmup_steps: int = 1000, scheduler_decay_steps: int = 30000, scheduler_decay_lr: float = 2.5e-06, tokenizer_max_length: int = 48, text_tokenizer_name: str = 'google/paligemma-3b-pt-224')",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "n_obs_steps": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of environment steps worth of observations to pass to the policy (takes the current step and additional steps going back).",
+      "minimum": 1,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_obs_steps"
+    },
+    "paligemma_variant": {
+      "type": "string",
+      "default": "gemma_2b",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.paligemma_variant"
+    },
+    "action_expert_variant": {
+      "type": "string",
+      "default": "gemma_300m",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.action_expert_variant"
+    },
+    "chunk_size": {
+      "type": "integer",
+      "default": 50,
+      "description": "Number of action steps to predict, in openpi called \"action_horizon\"",
+      "minimum": 1,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.chunk_size"
+    },
+    "n_action_steps": {
+      "type": "integer",
+      "default": 50,
+      "description": "Number of action steps to execute",
+      "minimum": 1,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.n_action_steps"
+    },
+    "max_state_dim": {
+      "type": "integer",
+      "default": 32,
+      "description": "Shorter state and action vectors will be padded to these dimensions",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.max_state_dim"
+    },
+    "max_action_dim": {
+      "type": "integer",
+      "default": 32,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.max_action_dim"
+    },
+    "num_inference_steps": {
+      "type": "integer",
+      "default": 10,
+      "description": "Flow matching parameters: see openpi `PI0Pytorch`",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.num_inference_steps"
+    },
+    "time_sampling_beta_alpha": {
+      "type": "number",
+      "default": 1.5,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.time_sampling_beta_alpha"
+    },
+    "time_sampling_beta_beta": {
+      "type": "number",
+      "default": 1.0,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.time_sampling_beta_beta"
+    },
+    "time_sampling_scale": {
+      "type": "number",
+      "default": 0.999,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.time_sampling_scale"
+    },
+    "time_sampling_offset": {
+      "type": "number",
+      "default": 0.001,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.time_sampling_offset"
+    },
+    "min_period": {
+      "type": "number",
+      "default": 0.004,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.min_period"
+    },
+    "max_period": {
+      "type": "number",
+      "default": 4.0,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.max_period"
+    },
+    "use_relative_actions": {
+      "type": "boolean",
+      "default": false,
+      "description": "Relative actions: converts absolute actions to relative (relative to state).",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.use_relative_actions"
+    },
+    "relative_exclude_joints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [
+        "gripper"
+      ],
+      "description": "Joint names to exclude from relative (kept absolute). Empty list = all dims relative.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.relative_exclude_joints"
+    },
+    "action_feature_names": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Populated at runtime from dataset metadata by make_policy.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.action_feature_names"
+    },
+    "image_resolution": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "default": [
+        224,
+        224
+      ],
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.image_resolution"
+    },
+    "empty_cameras": {
+      "type": "integer",
+      "default": 0,
+      "description": "see openpi `preprocessing_pytorch.py` Add empty images. Used to add empty cameras when no image features are present.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.empty_cameras"
+    },
+    "normalization_mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "MIN_MAX",
+          "MEAN_STD",
+          "IDENTITY",
+          "QUANTILES",
+          "QUANTILE10"
+        ]
+      },
+      "default": {
+        "VISUAL": "IDENTITY",
+        "STATE": "MEAN_STD",
+        "ACTION": "MEAN_STD"
+      },
+      "description": "A dictionary that maps from a str value of FeatureType (e.g., \"STATE\", \"VISUAL\") to a corresponding NormalizationMode (e.g., NormalizationMode.MIN_MAX)",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.normalization_mapping"
+    },
+    "gradient_checkpointing": {
+      "type": "boolean",
+      "default": false,
+      "description": "Training settings",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.gradient_checkpointing"
+    },
+    "freeze_vision_encoder": {
+      "type": "boolean",
+      "default": false,
+      "description": "Finetuning settings",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.freeze_vision_encoder"
+    },
+    "train_expert_only": {
+      "type": "boolean",
+      "default": false,
+      "description": "Freeze entire VLM, train only action expert and projections",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.train_expert_only"
+    },
+    "optimizer_lr": {
+      "type": "number",
+      "default": 2.5e-05,
+      "description": "Optimizer settings: see openpi `AdamW``",
+      "exclusiveMinimum": 0,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.optimizer_lr"
+    },
+    "optimizer_betas": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "default": [
+        0.9,
+        0.95
+      ],
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_betas"
+    },
+    "optimizer_eps": {
+      "type": "number",
+      "default": 1e-08,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_eps"
+    },
+    "optimizer_weight_decay": {
+      "type": "number",
+      "default": 0.01,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_weight_decay"
+    },
+    "optimizer_grad_clip_norm": {
+      "type": "number",
+      "default": 1.0,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_grad_clip_norm"
+    },
+    "optimizer_fused": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "default": null,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_fused"
+    },
+    "scheduler_warmup_steps": {
+      "type": "integer",
+      "default": 1000,
+      "description": "Scheduler settings: see openpi `CosineDecaySchedule` Note: These will auto-scale if --steps < scheduler_decay_steps For example, --steps=3000 will scale warmup to 100 and decay to 3000",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.scheduler_warmup_steps"
+    },
+    "scheduler_decay_steps": {
+      "type": "integer",
+      "default": 30000,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.scheduler_decay_steps"
+    },
+    "scheduler_decay_lr": {
+      "type": "number",
+      "default": 2.5e-06,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.scheduler_decay_lr"
+    },
+    "tokenizer_max_length": {
+      "type": "integer",
+      "default": 48,
+      "description": "see openpi `__post_init__`",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.tokenizer_max_length"
+    },
+    "text_tokenizer_name": {
+      "type": "string",
+      "default": "google/paligemma-3b-pt-224",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.text_tokenizer_name"
+    }
+  },
+  "x-hibiscus": {
+    "policy_type": "pi0",
+    "config_class": "lerobot.policies.pi0.configuration_pi0.PI0Config",
+    "lerobot_version": "0.7.1",
+    "generator_version": "1",
+    "cli_prefix": "--policy.",
+    "basic_order": [
+      "chunk_size",
+      "n_action_steps",
+      "freeze_vision_encoder",
+      "train_expert_only",
+      "gradient_checkpointing",
+      "optimizer_lr"
+    ],
+    "excluded": {
+      "input_features": "derived from the dataset version schema by the worker",
+      "output_features": "derived from the dataset version schema by the worker",
+      "device": "always 'cuda'; the GPU is chosen by the scheduler (CUDA_VISIBLE_DEVICES)",
+      "dtype": "torch.dtype is not JSON-serialisable; precision is controlled by train.mixed_precision",
+      "use_amp": "deprecated in 0.7.1; use train.mixed_precision (--accelerator.mixed_precision)",
+      "use_peft": "set implicitly when train.peft is provided",
+      "push_to_hub": "always false; Hub push is a separate Hibiscus action on a model",
+      "repo_id": "Hub push is a separate Hibiscus action",
+      "private": "Hub push is a separate Hibiscus action",
+      "tags": "Hub push is a separate Hibiscus action",
+      "license": "Hub push is a separate Hibiscus action",
+      "pretrained_path": "set from RunCreate.init_from (model or checkpoint) by the worker",
+      "pretrained_revision": "set from RunCreate.init_from by the worker",
+      "rtc_config": "inference-time Real-Time-Chunking option, not a training hyperparameter",
+      "compile_model": "torch.compile is disabled on the 2-GPU box (P40 unsupported by inductor)",
+      "compile_mode": "torch.compile is disabled on the 2-GPU box"
+    },
+    "cross_field_rules": [
+      {
+        "rule": "n_action_steps <= chunk_size",
+        "code": "policy_config_invalid"
+      }
+    ]
+  }
+}

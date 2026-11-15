@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ❓ Question or help
+    url: https://github.com/Bigkatoan/Hibiscus/discussions/categories/q-a
+    about: Ask usage questions and get help from the community in GitHub Discussions.
+  - name: 💡 Ideas and show & tell
+    url: https://github.com/Bigkatoan/Hibiscus/discussions
+    about: Share what you trained, the robots you run, and early ideas.
+  - name: 🔒 Security vulnerability
+    url: https://github.com/Bigkatoan/Hibiscus/security/advisories/new
+    about: Report vulnerabilities privately. Never open a public issue for them.
+  - name: 📘 Documentation
+    url: https://bigkatoan.github.io/Hibiscus/
+    about: User guide (English and Tiếng Việt), runbooks and specs.

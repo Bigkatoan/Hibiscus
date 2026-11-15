@@ -1,0 +1,1298 @@
+{
+  "account": {
+    "channel_add": "Add channel",
+    "channel_events": "Events",
+    "channel_kind": {
+      "discord": "Discord",
+      "email": "Email",
+      "telegram": "Telegram",
+      "webhook": "Webhook"
+    },
+    "channel_kind_label": "Channel",
+    "channel_target": "Target",
+    "channel_target_help": "Webhook URL, Telegram chat id or email address.",
+    "channel_test": "Send test",
+    "channels": "Notification channels",
+    "channels_empty": "No channels yet.",
+    "channels_help": "Get notified when runs finish, fail or stall.",
+    "device": "Device",
+    "email_unverified": "Your email address is not verified.",
+    "hf_token": "Hugging Face token",
+    "hf_token_help": "Used for Hub imports and pushes. Stored encrypted.",
+    "hf_token_new": "New token",
+    "hf_token_set": "Token saved",
+    "ip": "IP address",
+    "last_used": "Last used",
+    "profile": "Profile",
+    "resend_verification": "Resend verification email",
+    "revoke_others": "Sign out other sessions",
+    "revoke_others_confirm": "Sign out all other sessions?",
+    "revoke_session": "Sign out session",
+    "sessions": "Active sessions",
+    "tab": {
+      "integrations": "Integrations",
+      "profile": "Profile",
+      "security": "Security",
+      "sessions": "Sessions",
+      "tokens": "Access tokens"
+    },
+    "this_device": "This device",
+    "title": "Account",
+    "verification_sent": "Verification email sent"
+  },
+  "admin": {
+    "action": "Action",
+    "active": "Active",
+    "active_for": "Account active for {{name}}",
+    "actor": "Actor",
+    "create_workspace": "New workspace",
+    "create_workspace_help": "You become the owner and can invite members afterwards.",
+    "description": "Platform users, audit log, quotas, GPUs and system status.",
+    "disabled": "Disabled",
+    "disk_free": "Free disk",
+    "email": "Email",
+    "email_disabled_help": "Email is off: invite and reset links must be shared manually.",
+    "email_provider": {
+      "cloudflare": "Cloudflare Email Service",
+      "none": "None",
+      "resend": "Resend",
+      "ses": "Amazon SES",
+      "smtp": "SMTP"
+    },
+    "flags": "Flags",
+    "last_login": "Last sign-in",
+    "locked": "Locked",
+    "max_queued": "Max queued runs",
+    "no_2fa": "No 2FA",
+    "outcome": "Outcome",
+    "outcome_value": {
+      "denied": "Denied",
+      "failure": "Failure",
+      "success": "Success"
+    },
+    "platform_admin": "Platform admin",
+    "queue_depth": "Queue depth",
+    "quota_default": "Workspace default",
+    "quota_edit": "Set quota",
+    "quota_user": "User id (optional)",
+    "quota_user_help": "Leave empty for the workspace default.",
+    "quotas_scope": "Only workspaces you are a member of are listed.",
+    "reset_link": "Create password reset link",
+    "reset_mfa": "Reset 2FA",
+    "revoke_sessions": "Sign out all sessions",
+    "search_users": "Search by email or name",
+    "section": {
+      "audit": "Audit log",
+      "gpus": "GPUs",
+      "quotas": "Quotas",
+      "system": "System",
+      "users": "Users"
+    },
+    "since": "From",
+    "storage": "Storage by bucket",
+    "storage_gib": "Storage (GiB)",
+    "target": "Target",
+    "title": "Administration",
+    "unlock": "Unlock",
+    "until": "To",
+    "upload_gib": "Max upload (GiB)",
+    "user": "User",
+    "versions": "Versions",
+    "when": "When",
+    "workspace": "Workspace",
+    "workspace_slug": "URL name",
+    "workspace_slug_help": "Lower-case letters, digits and dashes (3–40).",
+    "workspace_slug_invalid": "Use 3–40 lower-case letters, digits or dashes.",
+    "workspaces": "Workspaces"
+  },
+  "auth": {
+    "back_to_login": "Back to sign in",
+    "confirm_password": "Confirm password",
+    "continue": "Continue",
+    "display_name": "Display name",
+    "email": "Email",
+    "forgot": {
+      "description": "We will email you a link to set a new password.",
+      "sent": "If an account exists for this email, a reset link has been sent. It is valid for 30 minutes.",
+      "sent_no_email": "Email delivery is not configured. Ask a platform admin for a reset link.",
+      "submit": "Send reset link",
+      "title": "Reset your password"
+    },
+    "invite": {
+      "accept": "Accept invitation",
+      "create_account": "Create account and join",
+      "description": "{{inviter}} invited you to {{workspace}} as {{role}}. Expires {{expires}}.",
+      "login_first": "An account for {{email}} already exists. Sign in to accept the invitation.",
+      "title": "Workspace invitation"
+    },
+    "login": {
+      "description": "Sign in to Hibiscus.",
+      "forgot": "Forgot your password?",
+      "invite_only": "Accounts are created by invitation only.",
+      "submit": "Sign in",
+      "title": "Sign in"
+    },
+    "mfa": {
+      "code": "6-digit code",
+      "recovery_code": "Recovery code",
+      "recovery_help": "Enter one of your recovery codes. Each code works once.",
+      "title": "Two-factor authentication",
+      "totp_help": "Enter the code from your authenticator app.",
+      "use_recovery": "Use a recovery code instead",
+      "use_totp": "Use an authenticator code instead",
+      "verify": "Verify"
+    },
+    "new_password": "New password",
+    "password": "Password",
+    "password_rules": "At least {{min}} characters. Breached passwords are rejected.",
+    "reset": {
+      "done": "Your password was changed. All sessions were signed out.",
+      "submit": "Set password",
+      "title": "Set a new password"
+    },
+    "verify": {
+      "done": "Your email address is verified.",
+      "title": "Verify email"
+    }
+  },
+  "brand": {
+    "tagline": "A garden for your lab’s robot policies"
+  },
+  "chart": {
+    "no_data": "No data yet",
+    "summary": "{{title}} chart. Latest values: {{summary}}"
+  },
+  "common": {
+    "actions": "Actions",
+    "apply": "Apply",
+    "back": "Back",
+    "cancel": "Cancel",
+    "close": "Close",
+    "copied": "Copied",
+    "copy": "Copy",
+    "created": "Created",
+    "delete": "Delete",
+    "load_more": "Load more",
+    "loading": "Loading…",
+    "next": "Next",
+    "rename": "Rename",
+    "save": "Save",
+    "search": "Search",
+    "status": "Status",
+    "updated": "Updated"
+  },
+  "compare": {
+    "config_diff": "Configuration differences",
+    "description": "Overlay metrics and see configuration differences.",
+    "keys": "Metric keys (comma-separated)",
+    "no_diff": "The configurations are identical.",
+    "path": "Setting",
+    "runs": "Runs",
+    "select_range": "Select between 2 and 8 runs.",
+    "title": "Compare runs"
+  },
+  "dataset": {
+    "status": {
+      "failed": "Failed",
+      "invalid": "Invalid",
+      "pending": "Pending",
+      "ready": "Ready",
+      "unpacking": "Unpacking",
+      "validating": "Validating"
+    }
+  },
+  "datasets": {
+    "action_dim": "Action dim",
+    "cameras": "Cameras",
+    "codebase": "Format",
+    "content_hash": "Content hash",
+    "converted_from": "converted from {{from}}",
+    "delete_confirm": "Delete dataset “{{name}}”?",
+    "delete_help": "Datasets used by runs cannot be deleted.",
+    "delete_version": "Delete version {{version}}",
+    "delete_version_confirm": "Delete version {{version}}?",
+    "description": "Upload LeRobot datasets, validate them and preview episodes.",
+    "description_label": "Description",
+    "download_version": "Download version {{version}}",
+    "edit": "Edit dataset",
+    "edit_help": "Rename the dataset or change its description.",
+    "empty": "No datasets yet",
+    "empty_help": "Upload a zip, tar, tar.zst or rar archive of a LeRobot dataset.",
+    "episodes": "Episodes",
+    "feature": "Feature",
+    "features": "Features",
+    "fps": "FPS",
+    "frames": "Frames",
+    "hf_uri": "Hub URI",
+    "import_hf": "Import from Hugging Face",
+    "import_hf_help": "Import a LeRobot dataset from the Hub (v3.0, or v2.1 converted automatically).",
+    "import_start": "Start import",
+    "joints": "Joints",
+    "latest_version": "Latest version",
+    "merge": "Merge versions",
+    "merge_help": "Merge ready versions with the same schema into a new version.",
+    "merge_start": "Merge",
+    "merge_started": "Merging into version {{version}}…",
+    "name": "Name",
+    "new_version": "Upload new version",
+    "robot_type": "Robot type",
+    "search_placeholder": "Search datasets",
+    "size": "Size",
+    "source": "Source",
+    "source_kind": {
+      "hf_import": "Hugging Face import",
+      "merge": "Merge",
+      "upload": "Upload"
+    },
+    "state_dim": "State dim",
+    "tab": {
+      "episodes": "Episodes",
+      "overview": "Overview",
+      "validation": "Validation"
+    },
+    "tasks": "Tasks",
+    "title": "Datasets",
+    "train": "Train with this version",
+    "upload": "Upload dataset",
+    "version": "Version",
+    "version_title": "Version {{version}}",
+    "versions": "Versions"
+  },
+  "episode": {
+    "camera": "Camera",
+    "chart_title": "{{feature}} over time",
+    "length_distribution": "Episode length distribution",
+    "no_preview_codec": "No browser preview for this {{codec}} video yet.",
+    "option": "Episode {{index}} ({{duration}})",
+    "preview_caption": "{{w}}×{{h}} original ({{codec}}), H.264 preview",
+    "preview_pending": "The preview clip is being generated.",
+    "select": "Episode",
+    "thumb_alt": "First frame of episode {{index}}",
+    "time_s": "Time (s)",
+    "video_error": "The video could not be loaded."
+  },
+  "errors": {
+    "account_disabled": "This account is disabled. Contact an administrator.",
+    "account_locked": "Too many failed attempts. Try again in {{retry_after_s}} seconds.",
+    "archive_format_unsupported": "Unsupported archive format.",
+    "bad_request": "The server could not read this request. Reload the page and try again; if you use the CLI, update it.",
+    "checkpoint_not_found": "Checkpoint not found. Pick one from the Checkpoints tab.",
+    "conflict": "The resource changed meanwhile. Reload and try again.",
+    "csrf_failed": "Security check failed. Reload the page and try again.",
+    "dataset_in_use": "This dataset is used by runs. Wait for them to finish or cancel them first.",
+    "dataset_name_taken": "A dataset with this name already exists.",
+    "dataset_schema_mismatch": "The datasets do not share the same schema. Pick versions recorded with the same robot setup.",
+    "dataset_version_duplicate": "This exact data was already uploaded. Use the existing version instead.",
+    "dataset_version_not_ready": "This dataset version is not ready yet. Wait for validation, or fix the issues in the report.",
+    "email_not_verified": "Verify your email address first.",
+    "email_taken": "An account with this email already exists. Sign in to accept.",
+    "forbidden": "You do not have permission to do this. Ask a workspace owner or admin.",
+    "gone": "This link has expired. Ask for a new one.",
+    "gpu_insufficient_vram": "Not enough GPU memory for this configuration.",
+    "gpu_unknown": "Unknown GPU. Choose Automatic or another GPU.",
+    "hf_token_missing": "Add a Hugging Face token in your account first.",
+    "hf_uri_invalid": "Use the form hf://org/repo[@revision].",
+    "hub_repo_invalid": "Invalid Hub repository name. Use owner/name, e.g. my-lab/act-pick-cube.",
+    "insufficient_scope": "This token lacks the required scope. Create a token with the right scopes and run hibiscus login again.",
+    "internal_error": "Server error. Try again; if it repeats, send the request id to an administrator.",
+    "invalid_credentials": "Incorrect email or password.",
+    "invite_email_mismatch": "You are signed in with a different email than the invitation. Sign in with the invited account.",
+    "invite_expired": "This invitation has expired. Ask for a new one.",
+    "invite_invalid": "This invitation is invalid. Ask the inviter for a new link.",
+    "job_not_cancellable": "This job has already finished and can no longer be cancelled.",
+    "last_owner": "A workspace needs at least one owner.",
+    "length_required": "Upload length missing. Use the web uploader or the hibiscus CLI.",
+    "member_exists": "This person is already a member. Change their role in the member list instead.",
+    "mfa_already_enabled": "Two-factor authentication is already enabled. Nothing to do.",
+    "mfa_enrollment_required": "Set up two-factor authentication to continue.",
+    "mfa_invalid_code": "The code is incorrect.",
+    "mfa_reauth_required": "Confirm with your 2FA code to continue.",
+    "mfa_required_by_role": "Your role requires two-factor authentication.",
+    "mfa_token_invalid": "The sign-in attempt expired. Sign in again.",
+    "model_not_ready": "The model is not ready yet. Wait for the build, or rebuild it from a run checkpoint.",
+    "network_error": "Cannot reach the server. Check your connection and try again.",
+    "not_found": "Not found, or you do not have access.",
+    "one_time_token_invalid": "This link is invalid or has already been used. Request a new one.",
+    "password_breached": "This password appeared in a data breach. Choose another.",
+    "password_incorrect": "The current password is incorrect. Enter it again.",
+    "password_too_weak": "Choose a stronger password, e.g. a longer phrase of several words.",
+    "payload_too_large": "The request is too large. If this happens while uploading, update the CLI.",
+    "policy_config_invalid": "Some hyperparameters are inconsistent. Fix the highlighted fields.",
+    "policy_not_trainable": "This policy cannot be trained here. Choose another policy.",
+    "policy_requires_peft": "This policy only supports LoRA/PEFT fine-tuning. Turn on LoRA or use the Fine-tune preset.",
+    "policy_unknown": "Unknown policy. Choose one from the list.",
+    "preflight_failed": "Pre-flight checks failed. Fix the failing items and try again.",
+    "quota_exceeded": "Quota exceeded. Free space or ask an admin to raise the limit.",
+    "range_not_satisfiable": "Requested range is not available. Delete the partial download and start again.",
+    "rate_limited": "Too many attempts. Try again in {{retry_after_s}} seconds.",
+    "refresh_reuse_detected": "Your session was signed out for safety. Sign in again.",
+    "request_id": "Request id: {{id}}",
+    "run_invalid_transition": "This action is not possible in the current run state. Reload the page.",
+    "run_not_resumable": "This run has no checkpoint to resume from. Clone it into a new run.",
+    "service_unavailable": "Service temporarily unavailable. Try again in a minute.",
+    "session_revoked": "This session was signed out. Sign in again.",
+    "token_expired": "Your session expired. Please sign in again.",
+    "token_revoked": "This token was revoked. Create a new one in Account › Access tokens.",
+    "turnstile_failed": "The human check failed. Reload the page and try again.",
+    "unauthenticated": "Please sign in.",
+    "unknown_error": "Something went wrong. Try again.",
+    "unpack_failed": "The archive could not be unpacked. Re-create it and upload again.",
+    "unsupported_media_type": "Unsupported content type. Reload the page or update the CLI.",
+    "upload_checksum_mismatch": "The uploaded file is corrupted (checksum mismatch). Upload it again.",
+    "upload_incomplete": "Some parts are missing; resuming.",
+    "upload_not_active": "This upload is no longer active. Start again.",
+    "upload_part_checksum_mismatch": "A part was corrupted in transit. Retrying.",
+    "upload_part_out_of_range": "Invalid part number. Restart the upload; update the CLI if you use it.",
+    "upload_part_size_invalid": "Invalid part size. Restart the upload; update the CLI if you use it.",
+    "upload_too_large": "The file exceeds the upload limit. Split the dataset and merge after upload, or ask an admin.",
+    "validation_failed": "Some fields are invalid. Check the form.",
+    "workspace_not_empty": "Stop active runs before deleting the workspace.",
+    "workspace_slug_taken": "This workspace URL is taken."
+  },
+  "eval": {
+    "frames": "Frames",
+    "heldout": "Held-out episodes",
+    "joint": "Joint",
+    "offline_not_success_rate": "Offline action error on held-out episodes — not a success rate on the real robot."
+  },
+  "field_errors": {
+    "value_error": "Invalid value."
+  },
+  "gpu": {
+    "auto": "Automatic",
+    "description": "Live GPU telemetry and the fair-share training queue.",
+    "est_start": "Estimated start",
+    "heartbeat": "Last heartbeat {{when}}",
+    "idle": "Idle",
+    "memory": "Memory",
+    "no_bf16": "no bf16",
+    "no_telemetry": "No telemetry yet.",
+    "other_workspace": "another workspace",
+    "power": "Power",
+    "queue": "Queue",
+    "queue_empty": "The queue is empty.",
+    "running": "Running:",
+    "seconds": "Seconds",
+    "set_status": {
+      "disabled": "Disable",
+      "draining": "Drain",
+      "online": "Enable"
+    },
+    "specs": "{{vram}} GB · compute {{cc}}",
+    "status": {
+      "disabled": "Disabled",
+      "draining": "Draining",
+      "offline": "Offline",
+      "online": "Online"
+    },
+    "temperature": "Temperature",
+    "title": "GPUs & queue",
+    "util": "Utilisation",
+    "vram_needed": "Memory needed"
+  },
+  "hibi": {
+    "idle": "Hibi is waiting for you",
+    "happy": "Hibi is happy: the run finished!",
+    "working": "Hibi is tending the garden: the run is in progress",
+    "sad": "Hibi is sad: the run failed",
+    "sleep": "Hibi is asleep: waiting for a GPU"
+  },
+  "job": {
+    "status": {
+      "cancelled": "Cancelled",
+      "failed": "Failed",
+      "queued": "Queued",
+      "running": "Running",
+      "succeeded": "Succeeded"
+    }
+  },
+  "logs": {
+    "download": "Download .log",
+    "empty": "No log lines yet.",
+    "follow": "Follow",
+    "load_earlier": "Load earlier lines",
+    "load_full": "Load log",
+    "loading": "Loading log…",
+    "results_one": "{{count}} match for “{{q}}”",
+    "results_other": "{{count}} matches for “{{q}}”",
+    "search": "Search log",
+    "title": "Training log"
+  },
+  "members": {
+    "expires": "Expires",
+    "invite": "Invite a member",
+    "invite_help": "The invite link is valid for 72 hours and can be used once.",
+    "invite_link_manual": "Email delivery is disabled. Share this link with the invitee:",
+    "invite_state": {
+      "accepted": "Accepted",
+      "expired": "Expired",
+      "pending": "Pending",
+      "revoked": "Revoked"
+    },
+    "invite_status": "Status",
+    "invites_admin_only": "Only workspace admins can manage invites.",
+    "joined": "Joined",
+    "name": "Name",
+    "remove": "Remove member",
+    "remove_confirm": "Remove {{name}} from this workspace?",
+    "resend": "Resend invite",
+    "revoke": "Revoke invite",
+    "role": "Role",
+    "role_for": "Role for {{name}}",
+    "send_invite": "Send invite",
+    "two_factor": "2FA"
+  },
+  "model": {
+    "check_failed": "failed",
+    "check_load": "Loads with PreTrainedPolicy.from_pretrained",
+    "check_manifest": "MANIFEST hashes match",
+    "check_na": "not applicable",
+    "check_ok": "passed",
+    "check_parity": "ONNX parity within tolerance",
+    "checked_at": "Checked {{date}}",
+    "delete_confirm": "Delete model “{{name}}”?",
+    "details": "Details",
+    "download": "Download bundle",
+    "files": "Files in {{name}}",
+    "hub": "Hub repo",
+    "include_onnx": "Include ONNX files",
+    "not_verified": "Not verified",
+    "onnx": {
+      "exporting": "exporting",
+      "failed": "failed",
+      "not_supported": "not supported",
+      "passed": "passed",
+      "pending": "pending"
+    },
+    "parity_detail": "Max abs diff {{diff}} (atol {{atol}}) over {{n}} samples",
+    "path": "Path",
+    "private_repo": "Private repository",
+    "pull_cli": "Pull with the CLI",
+    "push": "Push",
+    "push_hub": "Push to Hugging Face Hub",
+    "push_hub_help": "Uploads the bundle to a Hub model repo.",
+    "push_queued": "Push queued.",
+    "repo_id": "Repository",
+    "reverify": "Verify again",
+    "run_on_robot": {
+      "guide": "Details (cameras, other environment variables): user guide, chapter 6 \"Run on the robot\".",
+      "no_inference": "LeLab cannot run policies yet. Run the model with the LeRobot CLI (run_on_robot.sh in the bundle) inside the LeLab venv: nothing else to install.",
+      "safety": "First run of a new model: keep a hand near the robot power switch and clear the workspace. Policies can move fast and unexpectedly.",
+      "step_cd": "Go to the bundle folder",
+      "step_port": "Find the follower arm serial port (unplug the USB cable when asked, then Enter)",
+      "step_pull": "On the robot computer, pull the bundle (or download the .zip and unzip it into ~/lelab/models)",
+      "step_run": "Run: set PORT, ROBOT_ID (the calibration name used when recording) and a short duration the first time",
+      "step_venv": "Activate the LeLab venv (LeRobot is already installed)",
+      "title": "Run it on the robot"
+    },
+    "set_hf_token": "Add a Hugging Face token",
+    "status": {
+      "building": "Building",
+      "failed": "Failed",
+      "pending": "Pending",
+      "ready": "Ready"
+    },
+    "subtitle": "{{policy}} · run #{{run}} · step {{step}}",
+    "verification": "Verification",
+    "verification_help": "Verified = loads with LeRobot, ONNX matches PyTorch, and all file hashes match.",
+    "verified": "Verified",
+    "verified_not_success": "Verified does not mean the robot will succeed at the task."
+  },
+  "models": {
+    "description": "Exported bundles: LeRobot pretrained_model, ONNX, manifest and model card.",
+    "download_name": "Download {{name}}",
+    "empty": "No models yet",
+    "empty_help": "Models appear when runs finish.",
+    "mae": "Held-out MAE",
+    "name": "Name",
+    "run": "Run",
+    "step": "step {{step}}",
+    "title": "Models",
+    "verified_only": "Verified only"
+  },
+  "nav": {
+    "account": "Account",
+    "admin": "Administration",
+    "close_menu": "Close menu",
+    "datasets": "Datasets",
+    "gpus": "GPUs & queue",
+    "logout": "Log out",
+    "main": "Main navigation",
+    "models": "Models",
+    "open_menu": "Open menu",
+    "runs": "Training runs",
+    "settings": "Workspace settings",
+    "skip_to_content": "Skip to content",
+    "user_menu": "User menu"
+  },
+  "not_found": {
+    "description": "The page does not exist or you do not have access to it.",
+    "home": "Go to home",
+    "title": "Page not found",
+    "hint": "Hibi searched the whole garden but could not find this page."
+  },
+  "notifications": {
+    "empty": "No notifications",
+    "event": {
+      "dataset": {
+        "invalid": "Dataset invalid",
+        "ready": "Dataset ready"
+      },
+      "model": {
+        "ready": "Model ready"
+      },
+      "run": {
+        "failed": "Run failed",
+        "stalled": "Run stalled",
+        "succeeded": "Run succeeded"
+      }
+    },
+    "kind": {
+      "dataset": {
+        "invalid": "Dataset {{dataset_name}} failed validation",
+        "ready": "Dataset {{dataset_name}} is ready"
+      },
+      "invite": {
+        "accepted": "{{user_name}} joined {{workspace_name}}"
+      },
+      "model": {
+        "failed": "Model {{model_name}} failed to build",
+        "ready": "Model {{model_name}} is ready"
+      },
+      "quota": {
+        "warning": "Quota almost used up"
+      },
+      "run": {
+        "cancelled": "Run {{run_name}} was cancelled",
+        "failed": "Run {{run_name}} failed",
+        "stalled": "Run {{run_name}} looks stalled",
+        "succeeded": "Run {{run_name}} finished"
+      }
+    },
+    "mark_all_read": "Mark all as read",
+    "title": "Notifications",
+    "title_count": "Notifications ({{count}} unread)"
+  },
+  "policy": {
+    "act": {
+      "chunk_size": {
+        "help": "How many actions the policy predicts at once (in control steps).",
+        "label": "Chunk size"
+      },
+      "dim_model": {
+        "help": "Main hidden dimension of the transformer blocks. Bigger is stronger but uses more memory.",
+        "label": "Transformer hidden size"
+      },
+      "kl_weight": {
+        "help": "Weight of the KL-divergence term of the loss when the VAE is enabled.",
+        "label": "KL weight"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      },
+      "use_vae": {
+        "help": "Add the variational (VAE) objective during training, as in the original ACT paper.",
+        "label": "Use VAE"
+      },
+      "vision_backbone": {
+        "help": "torchvision ResNet backbone that encodes the camera images.",
+        "label": "Vision backbone"
+      }
+    },
+    "diffusion": {
+      "crop_shape": {
+        "help": "Images are cropped to this size before entering the policy. Empty = no crop.",
+        "label": "Crop size (height, width)"
+      },
+      "horizon": {
+        "help": "Number of action steps the diffusion model predicts at once.",
+        "label": "Prediction horizon"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "n_obs_steps": {
+        "help": "Number of observation steps (current and previous) fed to the policy.",
+        "label": "Observation steps"
+      },
+      "noise_scheduler_type": {
+        "help": "How noise is added/removed: DDPM or DDIM.",
+        "label": "Noise scheduler"
+      },
+      "num_inference_steps": {
+        "help": "Reverse diffusion steps when predicting. Empty = same as in training.",
+        "label": "Denoising steps at inference"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      }
+    },
+    "experimental": "Experimental",
+    "gpu_support": {
+      "limited": "Limited",
+      "supported": "Supported",
+      "unsupported": "Unsupported"
+    },
+    "onnx": {
+      "full": "ONNX",
+      "none": "No ONNX",
+      "split": "ONNX (UNet + loop)"
+    },
+    "onnx_reason": {
+      "tdmpc": "TD-MPC has no ONNX export in v1.",
+      "vlm": "Large vision-language model with tokenizer: no ONNX export in v1."
+    },
+    "pi0": {
+      "chunk_size": {
+        "help": "How many actions the policy predicts at once (in control steps).",
+        "label": "Chunk size"
+      },
+      "freeze_vision_encoder": {
+        "help": "Keep the image encoder weights fixed: faster and lighter when fine-tuning.",
+        "label": "Freeze vision encoder"
+      },
+      "gradient_checkpointing": {
+        "help": "Recompute activations in the backward pass to save GPU memory (about 20–30% slower).",
+        "label": "Gradient checkpointing"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Freeze the whole vision-language model; train only the action expert and projections.",
+        "label": "Train action expert only"
+      }
+    },
+    "pi05": {
+      "chunk_size": {
+        "help": "How many actions the policy predicts at once (in control steps).",
+        "label": "Chunk size"
+      },
+      "freeze_vision_encoder": {
+        "help": "Keep the image encoder weights fixed: faster and lighter when fine-tuning.",
+        "label": "Freeze vision encoder"
+      },
+      "gradient_checkpointing": {
+        "help": "Recompute activations in the backward pass to save GPU memory (about 20–30% slower).",
+        "label": "Gradient checkpointing"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Freeze the whole vision-language model; train only the action expert and projections.",
+        "label": "Train action expert only"
+      }
+    },
+    "requires_language": "Uses task text",
+    "requires_peft": "LoRA only",
+    "requires_reward": "Needs reward",
+    "reward_missing": "This dataset has no next.reward feature.",
+    "smolvla": {
+      "chunk_size": {
+        "help": "How many actions the policy predicts at once (in control steps).",
+        "label": "Chunk size"
+      },
+      "freeze_vision_encoder": {
+        "help": "Keep the image encoder weights fixed: faster and lighter when fine-tuning.",
+        "label": "Freeze vision encoder"
+      },
+      "load_vlm_weights": {
+        "help": "Turn off to train the expert from scratch. On when starting from a pretrained SmolVLA.",
+        "label": "Load VLM weights"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Freeze the whole vision-language model; train only the action expert and projections.",
+        "label": "Train action expert only"
+      },
+      "vlm_model_name": {
+        "help": "Hugging Face VLM backbone used by SmolVLA.",
+        "label": "Vision-language backbone"
+      }
+    },
+    "summary": {
+      "act": "Action Chunking Transformer. Fast, reliable baseline for manipulation.",
+      "diffusion": "Diffusion policy. Smooth multimodal actions; slower to train.",
+      "pi0": "Pi0 (~3B). LoRA fine-tuning on the P40 only (experimental).",
+      "pi05": "Pi0.5 (~3B). LoRA fine-tuning on the P40 only (experimental).",
+      "smolvla": "SmolVLA (~450M). Vision-language-action model using the task text.",
+      "tdmpc": "TD-MPC. Model-based RL; needs rewards.",
+      "vqbet": "VQ-BeT. Discretised behaviour transformer."
+    },
+    "tdmpc": {
+      "horizon": {
+        "help": "How many future steps model predictive control plans over.",
+        "label": "Planning horizon"
+      },
+      "n_action_steps": {
+        "help": "How many predicted actions run on the robot before the policy predicts again. Must not exceed the chunk size.",
+        "label": "Actions executed per prediction"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      },
+      "use_mpc": {
+        "help": "Plan with MPC; off = sample actions directly from the policy.",
+        "label": "Use model predictive control"
+      }
+    },
+    "vqbet": {
+      "action_chunk_size": {
+        "help": "Number of actions in each prediction token.",
+        "label": "Action chunk per token"
+      },
+      "crop_shape": {
+        "help": "Images are cropped to this size before entering the policy. Empty = no crop.",
+        "label": "Crop size (height, width)"
+      },
+      "n_obs_steps": {
+        "help": "Number of observation steps (current and previous) fed to the policy.",
+        "label": "Observation steps"
+      },
+      "n_vqvae_training_steps": {
+        "help": "Optimisation steps spent training the residual VQ first.",
+        "label": "VQ-VAE training steps"
+      },
+      "optimizer_lr": {
+        "help": "Optimizer step size. If the loss turns NaN, lower it about 10×.",
+        "label": "Learning rate"
+      }
+    }
+  },
+  "preflight": {
+    "check": {
+      "camera_keys": "Camera keys",
+      "config_schema": "Configuration schema",
+      "cross_field": "Consistent settings",
+      "dataset_ready": "Dataset ready",
+      "feature_dims": "Feature dimensions",
+      "gpu_available": "GPU available",
+      "init_from": "Starting weights",
+      "mixed_precision": "Mixed precision",
+      "policy_requirements": "Policy requirements",
+      "quota": "Quota",
+      "vram": "GPU memory"
+    },
+    "code": {
+      "ok": "OK"
+    }
+  },
+  "prefs": {
+    "language": "Language",
+    "theme": "Theme",
+    "theme_dark": "Dark",
+    "theme_light": "Light",
+    "theme_system": "System"
+  },
+  "preset": {
+    "finetune": "Fine-tune from checkpoint",
+    "quick": "Quick (10k steps)",
+    "standard": "Standard (100k steps)"
+  },
+  "role": {
+    "admin": "Admin",
+    "member": "Member",
+    "owner": "Owner",
+    "viewer": "Viewer"
+  },
+  "run": {
+    "attempt": "Attempt",
+    "cancel": "Cancel run",
+    "cancel_confirm": "Cancel run “{{name}}”?",
+    "chart": {
+      "grad": "Gradient norm",
+      "loss": "Loss",
+      "lr": "Learning rate",
+      "memory": "GPU memory (GB)",
+      "throughput": "Throughput (samples/s)",
+      "timing": "Step timing (s)"
+    },
+    "clone": "Clone",
+    "config": "Configuration",
+    "connection": {
+      "closed": "Stream closed",
+      "connecting": "Connecting…",
+      "failed": "Live updates unavailable",
+      "idle": "Not connected",
+      "open": "Live",
+      "reconnecting": "Reconnecting…"
+    },
+    "edit": "Edit run",
+    "error": {
+      "checkpoint_corrupt": "A checkpoint is corrupted.",
+      "config_invalid": "The configuration was rejected by LeRobot.",
+      "dataset_feature_mismatch": "Dataset features do not match the policy.",
+      "dataset_unavailable": "The dataset could not be loaded.",
+      "export_failed": "Export failed.",
+      "gpu_error": "GPU error.",
+      "internal_error": "Internal error.",
+      "nan_loss": "Loss became NaN. Lower the learning rate.",
+      "oom": "Out of GPU memory. Reduce batch size or use the P40.",
+      "process_crashed": "The training process crashed.",
+      "quota_exceeded": "GPU-hour quota exceeded.",
+      "stalled": "Training stopped producing output and was stopped.",
+      "storage_error": "Storage error.",
+      "worker_lost": "The GPU worker was lost."
+    },
+    "eta": "Time left",
+    "eval": "Evaluation",
+    "eval_queued": "Evaluation queued.",
+    "eval_title": "Offline evaluation at step {{step}}",
+    "export": "Export",
+    "gpu": "GPU",
+    "gpu_time": "GPU time",
+    "image": "Image digest",
+    "last": "last",
+    "last_checkpoint": "Last checkpoint",
+    "live": "Live",
+    "loss": "Loss",
+    "manifest": "Reproducibility manifest",
+    "manifest_pending": "Available once the run has started.",
+    "metrics_honesty": {
+      "body": "Loss and offline metrics only show how well the model fits the recorded data. A low loss does NOT mean the robot will do the task: test on the real robot to judge it.",
+      "title": "How to read these numbers"
+    },
+    "mixed_precision_forced": "Mixed precision {{requested}} was replaced by {{effective}} on this GPU.",
+    "model": "Model",
+    "next_checkpoint": "Next checkpoint",
+    "no_checkpoints": "No checkpoints yet.",
+    "no_metrics": "Metrics appear after the first log interval.",
+    "notices": "Run warnings",
+    "open_model": "Open model",
+    "pause": "Pause",
+    "pause_help": "Training stops and can be resumed from a checkpoint.",
+    "pause_mode": "When to pause",
+    "pause_next_checkpoint": "At the next checkpoint (no progress lost)",
+    "pause_next_checkpoint_at": "Training continues until step {{step}}, saves, then stops.",
+    "pause_next_checkpoint_help": "Training continues until the next checkpoint, then stops.",
+    "pause_now": "Now",
+    "pause_now_help": "Stops immediately; resumes from step {{step}}.",
+    "priority": "Priority",
+    "priority_help": "Higher runs first among your own queued runs.",
+    "recovery": {
+      "checkpoints": "Open Checkpoints to export again",
+      "clone_edit": "Clone and edit the config",
+      "clone_gpu": "Clone on {{gpu}}",
+      "half_batch": "Clone with half the batch size",
+      "lower_lr": "Clone with a lower learning rate",
+      "resume": "Resume from checkpoint"
+    },
+    "resume": "Resume",
+    "resume_help": "Resumes from the last checkpoint (step {{step}}).",
+    "run_eval": "Evaluate",
+    "smoothing": "Smoothing",
+    "speed": "Speed",
+    "status": {
+      "cancelled": "Cancelled",
+      "cancelling": "Cancelling",
+      "exporting": "Exporting",
+      "failed": "Failed",
+      "paused": "Paused",
+      "pausing": "Pausing",
+      "preparing": "Preparing",
+      "queued": "Queued",
+      "running": "Running",
+      "succeeded": "Succeeded"
+    },
+    "step": "Step",
+    "step_of": "Step {{step}} of {{total}}",
+    "steps_per_s": "{{v}} steps/s",
+    "subtitle": "{{policy}} on {{dataset}} v{{version}} · by {{user}}",
+    "tab": {
+      "checkpoints": "Checkpoints",
+      "config": "Config",
+      "gpu": "GPU",
+      "logs": "Logs",
+      "metrics": "Metrics"
+    },
+    "total_steps": "Total steps",
+    "total_steps_help": "Optional. Extend beyond the current {{steps}} steps.",
+    "view_eval": "View",
+    "warning": {
+      "heldout_too_small": "Too few held-out episodes for a meaningful evaluation.",
+      "log_silent": "No log output for 5 minutes.",
+      "mixed_precision_forced_no": "Mixed precision disabled on this GPU (no bf16).",
+      "nan_detected": "NaN detected in the loss.",
+      "parser_mismatch": "Log step counter looked inconsistent.",
+      "retrying_after_infra_error": "Retrying after an infrastructure error.",
+      "vram_near_limit": "GPU memory is close to the limit."
+    }
+  },
+  "runs": {
+    "compare_one": "Compare ({{count}})",
+    "compare_other": "Compare ({{count}})",
+    "dataset": "Dataset",
+    "description": "Queue, monitor and compare training runs.",
+    "empty": "No runs yet",
+    "empty_help": "Start a run from a validated dataset.",
+    "eta": "ETA {{eta}}",
+    "filter": {
+      "active": "Active",
+      "all": "All",
+      "cancelled": "Cancelled",
+      "failed": "Failed",
+      "paused": "Paused",
+      "succeeded": "Succeeded"
+    },
+    "gpu": "GPU",
+    "loss": "Loss",
+    "new": "New run",
+    "only_mine": "Only my runs",
+    "policy": "Policy",
+    "progress": "Progress",
+    "progress_of": "Progress of {{name}}",
+    "queue_position": "Position {{pos}} in queue",
+    "run": "Run",
+    "search_placeholder": "Search runs",
+    "select": "Select",
+    "select_run": "Select {{name}} for comparison",
+    "title": "Training runs"
+  },
+  "schema_form": {
+    "enabled": "Enabled",
+    "error": {
+      "additionalProperties": "Unknown setting.",
+      "const": "This value cannot be changed.",
+      "cross_field": "Violates rule: {{rule}}.",
+      "enum": "Choose one of the allowed values.",
+      "exclusiveMaximum": "Must be less than {{limit}}.",
+      "exclusiveMinimum": "Must be greater than {{limit}}.",
+      "generic": "Invalid value.",
+      "maxItems": "Allows at most {{limit}} items.",
+      "maximum": "Must be at most {{limit}}.",
+      "minItems": "Needs at least {{limit}} items.",
+      "minimum": "Must be at least {{limit}}.",
+      "pattern": "Invalid format.",
+      "required": "Required.",
+      "type": "Must be a {{type}}."
+    },
+    "invalid_json": "Invalid JSON",
+    "modified": "changed",
+    "none": "None (unset)",
+    "reset_field": "Reset {{field}} to default",
+    "tuple_item": "Value {{index}}"
+  },
+  "security": {
+    "change_password": "Change password",
+    "confirm_password": "Current password",
+    "current_password": "Current password",
+    "disable_2fa": "Disable 2FA",
+    "disabled": "Disabled",
+    "enable_2fa": "Enable 2FA",
+    "enable_revokes_tokens": "Enabling 2FA revokes all of your personal access tokens (CLI tokens), because they were created without 2FA. You will need to create them again.",
+    "enabled": "Enabled",
+    "enrollment_required": "Your role requires two-factor authentication. Set it up to continue.",
+    "manual_secret": "Or enter this key manually:",
+    "password_changed": "Password changed. Other sessions were signed out.",
+    "qr_alt": "QR code for your authenticator app",
+    "recovery_codes": "Recovery codes",
+    "recovery_codes_done": "Done",
+    "recovery_codes_once": "Save these recovery codes now. They will not be shown again.",
+    "recovery_codes_saved": "I have saved the recovery codes",
+    "regenerate_codes": "Generate new codes",
+    "scan_qr": "Scan this QR code with your authenticator app, then enter the 6-digit code.",
+    "setup_2fa": "Set up 2FA",
+    "tokens_revoked_count": "2FA is on. {{count}} personal access token(s) were revoked.",
+    "tokens_revoked_none": "2FA is on. You had no personal access tokens to revoke.",
+    "tokens_revoked_recreate": "Create new tokens under Account → Tokens and log the CLI in again (hibiscus login).",
+    "two_factor": "Two-factor authentication",
+    "two_factor_help": "Required for workspace owners and admins."
+  },
+  "tokens": {
+    "admin_requires_2fa": "Tokens for a workspace where you are owner or admin need 2FA: create them from a session that passed 2FA. Without 2FA such a token only acts as a member.",
+    "cli_hint": "On the collect machine, run this and paste the token when asked (never put the token on the command line: it would stay in your shell history):",
+    "cli_paste": "The CLI asks for the token without echoing it and stores it in the system keyring.",
+    "copied_ack": "I have copied the token",
+    "create": "Create token",
+    "create_help": "Personal access tokens let the hibiscus CLI on collect machines upload data and start runs.",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "done": "Done",
+    "empty": "No access tokens",
+    "expires": "Expires",
+    "last_used": "Last used",
+    "last_used_from": "from {{ip}}",
+    "name": "Name",
+    "never": "Never",
+    "never_used": "Never used",
+    "preset": "Scope preset",
+    "presets": {
+      "collect": "Collection machine",
+      "collect_help": "Covers every CLI command: push datasets, start training, follow logs, pull models.",
+      "custom": "Custom",
+      "custom_help": "Pick the scopes below.",
+      "readonly": "Read only",
+      "readonly_help": "View and download datasets, runs and models; cannot upload or start training."
+    },
+    "revoke": "Revoke",
+    "revoke_confirm": "Revoke token “{{name}}”? Machines using it stop working immediately.",
+    "revoked": "Revoked",
+    "scope": {
+      "datasets_read": "List and download datasets",
+      "datasets_write": "Upload datasets",
+      "models_read": "Download models",
+      "runs_read": "Read runs and logs",
+      "runs_write": "Start and control runs"
+    },
+    "scopes": "Scopes",
+    "shown_once": "Copy this token now. It is shown only once.",
+    "workspace": "Workspace"
+  },
+  "train": {
+    "batch_size": {
+      "help": "Samples per step. If the GPU runs out of memory, halve it.",
+      "label": "Batch size"
+    },
+    "image_transforms": {
+      "help": "Enable image augmentation (brightness, contrast…) during training.",
+      "label": "Image augmentation"
+    },
+    "log_freq": {
+      "help": "Interval between metric records. Lowered automatically for short runs so the charts have points.",
+      "label": "Log metrics every … steps"
+    },
+    "mixed_precision": {
+      "help": "Lower-precision math for speed. Forced to \"no\" on GPUs without support (Tesla P40).",
+      "label": "Mixed precision"
+    },
+    "save_freq": {
+      "help": "A checkpoint is saved every this many steps and after the last step. Pause/resume uses the latest one.",
+      "label": "Save a checkpoint every … steps"
+    },
+    "steps": {
+      "help": "Total optimizer updates. More steps take longer; quick trials use a few thousand.",
+      "label": "Training steps"
+    }
+  },
+  "upload": {
+    "another": "Upload another file",
+    "cancel": "Cancel upload",
+    "choose_file": "Choose archive",
+    "description": "Files are checked with SHA-256 and uploaded in parts; you can pause and resume.",
+    "done": "Uploaded {{name}} v{{version}}. Validation has started.",
+    "drop_here": "Drag an archive here, or choose a file",
+    "expires": "expires {{date}}",
+    "formats": "zip, tar, tar.gz, tar.zst or rar (RAR5)",
+    "hashing": "Checking file",
+    "new_dataset": "New dataset",
+    "new_version_of": "New version of {{name}}",
+    "parts": "(part {{done}}/{{total}})",
+    "pause": "Pause",
+    "phase": {
+      "aborted": "Cancelled",
+      "completing": "Finishing…",
+      "done": "Done",
+      "error": "Failed",
+      "hashing": "Computing checksums…",
+      "idle": "Ready",
+      "initializing": "Starting…",
+      "paused": "Paused",
+      "uploading": "Uploading…"
+    },
+    "resume": "Resume",
+    "resumed": "Resumed a previous upload.",
+    "start": "Start upload",
+    "target": "Upload as",
+    "title": "Upload dataset",
+    "train_now": "Train now",
+    "unfinished": "Unfinished uploads",
+    "unfinished_help": "Choose the same file again to resume where it stopped.",
+    "uploading": "Uploading",
+    "view_validation": "View validation"
+  },
+  "validation": {
+    "cancel_job": "Cancel validation",
+    "counts": "{{errors}} errors, {{warnings}} warnings",
+    "email": "Enter a valid email address.",
+    "episode": "Episode {{index}}",
+    "issue": {
+      "archive_bomb": "The archive expands too much (possible zip bomb).",
+      "archive_corrupt": "The archive is corrupted.",
+      "archive_symlink": "The archive contains a symlink ({{path}}).",
+      "archive_too_large": "The unpacked data is too large.",
+      "archive_unsafe_path": "The archive contains an unsafe path ({{path}}).",
+      "camera_shape_mismatch": "Camera {{feature}} has inconsistent frame size.",
+      "checksum_mismatch": "File checksum does not match.",
+      "conversion_failed": "Converting to v3.0 failed.",
+      "dataset_root_not_found": "No LeRobot dataset (meta/info.json) found in the archive.",
+      "episode_too_short": "Episode {{episode}} is too short.",
+      "feature_missing": "Feature {{feature}} is missing.",
+      "feature_shape_invalid": "Feature {{feature}} has an invalid shape.",
+      "frame_count_mismatch": "Frame count does not match the episode length (episode {{episode}}).",
+      "info_json_invalid": "meta/info.json is invalid.",
+      "joint_names_mismatch": "Joint names do not match.",
+      "missing_file": "Missing file: {{path}}.",
+      "multiple_dataset_roots": "The archive contains more than one dataset.",
+      "nan_values": "NaN values found in {{feature}}.",
+      "no_camera": "The dataset has no camera.",
+      "stats_mismatch": "Recomputed statistics differ from meta/stats.json.",
+      "stats_missing": "meta/stats.json is missing.",
+      "task_missing": "An episode has no task.",
+      "timestamp_fps_mismatch": "Timestamps do not match the dataset FPS (episode {{episode}}).",
+      "timestamp_irregular": "Timestamps are irregular in episode {{episode}}.",
+      "unsupported_codebase_version": "Unsupported LeRobot dataset version.",
+      "video_decode_failed": "A video could not be decoded (episode {{episode}}).",
+      "video_missing": "A video file is missing ({{path}})."
+    },
+    "job_progress": "Validation progress",
+    "password_max": "Use at most 256 characters.",
+    "password_min": "Use at least {{min}} characters.",
+    "password_mismatch": "Passwords do not match.",
+    "required": "This field is required.",
+    "rerun": "Run validation again",
+    "result": {
+      "failed": "Failed",
+      "passed": "Passed",
+      "passed_with_warnings": "Passed with warnings",
+      "running": "Running"
+    },
+    "scopes": "Select at least one scope.",
+    "severity": {
+      "error": "Error",
+      "info": "Info",
+      "warning": "Warning"
+    },
+    "step": {
+      "checksum": "Checksum",
+      "decode": "Decode video frames",
+      "schema": "Feature schema",
+      "stats": "Statistics",
+      "structure": "Structure (meta/, episodes)",
+      "timestamps": "Timestamps & NaN",
+      "unpack": "Unpack archive"
+    },
+    "step_status": {
+      "failed": "Failed",
+      "passed": "Passed",
+      "pending": "Pending",
+      "running": "Running",
+      "skipped": "Skipped",
+      "warning": "Warning"
+    },
+    "totp": "Enter the 6-digit code.",
+    "truncated": "{{count}} more issues not shown"
+  },
+  "wizard": {
+    "adjusted": "Changed {{field}} from {{from}} to {{to}} as suggested. Review, then start.",
+    "advanced": "Advanced",
+    "basic": "Basic",
+    "checks": "Pre-flight checks",
+    "choose_dataset": "Choose a dataset",
+    "clone_title": "Clone {{name}}",
+    "dataset": "Dataset",
+    "description": "Pick a dataset, a policy and hyperparameters. Defaults are a good start.",
+    "estimate": "Estimate",
+    "estimate_source": {
+      "cached": "From a previous measurement.",
+      "heuristic": "Rough estimate (not yet measured).",
+      "measured": "Measured with a 20-step dry run.",
+      "pending": "Measuring…"
+    },
+    "export": "After training",
+    "export_eval": "Evaluate on held-out episodes",
+    "export_fp16": "Also export an fp16 ONNX model",
+    "export_onnx": "Export ONNX and check parity",
+    "fix_errors": "Fix the highlighted fields to continue.",
+    "gpu": "GPU",
+    "gpu_help": "Auto picks a GPU with enough memory. P40 trains in fp32.",
+    "heldout": "Held-out episodes (%)",
+    "heldout_help": "Kept aside before training for offline evaluation.",
+    "init_help": "Fine-tuning starts from existing weights.",
+    "init_hf": "…or Hugging Face repo",
+    "init_model": "Start from model",
+    "init_required": "The fine-tune preset needs a model or Hub repo to start from.",
+    "lerobot_args": "lerobot-train arguments",
+    "mixed_precision": "Mixed precision",
+    "peak_vram": "Peak GPU memory",
+    "policy_section": "{{policy}} policy",
+    "preflight_blocked": "Fix the errors above before starting.",
+    "preset": "Preset",
+    "progress": "Wizard progress",
+    "review": "Review",
+    "run_name": "Run name",
+    "run_name_help": "Optional. Auto-generated when empty.",
+    "run_settings": "Run settings",
+    "sec_per_step": "Seconds per step",
+    "seed": "Seed",
+    "seed_help": "Optional. Leave empty for a random seed (recorded in the manifest).",
+    "split": "Episodes (train / held-out)",
+    "split_value": "{{train}} / {{heldout}}",
+    "start": "Start training",
+    "step": {
+      "dataset": "Dataset",
+      "params": "Hyperparameters",
+      "policy": "Policy",
+      "review": "Review"
+    },
+    "step_n_of": "{{n}}/{{total}}",
+    "title": "New training run",
+    "total_time": "Estimated duration",
+    "training_section": "Training",
+    "version": "Version",
+    "version_summary": "{{episodes}} episodes · {{frames}} frames · {{size}}"
+  },
+  "workspace": {
+    "active_runs": "Active runs",
+    "danger_zone": "Danger zone",
+    "default_gpu": "Default GPU",
+    "default_heldout": "Default held-out episodes (%)",
+    "default_heldout_help": "Share of episodes kept aside for offline evaluation (0–50%).",
+    "delete": "Delete workspace",
+    "delete_confirm": "Delete workspace “{{name}}”?",
+    "delete_help": "Deletes the workspace for all members. Stop active runs first.",
+    "fair_share": "My GPU hours (last 7 days)",
+    "general": "General",
+    "gpu_hours": "GPU hours this month",
+    "max_concurrent": "Max concurrent runs",
+    "max_upload": "Max upload size",
+    "my_gpu_hours": "My GPU hours this month",
+    "name": "Workspace name",
+    "none_description": "Ask a workspace admin to invite you.",
+    "none_title": "You are not a member of any workspace",
+    "queued_runs": "Queued runs",
+    "select": "Select workspace",
+    "settings_title": "{{name}} settings",
+    "storage": "Storage",
+    "switch": "Switch workspace",
+    "tab": {
+      "general": "General",
+      "invites": "Invites",
+      "members": "Members",
+      "tokens": "Access tokens"
+    },
+    "usage": "Usage & quotas",
+    "your_role": "Your role: {{role}}"
+  },
+  "crash": {
+    "title": "Something went wrong",
+    "description": "Hibi tripped over a bug on this page. Reload to try again; if it keeps happening, tell your administrator.",
+    "reload": "Reload",
+    "home": "Go to the home page"
+  }
+}

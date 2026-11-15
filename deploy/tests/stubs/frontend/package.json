@@ -1,0 +1,10 @@
+{
+  "name": "hibiscus-web-stub",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Deploy smoke-test stand-in for the SPA (never shipped)",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

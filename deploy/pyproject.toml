@@ -1,0 +1,48 @@
+[project]
+name = "hibiscus-deploy"
+version = "0.1.0"
+description = "Hibiscus deployment tooling: compose policy check, Cloudflare edge config, deploy tests"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pyyaml>=6.0",
+    "sqlalchemy>=2.0.36,<2.1",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "types-pyyaml",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = [".", "scripts", "cloudflare/edge", "tests"]
+testpaths = ["tests"]
+markers = [
+    "docker: needs a Docker daemon (real containers; skipped when docker is unavailable)",
+    "slow: > 30 s",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["cloudflare/email-worker"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "ASYNC", "N", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S603", "S607"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = ["scripts", "cloudflare/edge", "tests"]
+explicit_package_bases = true
+exclude = ["tests/stubs/"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["check_compose", "dockerutil", "cf_edge", "gen_dashboards"]

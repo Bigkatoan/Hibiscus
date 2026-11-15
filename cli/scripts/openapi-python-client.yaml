@@ -1,0 +1,7 @@
+# openapi-python-client config for hibiscus/_generated (see scripts/gen_api.py)
+project_name_override: hibiscus-api-client
+package_name_override: _generated
+literal_enums: false
+post_hooks:
+  - "ruff check . --fix-only --quiet --target-version py310 --select I,F401 --exit-zero"
+  - "ruff format . --quiet --target-version py310"

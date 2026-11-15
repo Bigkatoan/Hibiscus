@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/bundle-schemas/parity_report.schema.json",
+  "title": "Hibiscus bundle onnx/parity_report.json v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "passed", "provider", "n_samples", "sample_source", "seed", "graphs"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "passed": {"type": "boolean", "description": "All gating comparisons passed"},
+    "provider": {"const": "CPUExecutionProvider"},
+    "torch_device": {"const": "cpu"},
+    "n_samples": {"type": "integer", "minimum": 1},
+    "sample_source": {"enum": ["heldout", "train"]},
+    "seed": {"type": "integer"},
+    "graphs": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["comparison", "file", "atol", "rtol", "max_abs_diff", "max_rel_diff", "passed", "gating"],
+        "properties": {
+          "comparison": {"enum": ["model", "obs_encoder", "denoiser_single_step", "full_denoise_loop", "model_fp16"]},
+          "file": {"type": "string"},
+          "atol": {"type": "number"},
+          "rtol": {"type": "number"},
+          "max_abs_diff": {"type": "number"},
+          "max_rel_diff": {"type": "number"},
+          "mean_abs_diff": {"type": "number"},
+          "max_abs_diff_unnormalized": {"type": ["number", "null"], "description": "Action space (joint units) after unnormalisation"},
+          "passed": {"type": "boolean"},
+          "gating": {"type": "boolean", "description": "false => informational only (fp16)"}
+        }
+      }
+    }
+  }
+}

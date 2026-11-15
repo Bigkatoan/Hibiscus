@@ -1,0 +1,1295 @@
+{
+  "account": {
+    "channel_add": "Thêm kênh",
+    "channel_events": "Sự kiện",
+    "channel_kind": {
+      "discord": "Discord",
+      "email": "Email",
+      "telegram": "Telegram",
+      "webhook": "Webhook"
+    },
+    "channel_kind_label": "Kênh",
+    "channel_target": "Nơi nhận",
+    "channel_target_help": "URL webhook, chat id Telegram hoặc địa chỉ email.",
+    "channel_test": "Gửi thử",
+    "channels": "Kênh thông báo",
+    "channels_empty": "Chưa có kênh nào.",
+    "channels_help": "Nhận báo khi lượt train xong, lỗi hoặc bị treo.",
+    "device": "Thiết bị",
+    "email_unverified": "Email của bạn chưa được xác thực.",
+    "hf_token": "Token Hugging Face",
+    "hf_token_help": "Dùng để import và đẩy lên Hub. Được lưu ở dạng mã hóa.",
+    "hf_token_new": "Token mới",
+    "hf_token_set": "Đã lưu token",
+    "ip": "Địa chỉ IP",
+    "last_used": "Dùng lần cuối",
+    "profile": "Hồ sơ",
+    "resend_verification": "Gửi lại email xác thực",
+    "revoke_others": "Đăng xuất các phiên khác",
+    "revoke_others_confirm": "Đăng xuất tất cả các phiên khác?",
+    "revoke_session": "Đăng xuất phiên này",
+    "sessions": "Phiên đăng nhập",
+    "tab": {
+      "integrations": "Tích hợp",
+      "profile": "Hồ sơ",
+      "security": "Bảo mật",
+      "sessions": "Phiên",
+      "tokens": "Token truy cập"
+    },
+    "this_device": "Thiết bị này",
+    "title": "Tài khoản",
+    "verification_sent": "Đã gửi email xác thực"
+  },
+  "admin": {
+    "action": "Hành động",
+    "active": "Hoạt động",
+    "active_for": "Tài khoản của {{name}} đang hoạt động",
+    "actor": "Người thực hiện",
+    "create_workspace": "Workspace mới",
+    "create_workspace_help": "Bạn sẽ là chủ sở hữu và có thể mời thành viên sau.",
+    "description": "Người dùng, nhật ký kiểm toán, hạn mức, GPU và trạng thái hệ thống.",
+    "disabled": "Đã vô hiệu hóa",
+    "disk_free": "Ổ đĩa còn trống",
+    "email": "Email",
+    "email_disabled_help": "Email đang tắt: link mời và link đặt lại mật khẩu phải gửi thủ công.",
+    "email_provider": {
+      "cloudflare": "Cloudflare Email Service",
+      "none": "Không có",
+      "resend": "Resend",
+      "ses": "Amazon SES",
+      "smtp": "SMTP"
+    },
+    "flags": "Nhãn",
+    "last_login": "Đăng nhập lần cuối",
+    "locked": "Đang bị khóa",
+    "max_queued": "Số lượt train chờ tối đa",
+    "no_2fa": "Chưa bật 2FA",
+    "outcome": "Kết quả",
+    "outcome_value": {
+      "denied": "Bị từ chối",
+      "failure": "Thất bại",
+      "success": "Thành công"
+    },
+    "platform_admin": "Quản trị hệ thống",
+    "queue_depth": "Số lượt trong hàng đợi",
+    "quota_default": "Mặc định của workspace",
+    "quota_edit": "Đặt hạn mức",
+    "quota_user": "User id (không bắt buộc)",
+    "quota_user_help": "Để trống để dùng mặc định của workspace.",
+    "quotas_scope": "Chỉ hiện các workspace mà bạn là thành viên.",
+    "reset_link": "Tạo link đặt lại mật khẩu",
+    "reset_mfa": "Đặt lại 2FA",
+    "revoke_sessions": "Đăng xuất mọi phiên",
+    "search_users": "Tìm theo email hoặc tên",
+    "section": {
+      "audit": "Nhật ký kiểm toán",
+      "gpus": "GPU",
+      "quotas": "Hạn mức",
+      "system": "Hệ thống",
+      "users": "Người dùng"
+    },
+    "since": "Từ",
+    "storage": "Dung lượng theo bucket",
+    "storage_gib": "Lưu trữ (GiB)",
+    "target": "Đối tượng",
+    "title": "Quản trị",
+    "unlock": "Mở khóa",
+    "until": "Đến",
+    "upload_gib": "Tải lên tối đa (GiB)",
+    "user": "Người dùng",
+    "versions": "Các version",
+    "when": "Thời điểm",
+    "workspace": "Workspace",
+    "workspace_slug": "Tên trên URL",
+    "workspace_slug_help": "Chữ thường, số và dấu gạch ngang (3–40 ký tự).",
+    "workspace_slug_invalid": "Dùng 3–40 ký tự gồm chữ thường, số hoặc dấu gạch ngang.",
+    "workspaces": "Workspace"
+  },
+  "auth": {
+    "back_to_login": "Quay lại đăng nhập",
+    "confirm_password": "Nhập lại mật khẩu",
+    "continue": "Tiếp tục",
+    "display_name": "Tên hiển thị",
+    "email": "Email",
+    "forgot": {
+      "description": "Chúng tôi sẽ gửi email kèm link để bạn đặt mật khẩu mới.",
+      "sent": "Nếu email này có tài khoản, link đặt lại đã được gửi. Link có hiệu lực 30 phút.",
+      "sent_no_email": "Máy chủ chưa cấu hình gửi email. Hãy xin quản trị hệ thống link đặt lại.",
+      "submit": "Gửi link đặt lại",
+      "title": "Đặt lại mật khẩu"
+    },
+    "invite": {
+      "accept": "Chấp nhận lời mời",
+      "create_account": "Tạo tài khoản và tham gia",
+      "description": "{{inviter}} mời bạn vào {{workspace}} với vai trò {{role}}. Hết hạn {{expires}}.",
+      "login_first": "Đã có tài khoản cho {{email}}. Hãy đăng nhập để chấp nhận lời mời.",
+      "title": "Lời mời vào workspace"
+    },
+    "login": {
+      "description": "Đăng nhập vào Hibiscus.",
+      "forgot": "Quên mật khẩu?",
+      "invite_only": "Tài khoản chỉ được tạo qua lời mời.",
+      "submit": "Đăng nhập",
+      "title": "Đăng nhập"
+    },
+    "mfa": {
+      "code": "Mã 6 chữ số",
+      "recovery_code": "Mã khôi phục",
+      "recovery_help": "Nhập một mã khôi phục. Mỗi mã chỉ dùng được một lần.",
+      "title": "Xác thực hai lớp",
+      "totp_help": "Nhập mã trong ứng dụng xác thực của bạn.",
+      "use_recovery": "Dùng mã khôi phục",
+      "use_totp": "Dùng mã từ ứng dụng xác thực",
+      "verify": "Xác minh"
+    },
+    "new_password": "Mật khẩu mới",
+    "password": "Mật khẩu",
+    "password_rules": "Ít nhất {{min}} ký tự. Mật khẩu đã từng bị lộ sẽ bị từ chối.",
+    "reset": {
+      "done": "Đã đổi mật khẩu. Mọi phiên đăng nhập đã được đăng xuất.",
+      "submit": "Đặt mật khẩu",
+      "title": "Đặt mật khẩu mới"
+    },
+    "verify": {
+      "done": "Email của bạn đã được xác thực.",
+      "title": "Xác thực email"
+    }
+  },
+  "brand": {
+    "tagline": "Vườn ươm policy cho robot của lab"
+  },
+  "chart": {
+    "no_data": "Chưa có dữ liệu",
+    "summary": "Biểu đồ {{title}}. Giá trị mới nhất: {{summary}}"
+  },
+  "common": {
+    "actions": "Thao tác",
+    "apply": "Áp dụng",
+    "back": "Quay lại",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "copied": "Đã sao chép",
+    "copy": "Sao chép",
+    "created": "Tạo lúc",
+    "delete": "Xóa",
+    "load_more": "Tải thêm",
+    "loading": "Đang tải…",
+    "next": "Tiếp",
+    "rename": "Đổi tên",
+    "save": "Lưu",
+    "search": "Tìm kiếm",
+    "status": "Trạng thái",
+    "updated": "Cập nhật lúc"
+  },
+  "compare": {
+    "config_diff": "Khác biệt cấu hình",
+    "description": "Chồng các metric lên nhau và xem cấu hình khác nhau ở đâu.",
+    "keys": "Metric (cách nhau bằng dấu phẩy)",
+    "no_diff": "Các cấu hình giống hệt nhau.",
+    "path": "Tham số",
+    "runs": "Lượt train",
+    "select_range": "Chọn từ 2 đến 8 lượt train.",
+    "title": "So sánh lượt train"
+  },
+  "dataset": {
+    "status": {
+      "failed": "Thất bại",
+      "invalid": "Không hợp lệ",
+      "pending": "Đang chờ",
+      "ready": "Sẵn sàng",
+      "unpacking": "Đang giải nén",
+      "validating": "Đang kiểm tra"
+    }
+  },
+  "datasets": {
+    "action_dim": "Số chiều action",
+    "cameras": "Camera",
+    "codebase": "Định dạng",
+    "content_hash": "Mã băm nội dung",
+    "converted_from": "chuyển đổi từ {{from}}",
+    "delete_confirm": "Xóa dataset “{{name}}”?",
+    "delete_help": "Không thể xóa dataset đang được lượt train sử dụng.",
+    "delete_version": "Xóa version {{version}}",
+    "delete_version_confirm": "Xóa version {{version}}?",
+    "description": "Tải dataset LeRobot lên, kiểm tra và xem trước các episode.",
+    "description_label": "Mô tả",
+    "download_version": "Tải xuống version {{version}}",
+    "edit": "Sửa dataset",
+    "edit_help": "Đổi tên dataset hoặc sửa mô tả.",
+    "empty": "Chưa có dataset",
+    "empty_help": "Tải lên file nén zip, tar, tar.zst hoặc rar của một dataset LeRobot.",
+    "episodes": "Episode",
+    "feature": "Feature",
+    "features": "Các feature",
+    "fps": "FPS",
+    "frames": "Frame",
+    "hf_uri": "URI trên Hub",
+    "import_hf": "Import từ Hugging Face",
+    "import_hf_help": "Import dataset LeRobot từ Hub (v3.0, hoặc v2.1 sẽ được tự chuyển đổi).",
+    "import_start": "Bắt đầu import",
+    "joints": "Khớp",
+    "latest_version": "Version mới nhất",
+    "merge": "Gộp version",
+    "merge_help": "Gộp các version đã sẵn sàng và cùng cấu trúc thành một version mới.",
+    "merge_start": "Gộp",
+    "merge_started": "Đang gộp thành version {{version}}…",
+    "name": "Tên",
+    "new_version": "Tải lên version mới",
+    "robot_type": "Loại robot",
+    "search_placeholder": "Tìm dataset",
+    "size": "Dung lượng",
+    "source": "Nguồn",
+    "source_kind": {
+      "hf_import": "Import từ Hugging Face",
+      "merge": "Gộp",
+      "upload": "Tải lên"
+    },
+    "state_dim": "Số chiều state",
+    "tab": {
+      "episodes": "Episode",
+      "overview": "Tổng quan",
+      "validation": "Kiểm tra"
+    },
+    "tasks": "Task",
+    "title": "Dataset",
+    "train": "Train với version này",
+    "upload": "Tải dataset lên",
+    "version": "Version",
+    "version_title": "Version {{version}}",
+    "versions": "Các version"
+  },
+  "episode": {
+    "camera": "Camera",
+    "chart_title": "{{feature}} theo thời gian",
+    "length_distribution": "Phân bố độ dài episode",
+    "no_preview_codec": "Trình duyệt chưa xem trước được video {{codec}} này.",
+    "option": "Episode {{index}} ({{duration}})",
+    "preview_caption": "Bản gốc {{w}}×{{h}} ({{codec}}), bản xem trước H.264",
+    "preview_pending": "Đang tạo clip xem trước.",
+    "select": "Chọn episode",
+    "thumb_alt": "Frame đầu tiên của episode {{index}}",
+    "time_s": "Thời gian (giây)",
+    "video_error": "Không tải được video. Hãy tải lại trang."
+  },
+  "errors": {
+    "account_disabled": "Tài khoản này đã bị vô hiệu hóa. Hãy liên hệ quản trị viên lab.",
+    "account_locked": "Đăng nhập sai quá nhiều lần. Hãy thử lại sau {{retry_after_s}} giây, hoặc đặt lại mật khẩu.",
+    "archive_format_unsupported": "Định dạng nén không được hỗ trợ. Hãy dùng .zip, .tar, .tar.gz, .tar.zst hoặc .rar (RAR5).",
+    "bad_request": "Máy chủ không đọc được yêu cầu này. Hãy tải lại trang rồi thử lại; nếu dùng CLI, hãy cập nhật bản mới nhất.",
+    "checkpoint_not_found": "Không tìm thấy checkpoint này. Hãy chọn một checkpoint trong tab Checkpoint.",
+    "conflict": "Mục này vừa bị thay đổi cùng lúc. Hãy tải lại để xem trạng thái mới rồi thử lại.",
+    "csrf_failed": "Kiểm tra bảo mật thất bại, thường do bạn vừa đăng nhập ở tab khác. Hãy tải lại trang rồi thử lại.",
+    "dataset_in_use": "Dataset đang được lượt train sử dụng. Hãy đợi lượt train xong hoặc hủy nó trước.",
+    "dataset_name_taken": "Workspace đã có dataset tên này. Hãy chọn tên khác, hoặc tải lên thành version mới của dataset đó.",
+    "dataset_schema_mismatch": "Các dataset không cùng cấu trúc (camera, khớp, fps). Hãy chọn các version thu với cùng cấu hình robot.",
+    "dataset_version_duplicate": "Dữ liệu y hệt đã được tải lên trước đó. Hãy dùng version đã có, không cần tải lại.",
+    "dataset_version_not_ready": "Version dataset này chưa sẵn sàng. Hãy đợi kiểm tra xong, hoặc sửa các lỗi trong báo cáo kiểm tra.",
+    "email_not_verified": "Hãy xác thực email trước: mở link trong email xác thực, hoặc gửi lại từ thanh thông báo phía trên.",
+    "email_taken": "Đã có tài khoản dùng email này. Hãy đăng nhập rồi chấp nhận lời mời.",
+    "forbidden": "Vai trò của bạn không cho phép thao tác này. Hãy nhờ owner hoặc admin của workspace.",
+    "gone": "Link này đã hết hạn hoặc đã được dùng. Hãy xin link mới.",
+    "gpu_insufficient_vram": "Không đủ bộ nhớ GPU cho cấu hình này. Hãy giảm batch size, bật LoRA, hoặc chọn Tesla P40 (24 GB).",
+    "gpu_unknown": "GPU đã chọn không tồn tại hoặc đã bị tắt. Hãy chọn Tự động hoặc GPU khác.",
+    "hf_token_missing": "Hãy thêm token Hugging Face trong Tài khoản trước.",
+    "hf_uri_invalid": "Dùng dạng hf://org/repo[@revision].",
+    "hub_repo_invalid": "Tên repo không hợp lệ. Dùng dạng owner/tên, ví dụ my-lab/act-pick-cube.",
+    "insufficient_scope": "Token này thiếu quyền cần thiết. Hãy tạo token với đúng quyền rồi chạy lại hibiscus login.",
+    "internal_error": "Máy chủ gặp lỗi và đã ghi lại. Hãy thử lại; nếu vẫn lỗi, gửi mã yêu cầu cho quản trị viên.",
+    "invalid_credentials": "Sai email hoặc mật khẩu. Hãy kiểm tra lại rồi thử lần nữa.",
+    "invite_email_mismatch": "Bạn đang đăng nhập bằng email khác với email được mời. Hãy đăng nhập đúng tài khoản, hoặc xin lời mời cho email của bạn.",
+    "invite_expired": "Lời mời đã hết hạn. Hãy nhờ owner hoặc admin của workspace gửi lại.",
+    "invite_invalid": "Link mời sai, đã bị thu hồi hoặc đã được dùng. Hãy xin người mời gửi link mới.",
+    "job_not_cancellable": "Tác vụ này đã kết thúc nên không hủy được nữa. Hãy tải lại để xem kết quả.",
+    "last_owner": "Workspace cần ít nhất một chủ sở hữu. Hãy chuyển quyền owner cho người khác trước.",
+    "length_required": "Yêu cầu tải lên thiếu dung lượng. Hãy dùng trình tải lên trên web hoặc CLI hibiscus.",
+    "member_exists": "Người này đã là thành viên của workspace. Bạn có thể đổi vai trò trong danh sách thành viên.",
+    "mfa_already_enabled": "Tài khoản này đã bật xác thực hai lớp. Không cần cài lại.",
+    "mfa_enrollment_required": "Vai trò của bạn bắt buộc xác thực hai lớp. Hãy cài đặt trong phần Bảo mật để tiếp tục.",
+    "mfa_invalid_code": "Mã không đúng. Hãy kiểm tra đồng hồ điện thoại và nhập mã mới nhất.",
+    "mfa_reauth_required": "Thao tác này cần xác nhận lại. Hãy nhập mã xác thực hai lớp để tiếp tục.",
+    "mfa_required_by_role": "Vai trò của bạn bắt buộc xác thực hai lớp, nên không thể tắt.",
+    "mfa_token_invalid": "Lượt đăng nhập đã hết hạn. Hãy đăng nhập lại từ đầu.",
+    "model_not_ready": "Model chưa sẵn sàng. Hãy đợi đóng gói xong, hoặc đóng gói lại từ checkpoint của lượt train.",
+    "network_error": "Không kết nối được máy chủ. Hãy kiểm tra mạng rồi thử lại.",
+    "not_found": "Không tìm thấy, hoặc bạn không có quyền truy cập. Hãy kiểm tra link hoặc workspace đang chọn.",
+    "one_time_token_invalid": "Link này không hợp lệ hoặc đã được dùng. Hãy yêu cầu link mới.",
+    "password_breached": "Mật khẩu này đã bị lộ trong một vụ rò rỉ dữ liệu. Hãy chọn mật khẩu khác.",
+    "password_incorrect": "Mật khẩu hiện tại không đúng. Hãy nhập lại.",
+    "password_too_weak": "Mật khẩu quá yếu. Hãy dùng một cụm vài từ dài hơn, dễ nhớ.",
+    "payload_too_large": "Yêu cầu lớn hơn mức máy chủ chấp nhận. Nếu gặp khi tải lên, hãy cập nhật CLI.",
+    "policy_config_invalid": "Một số tham số mâu thuẫn nhau. Hãy xem và sửa các trường được đánh dấu.",
+    "policy_not_trainable": "Policy này không train được trên GPU của máy chủ. Hãy chọn policy khác.",
+    "policy_requires_peft": "Policy này chỉ hỗ trợ tinh chỉnh LoRA/PEFT. Hãy bật LoRA hoặc dùng preset Tinh chỉnh.",
+    "policy_unknown": "Máy chủ không có policy này. Hãy chọn một policy trong danh sách.",
+    "preflight_failed": "Có bước kiểm tra trước khi chạy không đạt. Hãy sửa các mục báo lỗi rồi thử lại.",
+    "quota_exceeded": "Đã chạm hạn mức. Hãy xóa dữ liệu không dùng hoặc nhờ admin tăng hạn mức.",
+    "range_not_satisfiable": "Không tải tiếp được phần này. Hãy xóa file tải dở và tải lại từ đầu.",
+    "rate_limited": "Thao tác quá nhiều. Hãy thử lại sau {{retry_after_s}} giây.",
+    "refresh_reuse_detected": "Phiên của bạn đã bị đăng xuất để bảo vệ tài khoản. Hãy đăng nhập lại và cân nhắc đổi mật khẩu.",
+    "request_id": "Mã yêu cầu: {{id}}",
+    "run_invalid_transition": "Trạng thái lượt train vừa thay đổi nên không làm được thao tác này. Hãy tải lại trang.",
+    "run_not_resumable": "Lượt train này chưa có checkpoint để chạy tiếp. Hãy sao chép cấu hình sang lượt train mới.",
+    "service_unavailable": "Máy chủ đang khởi động hoặc bảo trì. Hãy thử lại sau một phút.",
+    "session_revoked": "Phiên này đã bị đăng xuất từ thiết bị khác. Hãy đăng nhập lại.",
+    "token_expired": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại.",
+    "token_revoked": "Token này đã bị thu hồi. Hãy tạo token mới trong Tài khoản › Token truy cập.",
+    "turnstile_failed": "Bước kiểm tra chống bot không đạt. Hãy tải lại trang và làm lại; nếu vẫn lỗi, thử tắt VPN hoặc trình chặn quảng cáo.",
+    "unauthenticated": "Bạn chưa đăng nhập hoặc phiên đã kết thúc. Hãy đăng nhập.",
+    "unknown_error": "Có lỗi xảy ra. Hãy thử lại.",
+    "unpack_failed": "Không giải nén được file. Hãy nén lại trên máy collect rồi tải lên lại.",
+    "unsupported_media_type": "Máy chủ không nhận loại nội dung này. Hãy tải lại trang hoặc cập nhật CLI.",
+    "upload_checksum_mismatch": "File tải lên bị hỏng (sai checksum). Hãy tải lên lại.",
+    "upload_incomplete": "Còn thiếu một số phần; đang tải tiếp.",
+    "upload_not_active": "Lượt tải lên này không còn hoạt động. Hãy bắt đầu lượt tải mới.",
+    "upload_part_checksum_mismatch": "Một phần bị hỏng khi truyền; đang gửi lại. Nếu lặp lại nhiều lần, hãy kiểm tra mạng.",
+    "upload_part_out_of_range": "Số thứ tự phần không hợp lệ. Hãy bắt đầu lại lượt tải; nếu dùng CLI, hãy cập nhật.",
+    "upload_part_size_invalid": "Một phần sai dung lượng. Hãy bắt đầu lại lượt tải; nếu dùng CLI, hãy cập nhật.",
+    "upload_too_large": "File vượt giới hạn tải lên. Hãy chia dataset thành nhiều phần rồi gộp sau, hoặc nhờ admin tăng giới hạn.",
+    "validation_failed": "Có trường chưa hợp lệ. Hãy sửa các trường được đánh dấu.",
+    "workspace_not_empty": "Hãy dừng các lượt train đang chạy trước khi xóa workspace.",
+    "workspace_slug_taken": "Tên URL này đã có workspace dùng. Hãy chọn tên khác."
+  },
+  "eval": {
+    "frames": "Frame",
+    "heldout": "Episode giữ lại",
+    "joint": "Khớp",
+    "offline_not_success_rate": "Sai số action offline trên các episode giữ lại — không phải tỉ lệ thành công trên robot thật."
+  },
+  "field_errors": {
+    "value_error": "Giá trị không hợp lệ."
+  },
+  "gpu": {
+    "auto": "Tự động",
+    "description": "Số liệu GPU trực tiếp và hàng đợi train fair-share.",
+    "est_start": "Dự kiến bắt đầu",
+    "heartbeat": "Tín hiệu gần nhất {{when}}",
+    "idle": "Đang rảnh",
+    "memory": "Bộ nhớ",
+    "no_bf16": "không có bf16",
+    "no_telemetry": "Chưa có số liệu.",
+    "other_workspace": "workspace khác",
+    "power": "Công suất",
+    "queue": "Hàng đợi",
+    "queue_empty": "Hàng đợi đang trống.",
+    "running": "Đang chạy:",
+    "seconds": "Giây",
+    "set_status": {
+      "disabled": "Tắt",
+      "draining": "Ngừng nhận việc",
+      "online": "Bật"
+    },
+    "specs": "{{vram}} GB · compute capability {{cc}}",
+    "status": {
+      "disabled": "Đã tắt",
+      "draining": "Đang ngừng nhận việc",
+      "offline": "Mất kết nối",
+      "online": "Hoạt động"
+    },
+    "temperature": "Nhiệt độ",
+    "title": "GPU & hàng đợi",
+    "util": "Mức sử dụng",
+    "vram_needed": "Bộ nhớ cần"
+  },
+  "hibi": {
+    "idle": "Hibi đang đợi bạn",
+    "happy": "Hibi vui lắm: lượt train đã xong!",
+    "working": "Hibi đang chăm vườn: lượt train đang chạy",
+    "sad": "Hibi buồn: lượt train gặp lỗi",
+    "sleep": "Hibi đang ngủ: đợi đến lượt GPU"
+  },
+  "job": {
+    "status": {
+      "cancelled": "Đã hủy",
+      "failed": "Thất bại",
+      "queued": "Đang chờ",
+      "running": "Đang chạy",
+      "succeeded": "Thành công"
+    }
+  },
+  "logs": {
+    "download": "Tải xuống .log",
+    "empty": "Chưa có dòng log nào.",
+    "follow": "Bám theo",
+    "load_earlier": "Tải các dòng trước",
+    "load_full": "Tải log",
+    "loading": "Đang tải log…",
+    "results_other": "{{count}} kết quả cho “{{q}}”",
+    "search": "Tìm trong log",
+    "title": "Log train"
+  },
+  "members": {
+    "expires": "Hết hạn",
+    "invite": "Mời thành viên",
+    "invite_help": "Link mời có hiệu lực 72 giờ và chỉ dùng được một lần.",
+    "invite_link_manual": "Gửi email đang tắt. Hãy gửi link này cho người được mời:",
+    "invite_state": {
+      "accepted": "Đã chấp nhận",
+      "expired": "Đã hết hạn",
+      "pending": "Đang chờ",
+      "revoked": "Đã thu hồi"
+    },
+    "invite_status": "Trạng thái",
+    "invites_admin_only": "Chỉ admin của workspace mới quản lý được lời mời.",
+    "joined": "Tham gia",
+    "name": "Tên",
+    "remove": "Xóa thành viên",
+    "remove_confirm": "Xóa {{name}} khỏi workspace này?",
+    "resend": "Gửi lại lời mời",
+    "revoke": "Thu hồi lời mời",
+    "role": "Vai trò",
+    "role_for": "Vai trò của {{name}}",
+    "send_invite": "Gửi lời mời",
+    "two_factor": "2FA"
+  },
+  "model": {
+    "check_failed": "không đạt",
+    "check_load": "Tải được bằng PreTrainedPolicy.from_pretrained",
+    "check_manifest": "Mã băm trong MANIFEST khớp",
+    "check_na": "không áp dụng",
+    "check_ok": "đạt",
+    "check_parity": "ONNX khớp PyTorch trong sai số cho phép",
+    "checked_at": "Kiểm tra lúc {{date}}",
+    "delete_confirm": "Xóa model “{{name}}”?",
+    "details": "Chi tiết",
+    "download": "Tải xuống bundle",
+    "files": "Các file trong {{name}}",
+    "hub": "Repo trên Hub",
+    "include_onnx": "Kèm file ONNX",
+    "not_verified": "Chưa kiểm chứng",
+    "onnx": {
+      "exporting": "đang xuất",
+      "failed": "không đạt",
+      "not_supported": "không hỗ trợ",
+      "passed": "đạt",
+      "pending": "đang chờ"
+    },
+    "parity_detail": "Chênh lệch tuyệt đối lớn nhất {{diff}} (atol {{atol}}) trên {{n}} mẫu",
+    "path": "Đường dẫn",
+    "private_repo": "Repo riêng tư",
+    "pull_cli": "Tải về bằng CLI",
+    "push": "Đẩy lên",
+    "push_hub": "Đẩy lên Hugging Face Hub",
+    "push_hub_help": "Tải bundle lên một repo model trên Hub.",
+    "push_queued": "Đã xếp hàng đẩy lên.",
+    "repo_id": "Repo",
+    "reverify": "Kiểm chứng lại",
+    "run_on_robot": {
+      "guide": "Chi tiết (camera, các biến môi trường khác): Hướng dẫn sử dụng, chương 6 \"Chạy model trên robot\".",
+      "no_inference": "LeLab hiện chưa có chức năng chạy policy. Hãy chạy model bằng LeRobot CLI (run_on_robot.sh trong bundle) ngay trong venv của LeLab: không cần cài thêm gì.",
+      "safety": "Lần đầu chạy model mới: để tay gần công tắc nguồn của robot và dọn khu vực làm việc. Policy có thể di chuyển nhanh, bất ngờ.",
+      "step_cd": "Vào thư mục bundle",
+      "step_port": "Tìm cổng serial của tay follower (rút cáp USB khi được hỏi rồi Enter)",
+      "step_pull": "Trên máy nối robot, tải bundle về (hoặc tải file .zip rồi giải nén vào ~/lelab/models)",
+      "step_run": "Chạy: đặt PORT, ROBOT_ID (tên calibration lúc thu) và thời gian ngắn cho lần đầu",
+      "step_venv": "Kích hoạt venv của LeLab (đã có sẵn LeRobot)",
+      "title": "Chạy trên robot"
+    },
+    "set_hf_token": "Thêm token Hugging Face",
+    "status": {
+      "building": "Đang đóng gói",
+      "failed": "Thất bại",
+      "pending": "Đang chờ",
+      "ready": "Sẵn sàng"
+    },
+    "subtitle": "{{policy}} · lượt train #{{run}} · bước {{step}}",
+    "verification": "Kiểm chứng",
+    "verification_help": "Đã kiểm chứng = tải được bằng LeRobot, ONNX khớp PyTorch và mọi mã băm file đều khớp.",
+    "verified": "Đã kiểm chứng",
+    "verified_not_success": "Đã kiểm chứng không có nghĩa robot sẽ làm được task."
+  },
+  "models": {
+    "description": "Các bundle đã xuất: pretrained_model của LeRobot, ONNX, manifest và model card.",
+    "download_name": "Tải xuống {{name}}",
+    "empty": "Chưa có model",
+    "empty_help": "Model sẽ xuất hiện khi lượt train xong — như vườn đến mùa thu hoạch.",
+    "mae": "MAE trên episode giữ lại",
+    "name": "Tên",
+    "run": "Lượt train",
+    "step": "bước {{step}}",
+    "title": "Model",
+    "verified_only": "Chỉ model đã kiểm chứng"
+  },
+  "nav": {
+    "account": "Tài khoản",
+    "admin": "Quản trị",
+    "close_menu": "Đóng menu",
+    "datasets": "Dataset",
+    "gpus": "GPU & hàng đợi",
+    "logout": "Đăng xuất",
+    "main": "Điều hướng chính",
+    "models": "Model",
+    "open_menu": "Mở menu",
+    "runs": "Lượt train",
+    "settings": "Cài đặt workspace",
+    "skip_to_content": "Bỏ qua, tới nội dung",
+    "user_menu": "Menu người dùng"
+  },
+  "not_found": {
+    "description": "Trang không tồn tại hoặc bạn không có quyền xem.",
+    "home": "Về trang chủ",
+    "title": "Không tìm thấy trang",
+    "hint": "Hibi tìm khắp vườn mà không thấy trang này."
+  },
+  "notifications": {
+    "empty": "Chưa có thông báo",
+    "event": {
+      "dataset": {
+        "invalid": "Dataset không hợp lệ",
+        "ready": "Dataset sẵn sàng"
+      },
+      "model": {
+        "ready": "Model sẵn sàng"
+      },
+      "run": {
+        "failed": "Lượt train thất bại",
+        "stalled": "Lượt train bị treo",
+        "succeeded": "Lượt train thành công"
+      }
+    },
+    "kind": {
+      "dataset": {
+        "invalid": "Dataset {{dataset_name}} không qua kiểm tra",
+        "ready": "Dataset {{dataset_name}} đã sẵn sàng"
+      },
+      "invite": {
+        "accepted": "{{user_name}} đã tham gia {{workspace_name}}"
+      },
+      "model": {
+        "failed": "Đóng gói model {{model_name}} thất bại",
+        "ready": "Model {{model_name}} đã sẵn sàng"
+      },
+      "quota": {
+        "warning": "Hạn mức sắp dùng hết"
+      },
+      "run": {
+        "cancelled": "Lượt train {{run_name}} đã bị hủy",
+        "failed": "Lượt train {{run_name}} thất bại",
+        "stalled": "Lượt train {{run_name}} có vẻ bị treo",
+        "succeeded": "Lượt train {{run_name}} đã xong"
+      }
+    },
+    "mark_all_read": "Đánh dấu tất cả đã đọc",
+    "title": "Thông báo",
+    "title_count": "Thông báo ({{count}} chưa đọc)"
+  },
+  "policy": {
+    "act": {
+      "chunk_size": {
+        "help": "Số action policy dự đoán một lần (đơn vị: bước điều khiển).",
+        "label": "Độ dài chuỗi action dự đoán"
+      },
+      "dim_model": {
+        "help": "Số chiều ẩn chính của các khối transformer. Lớn hơn thì mạnh hơn nhưng tốn bộ nhớ hơn.",
+        "label": "Kích thước ẩn của transformer"
+      },
+      "kl_weight": {
+        "help": "Trọng số của thành phần KL trong loss khi bật VAE.",
+        "label": "Trọng số KL"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      },
+      "use_vae": {
+        "help": "Thêm mục tiêu biến phân (VAE) khi train, như bài báo ACT gốc.",
+        "label": "Dùng VAE"
+      },
+      "vision_backbone": {
+        "help": "Tên backbone ResNet của torchvision dùng để mã hóa ảnh camera.",
+        "label": "Mạng xử lý ảnh"
+      }
+    },
+    "diffusion": {
+      "crop_shape": {
+        "help": "Ảnh được cắt về kích thước này trước khi vào policy. Để trống thì không cắt.",
+        "label": "Kích thước cắt ảnh (cao, rộng)"
+      },
+      "horizon": {
+        "help": "Số bước action mô hình diffusion dự đoán mỗi lần.",
+        "label": "Độ dài chuỗi action dự đoán"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "n_obs_steps": {
+        "help": "Số bước quan sát (bước hiện tại và các bước trước) đưa vào policy.",
+        "label": "Số bước quan sát đầu vào"
+      },
+      "noise_scheduler_type": {
+        "help": "Cách thêm/khử nhiễu: DDPM hoặc DDIM.",
+        "label": "Bộ lập lịch nhiễu"
+      },
+      "num_inference_steps": {
+        "help": "Số bước khử nhiễu lúc dự đoán. Để trống thì bằng số bước khi train.",
+        "label": "Số bước khử nhiễu khi chạy"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      }
+    },
+    "experimental": "Thử nghiệm",
+    "gpu_support": {
+      "limited": "Hạn chế",
+      "supported": "Hỗ trợ",
+      "unsupported": "Không hỗ trợ"
+    },
+    "onnx": {
+      "full": "ONNX",
+      "none": "Không có ONNX",
+      "split": "ONNX (UNet + vòng lặp)"
+    },
+    "onnx_reason": {
+      "tdmpc": "TD-MPC chưa xuất được ONNX ở v1.",
+      "vlm": "Model thị giác–ngôn ngữ lớn có tokenizer: chưa xuất được ONNX ở v1."
+    },
+    "pi0": {
+      "chunk_size": {
+        "help": "Số action policy dự đoán một lần (đơn vị: bước điều khiển).",
+        "label": "Độ dài chuỗi action dự đoán"
+      },
+      "freeze_vision_encoder": {
+        "help": "Không cập nhật trọng số phần xử lý ảnh: nhanh hơn, ít bộ nhớ hơn khi fine-tune.",
+        "label": "Đóng băng bộ mã hóa hình ảnh"
+      },
+      "gradient_checkpointing": {
+        "help": "Tính lại activation khi lan truyền ngược để tiết kiệm bộ nhớ GPU (chậm hơn khoảng 20–30%).",
+        "label": "Gradient checkpointing"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Đóng băng toàn bộ mô hình ngôn ngữ-hình ảnh, chỉ train phần sinh action và các lớp chiếu.",
+        "label": "Chỉ train action expert"
+      }
+    },
+    "pi05": {
+      "chunk_size": {
+        "help": "Số action policy dự đoán một lần (đơn vị: bước điều khiển).",
+        "label": "Độ dài chuỗi action dự đoán"
+      },
+      "freeze_vision_encoder": {
+        "help": "Không cập nhật trọng số phần xử lý ảnh: nhanh hơn, ít bộ nhớ hơn khi fine-tune.",
+        "label": "Đóng băng bộ mã hóa hình ảnh"
+      },
+      "gradient_checkpointing": {
+        "help": "Tính lại activation khi lan truyền ngược để tiết kiệm bộ nhớ GPU (chậm hơn khoảng 20–30%).",
+        "label": "Gradient checkpointing"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Đóng băng toàn bộ mô hình ngôn ngữ-hình ảnh, chỉ train phần sinh action và các lớp chiếu.",
+        "label": "Chỉ train action expert"
+      }
+    },
+    "requires_language": "Dùng mô tả task",
+    "requires_peft": "Chỉ LoRA",
+    "requires_reward": "Cần reward",
+    "reward_missing": "Dataset này không có feature next.reward.",
+    "smolvla": {
+      "chunk_size": {
+        "help": "Số action policy dự đoán một lần (đơn vị: bước điều khiển).",
+        "label": "Độ dài chuỗi action dự đoán"
+      },
+      "freeze_vision_encoder": {
+        "help": "Không cập nhật trọng số phần xử lý ảnh: nhanh hơn, ít bộ nhớ hơn khi fine-tune.",
+        "label": "Đóng băng bộ mã hóa hình ảnh"
+      },
+      "load_vlm_weights": {
+        "help": "Tắt khi train phần expert từ đầu. Bật khi khởi tạo từ SmolVLA đã train sẵn.",
+        "label": "Nạp trọng số VLM có sẵn"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      },
+      "train_expert_only": {
+        "help": "Đóng băng toàn bộ mô hình ngôn ngữ-hình ảnh, chỉ train phần sinh action và các lớp chiếu.",
+        "label": "Chỉ train action expert"
+      },
+      "vlm_model_name": {
+        "help": "Backbone VLM trên Hugging Face mà SmolVLA dùng.",
+        "label": "Mô hình ngôn ngữ-hình ảnh"
+      }
+    },
+    "summary": {
+      "act": "Action Chunking Transformer. Nhanh, ổn định — nên thử đầu tiên cho bài toán thao tác.",
+      "diffusion": "Diffusion Policy. Action mượt, xử lý tốt demo đa dạng; train chậm hơn.",
+      "pi0": "Pi0 (~3B). Chỉ tinh chỉnh LoRA trên P40 (thử nghiệm).",
+      "pi05": "Pi0.5 (~3B). Chỉ tinh chỉnh LoRA trên P40 (thử nghiệm).",
+      "smolvla": "SmolVLA (~450M). Model thị giác–ngôn ngữ–action, làm theo mô tả task.",
+      "tdmpc": "TD-MPC. RL dựa trên model; cần tín hiệu reward.",
+      "vqbet": "VQ-BeT. Behaviour transformer với action rời rạc hóa."
+    },
+    "tdmpc": {
+      "horizon": {
+        "help": "Số bước tương lai mà bộ điều khiển dự báo (MPC) xét tới.",
+        "label": "Tầm nhìn lập kế hoạch"
+      },
+      "n_action_steps": {
+        "help": "Số action chạy trên robot trước khi policy dự đoán lại. Không được lớn hơn độ dài chuỗi action.",
+        "label": "Số action thực thi mỗi lần dự đoán"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      },
+      "use_mpc": {
+        "help": "Lập kế hoạch bằng MPC; tắt thì lấy action trực tiếp từ policy.",
+        "label": "Dùng điều khiển dự báo (MPC)"
+      }
+    },
+    "vqbet": {
+      "action_chunk_size": {
+        "help": "Số action trong mỗi token dự đoán.",
+        "label": "Độ dài chuỗi action mỗi token"
+      },
+      "crop_shape": {
+        "help": "Ảnh được cắt về kích thước này trước khi vào policy. Để trống thì không cắt.",
+        "label": "Kích thước cắt ảnh (cao, rộng)"
+      },
+      "n_obs_steps": {
+        "help": "Số bước quan sát (bước hiện tại và các bước trước) đưa vào policy.",
+        "label": "Số bước quan sát đầu vào"
+      },
+      "n_vqvae_training_steps": {
+        "help": "Số bước tối ưu để train bộ lượng tử hóa (Residual VQ) trước.",
+        "label": "Số bước train VQ-VAE"
+      },
+      "optimizer_lr": {
+        "help": "Bước cập nhật của optimizer. Loss thành NaN thì giảm khoảng 10 lần.",
+        "label": "Learning rate"
+      }
+    }
+  },
+  "preflight": {
+    "check": {
+      "camera_keys": "Tên camera",
+      "config_schema": "Cấu trúc cấu hình",
+      "cross_field": "Tham số nhất quán",
+      "dataset_ready": "Dataset sẵn sàng",
+      "feature_dims": "Số chiều feature",
+      "gpu_available": "Có GPU trống",
+      "init_from": "Trọng số khởi đầu",
+      "mixed_precision": "Mixed precision",
+      "policy_requirements": "Yêu cầu của policy",
+      "quota": "Hạn mức",
+      "vram": "Bộ nhớ GPU"
+    },
+    "code": {
+      "ok": "Đạt"
+    }
+  },
+  "prefs": {
+    "language": "Ngôn ngữ",
+    "theme": "Giao diện",
+    "theme_dark": "Tối",
+    "theme_light": "Sáng",
+    "theme_system": "Theo hệ thống"
+  },
+  "preset": {
+    "finetune": "Tinh chỉnh từ checkpoint",
+    "quick": "Nhanh (10k bước)",
+    "standard": "Chuẩn (100k bước)"
+  },
+  "role": {
+    "admin": "Quản trị",
+    "member": "Thành viên",
+    "owner": "Chủ sở hữu",
+    "viewer": "Người xem"
+  },
+  "run": {
+    "attempt": "Lần chạy",
+    "cancel": "Hủy lượt train",
+    "cancel_confirm": "Hủy lượt train “{{name}}”?",
+    "chart": {
+      "grad": "Độ lớn gradient",
+      "loss": "Loss",
+      "lr": "Learning rate",
+      "memory": "Bộ nhớ GPU (GB)",
+      "throughput": "Thông lượng (mẫu/giây)",
+      "timing": "Thời gian mỗi bước (giây)"
+    },
+    "clone": "Sao chép",
+    "config": "Cấu hình",
+    "connection": {
+      "closed": "Đã ngắt luồng dữ liệu",
+      "connecting": "Đang kết nối…",
+      "failed": "Không có cập nhật trực tiếp",
+      "idle": "Chưa kết nối",
+      "open": "Trực tiếp",
+      "reconnecting": "Đang kết nối lại…"
+    },
+    "edit": "Sửa lượt train",
+    "error": {
+      "checkpoint_corrupt": "Checkpoint bị hỏng. Hãy dùng checkpoint cũ hơn, hoặc tạo lượt train mới.",
+      "config_invalid": "LeRobot từ chối cấu hình. Xem log để biết tham số nào sai, sửa trong bản sao rồi chạy lại.",
+      "dataset_feature_mismatch": "Feature của dataset không khớp với policy. Kiểm tra camera của dataset và cấu hình policy.",
+      "dataset_unavailable": "Không tải được dataset. Hãy chạy tiếp; nếu lặp lại, báo quản trị viên.",
+      "export_failed": "Xuất model thất bại. Checkpoint vẫn an toàn: hãy xuất lại từ tab Checkpoint.",
+      "gpu_error": "GPU báo lỗi phần cứng hoặc driver. Hãy chạy tiếp; nếu lặp lại, báo quản trị viên.",
+      "internal_error": "Lỗi nội bộ đã được ghi lại. Hãy chạy tiếp; nếu lặp lại, báo quản trị viên.",
+      "nan_loss": "Loss thành NaN. Hãy giảm learning rate.",
+      "oom": "GPU hết bộ nhớ. Hãy giảm batch size hoặc dùng P40.",
+      "process_crashed": "Tiến trình train bị dừng đột ngột. Xem log rồi chạy tiếp từ checkpoint gần nhất.",
+      "quota_exceeded": "Đã hết hạn mức GPU-giờ. Chạy tiếp khi có thêm hạn mức hoặc nhờ admin tăng.",
+      "stalled": "Train không in gì trong thời gian dài nên đã bị dừng. Hãy chạy tiếp từ checkpoint gần nhất.",
+      "storage_error": "Lỗi lưu trữ checkpoint hoặc log. Hãy báo quản trị viên; có thể ổ đĩa đã đầy.",
+      "worker_lost": "Mất kết nối với worker GPU. Hãy chạy tiếp từ checkpoint gần nhất."
+    },
+    "eta": "Thời gian còn lại",
+    "eval": "Đánh giá",
+    "eval_queued": "Đã xếp hàng đánh giá.",
+    "eval_title": "Đánh giá offline ở bước {{step}}",
+    "export": "Xuất model",
+    "gpu": "GPU",
+    "gpu_time": "Thời gian GPU",
+    "image": "Digest của image",
+    "last": "gần nhất",
+    "last_checkpoint": "Checkpoint cuối",
+    "live": "Trực tiếp",
+    "loss": "Loss",
+    "manifest": "Manifest tái lập",
+    "manifest_pending": "Có sau khi lượt train bắt đầu.",
+    "metrics_honesty": {
+      "body": "Loss và metric offline chỉ cho biết model khớp dữ liệu đã thu tốt đến đâu. Loss thấp KHÔNG có nghĩa robot sẽ làm được task: hãy chạy thử trên robot thật để đánh giá.",
+      "title": "Đọc các con số này thế nào"
+    },
+    "mixed_precision_forced": "Mixed precision {{requested}} đã được thay bằng {{effective}} trên GPU này.",
+    "model": "Model",
+    "next_checkpoint": "Checkpoint kế tiếp",
+    "no_checkpoints": "Chưa có checkpoint.",
+    "no_metrics": "Metric sẽ hiện sau lần ghi log đầu tiên.",
+    "notices": "Cảnh báo của lượt train",
+    "open_model": "Mở model",
+    "pause": "Tạm dừng",
+    "pause_help": "Train sẽ dừng và có thể chạy tiếp từ một checkpoint.",
+    "pause_mode": "Khi nào tạm dừng",
+    "pause_next_checkpoint": "Ở checkpoint kế tiếp (không mất tiến độ)",
+    "pause_next_checkpoint_at": "Train tiếp đến bước {{step}}, lưu lại rồi dừng.",
+    "pause_next_checkpoint_help": "Train tiếp đến checkpoint kế tiếp rồi dừng.",
+    "pause_now": "Ngay bây giờ",
+    "pause_now_help": "Dừng ngay; sẽ chạy tiếp từ bước {{step}}.",
+    "priority": "Độ ưu tiên",
+    "priority_help": "Cao hơn thì chạy trước, trong số các lượt đang chờ của bạn.",
+    "recovery": {
+      "checkpoints": "Mở tab Checkpoint để xuất lại",
+      "clone_edit": "Sao chép và sửa cấu hình",
+      "clone_gpu": "Sao chép, chạy trên {{gpu}}",
+      "half_batch": "Sao chép với batch size giảm một nửa",
+      "lower_lr": "Sao chép với learning rate thấp hơn",
+      "resume": "Chạy tiếp từ checkpoint"
+    },
+    "resume": "Chạy tiếp",
+    "resume_help": "Chạy tiếp từ checkpoint gần nhất (bước {{step}}).",
+    "run_eval": "Đánh giá",
+    "smoothing": "Làm mượt",
+    "speed": "Tốc độ",
+    "status": {
+      "cancelled": "Đã hủy",
+      "cancelling": "Đang hủy",
+      "exporting": "Đang xuất",
+      "failed": "Thất bại",
+      "paused": "Đã tạm dừng",
+      "pausing": "Đang tạm dừng",
+      "preparing": "Đang chuẩn bị",
+      "queued": "Đang chờ",
+      "running": "Đang chạy",
+      "succeeded": "Thành công"
+    },
+    "step": "Bước",
+    "step_of": "Bước {{step}}/{{total}}",
+    "steps_per_s": "{{v}} bước/giây",
+    "subtitle": "{{policy}} trên {{dataset}} v{{version}} · bởi {{user}}",
+    "tab": {
+      "checkpoints": "Checkpoint",
+      "config": "Cấu hình",
+      "gpu": "GPU",
+      "logs": "Log",
+      "metrics": "Metric"
+    },
+    "total_steps": "Tổng số bước",
+    "total_steps_help": "Không bắt buộc. Kéo dài thêm so với {{steps}} bước hiện tại.",
+    "view_eval": "Xem",
+    "warning": {
+      "heldout_too_small": "Quá ít episode giữ lại để đánh giá có ý nghĩa. Hãy tăng tỉ lệ giữ lại.",
+      "log_silent": "Không có log trong 5 phút. Lượt train có thể đang bị treo.",
+      "mixed_precision_forced_no": "Đã tắt mixed precision trên GPU này (không có bf16).",
+      "nan_detected": "Phát hiện NaN trong loss. Nếu lặp lại, hãy giảm learning rate.",
+      "parser_mismatch": "Bộ đếm bước trong log có vẻ không nhất quán; biểu đồ có thể thiếu vài điểm.",
+      "retrying_after_infra_error": "Đang chạy lại sau sự cố hạ tầng.",
+      "vram_near_limit": "Bộ nhớ GPU gần chạm giới hạn. Nếu bị hết bộ nhớ, hãy giảm batch size."
+    }
+  },
+  "runs": {
+    "compare_other": "So sánh ({{count}})",
+    "dataset": "Dataset",
+    "description": "Xếp hàng, theo dõi và so sánh các lượt train.",
+    "empty": "Chưa có lượt train",
+    "empty_help": "Gieo lượt train đầu tiên từ một dataset đã qua kiểm tra.",
+    "eta": "Còn {{eta}}",
+    "filter": {
+      "active": "Đang hoạt động",
+      "all": "Tất cả",
+      "cancelled": "Đã hủy",
+      "failed": "Thất bại",
+      "paused": "Đã tạm dừng",
+      "succeeded": "Thành công"
+    },
+    "gpu": "GPU",
+    "loss": "Loss",
+    "new": "Tạo lượt train",
+    "only_mine": "Chỉ lượt train của tôi",
+    "policy": "Policy",
+    "progress": "Tiến độ",
+    "progress_of": "Tiến độ của {{name}}",
+    "queue_position": "Vị trí {{pos}} trong hàng đợi",
+    "run": "Lượt train",
+    "search_placeholder": "Tìm lượt train",
+    "select": "Chọn",
+    "select_run": "Chọn {{name}} để so sánh",
+    "title": "Lượt train"
+  },
+  "schema_form": {
+    "enabled": "Bật",
+    "error": {
+      "additionalProperties": "Tham số không xác định.",
+      "const": "Không thể đổi giá trị này.",
+      "cross_field": "Vi phạm quy tắc: {{rule}}.",
+      "enum": "Hãy chọn một giá trị được phép.",
+      "exclusiveMaximum": "Phải nhỏ hơn {{limit}}.",
+      "exclusiveMinimum": "Phải lớn hơn {{limit}}.",
+      "generic": "Giá trị không hợp lệ.",
+      "maxItems": "Tối đa {{limit}} phần tử.",
+      "maximum": "Tối đa là {{limit}}.",
+      "minItems": "Cần ít nhất {{limit}} phần tử.",
+      "minimum": "Tối thiểu là {{limit}}.",
+      "pattern": "Sai định dạng.",
+      "required": "Bắt buộc.",
+      "type": "Phải là kiểu {{type}}."
+    },
+    "invalid_json": "JSON không hợp lệ",
+    "modified": "đã đổi",
+    "none": "Không đặt",
+    "reset_field": "Đặt {{field}} về mặc định",
+    "tuple_item": "Giá trị {{index}}"
+  },
+  "security": {
+    "change_password": "Đổi mật khẩu",
+    "confirm_password": "Mật khẩu hiện tại",
+    "current_password": "Mật khẩu hiện tại",
+    "disable_2fa": "Tắt 2FA",
+    "disabled": "Đang tắt",
+    "enable_2fa": "Bật 2FA",
+    "enable_revokes_tokens": "Bật 2FA sẽ thu hồi toàn bộ token truy cập cá nhân (token CLI) của bạn, vì chúng được tạo khi chưa có 2FA. Bạn sẽ cần tạo lại.",
+    "enabled": "Đang bật",
+    "enrollment_required": "Vai trò của bạn bắt buộc xác thực hai lớp. Hãy cài đặt để tiếp tục.",
+    "manual_secret": "Hoặc nhập khóa này thủ công:",
+    "password_changed": "Đã đổi mật khẩu. Các phiên khác đã được đăng xuất.",
+    "qr_alt": "Mã QR cho ứng dụng xác thực",
+    "recovery_codes": "Mã khôi phục",
+    "recovery_codes_done": "Xong",
+    "recovery_codes_once": "Hãy lưu các mã khôi phục này ngay. Chúng sẽ không hiện lại.",
+    "recovery_codes_saved": "Tôi đã lưu các mã khôi phục",
+    "regenerate_codes": "Tạo mã mới",
+    "scan_qr": "Quét mã QR bằng ứng dụng xác thực, rồi nhập mã 6 chữ số.",
+    "setup_2fa": "Cài đặt 2FA",
+    "tokens_revoked_count": "Đã bật 2FA. Đã thu hồi {{count}} token truy cập cá nhân.",
+    "tokens_revoked_none": "Đã bật 2FA. Bạn không có token truy cập cá nhân nào cần thu hồi.",
+    "tokens_revoked_recreate": "Hãy tạo token mới ở Tài khoản → Token và đăng nhập lại CLI (hibiscus login).",
+    "two_factor": "Xác thực hai lớp",
+    "two_factor_help": "Bắt buộc với owner và admin của workspace."
+  },
+  "tokens": {
+    "admin_requires_2fa": "Token cho workspace mà bạn là owner hoặc admin cần 2FA: hãy tạo từ một phiên đã xác thực 2FA. Không có 2FA, token đó chỉ có quyền như member.",
+    "cli_hint": "Trên máy collect, chạy lệnh sau rồi dán token khi được hỏi (đừng đưa token vào dòng lệnh: nó sẽ nằm trong lịch sử shell):",
+    "cli_paste": "CLI hỏi token ở dạng ẩn và lưu vào keyring của máy.",
+    "copied_ack": "Tôi đã sao chép token",
+    "create": "Tạo token",
+    "create_help": "Token truy cập cá nhân cho phép CLI hibiscus trên máy collect tải dữ liệu lên và bắt đầu lượt train.",
+    "days_other": "{{count}} ngày",
+    "done": "Xong",
+    "empty": "Chưa có token truy cập",
+    "expires": "Hết hạn",
+    "last_used": "Dùng lần cuối",
+    "last_used_from": "từ {{ip}}",
+    "name": "Tên",
+    "never": "Không bao giờ",
+    "never_used": "Chưa từng dùng",
+    "preset": "Mẫu quyền",
+    "presets": {
+      "collect": "Máy collect",
+      "collect_help": "Đủ cho mọi lệnh CLI: đẩy dataset, chạy train, xem log, kéo model về.",
+      "custom": "Tùy chỉnh",
+      "custom_help": "Tự chọn quyền bên dưới.",
+      "readonly": "Chỉ đọc",
+      "readonly_help": "Xem và tải dataset, lượt train, model về; không tải lên hay bắt đầu lượt train."
+    },
+    "revoke": "Thu hồi",
+    "revoke_confirm": "Thu hồi token “{{name}}”? Các máy đang dùng token này sẽ ngừng hoạt động ngay.",
+    "revoked": "Đã thu hồi",
+    "scope": {
+      "datasets_read": "Xem và tải dataset về",
+      "datasets_write": "Tải dataset lên",
+      "models_read": "Tải model về",
+      "runs_read": "Xem lượt train và log",
+      "runs_write": "Bắt đầu và điều khiển lượt train"
+    },
+    "scopes": "Quyền",
+    "shown_once": "Hãy sao chép token ngay. Token chỉ hiện một lần.",
+    "workspace": "Workspace"
+  },
+  "train": {
+    "batch_size": {
+      "help": "Số mẫu mỗi bước. GPU hết bộ nhớ thì giảm một nửa.",
+      "label": "Batch size"
+    },
+    "image_transforms": {
+      "help": "Bật tăng cường dữ liệu ảnh (độ sáng, tương phản…) trong lúc train.",
+      "label": "Biến đổi ảnh khi train"
+    },
+    "log_freq": {
+      "help": "Khoảng cách giữa hai lần ghi loss/metric. Tự giảm khi số bước train nhỏ để đồ thị có đủ điểm.",
+      "label": "Ghi metric mỗi … bước"
+    },
+    "mixed_precision": {
+      "help": "Tính toán độ chính xác thấp để nhanh hơn. Tự chuyển về \"no\" trên GPU không hỗ trợ (Tesla P40).",
+      "label": "Mixed precision"
+    },
+    "save_freq": {
+      "help": "Checkpoint được lưu sau mỗi chừng này bước và ở bước cuối. Tạm dừng và chạy tiếp dùng checkpoint gần nhất.",
+      "label": "Lưu checkpoint mỗi … bước"
+    },
+    "steps": {
+      "help": "Tổng số bước cập nhật. Càng nhiều càng lâu; lượt thử nhanh dùng vài nghìn bước.",
+      "label": "Số bước train"
+    }
+  },
+  "upload": {
+    "another": "Tải lên file khác",
+    "cancel": "Hủy tải lên",
+    "choose_file": "Chọn file nén",
+    "description": "File được kiểm tra bằng SHA-256 và tải lên theo từng phần; bạn có thể tạm dừng rồi tải tiếp.",
+    "done": "Đã tải lên {{name}} v{{version}}. Đang bắt đầu kiểm tra.",
+    "drop_here": "Kéo file nén vào đây, hoặc chọn file",
+    "expires": "hết hạn {{date}}",
+    "formats": "zip, tar, tar.gz, tar.zst hoặc rar (RAR5)",
+    "hashing": "Đang kiểm tra file",
+    "new_dataset": "Dataset mới",
+    "new_version_of": "Version mới của {{name}}",
+    "parts": "(phần {{done}}/{{total}})",
+    "pause": "Tạm dừng",
+    "phase": {
+      "aborted": "Đã hủy",
+      "completing": "Đang hoàn tất…",
+      "done": "Xong",
+      "error": "Thất bại",
+      "hashing": "Đang tính checksum…",
+      "idle": "Sẵn sàng",
+      "initializing": "Đang khởi tạo…",
+      "paused": "Đã tạm dừng",
+      "uploading": "Đang tải lên…"
+    },
+    "resume": "Tải tiếp",
+    "resumed": "Đã tiếp tục lượt tải lên trước đó.",
+    "start": "Bắt đầu tải lên",
+    "target": "Tải lên thành",
+    "title": "Tải dataset lên",
+    "train_now": "Train ngay",
+    "unfinished": "Lượt tải lên dở dang",
+    "unfinished_help": "Chọn lại đúng file đó để tải tiếp từ chỗ đã dừng.",
+    "uploading": "Đang tải lên",
+    "view_validation": "Xem kết quả kiểm tra"
+  },
+  "validation": {
+    "cancel_job": "Hủy kiểm tra",
+    "counts": "{{errors}} lỗi, {{warnings}} cảnh báo",
+    "email": "Hãy nhập địa chỉ email hợp lệ.",
+    "episode": "Episode {{index}}",
+    "issue": {
+      "archive_bomb": "File nén giải ra quá lớn bất thường (có thể là zip bomb). Hãy nén lại trực tiếp từ thư mục dataset.",
+      "archive_corrupt": "File nén bị hỏng. Hãy nén lại trên máy collect rồi tải lên lại.",
+      "archive_symlink": "File nén chứa symbolic link ({{path}}). Hãy nén lại bằng file thật (ví dụ tar --dereference).",
+      "archive_too_large": "Dữ liệu sau khi giải nén quá lớn. Hãy chia thành các dataset nhỏ hơn hoặc nhờ admin tăng hạn mức.",
+      "archive_unsafe_path": "File nén chứa đường dẫn không an toàn ({{path}}). Hãy nén lại trực tiếp từ thư mục dataset.",
+      "camera_shape_mismatch": "Camera {{feature}} có kích thước frame không đồng nhất. Hãy thu mọi episode với cùng độ phân giải.",
+      "checksum_mismatch": "Checksum của file không khớp. Hãy tải lên lại; nếu vẫn lỗi, kiểm tra ổ đĩa của máy collect.",
+      "conversion_failed": "Chuyển đổi sang v3.0 thất bại. Hãy chuyển đổi trên máy bằng script của LeRobot rồi tải lên kết quả.",
+      "dataset_root_not_found": "Không tìm thấy dataset LeRobot (meta/info.json) trong file nén. Hãy nén thư mục chứa meta/, data/ và videos/.",
+      "episode_too_short": "Episode {{episode}} quá ngắn. Kiểm tra xem có thu nhầm không và xóa đi.",
+      "feature_missing": "Thiếu feature {{feature}}. Hãy kiểm tra cấu hình thu dữ liệu.",
+      "feature_shape_invalid": "Feature {{feature}} có kích thước không hợp lệ. Hãy thu mọi episode với cùng cấu hình robot.",
+      "frame_count_mismatch": "Số frame không khớp độ dài episode (episode {{episode}}). Hãy xóa hoặc thu lại episode đó.",
+      "info_json_invalid": "meta/info.json không hợp lệ. Hãy sửa hoặc tạo lại dataset bằng công cụ của LeRobot.",
+      "joint_names_mismatch": "Tên khớp không khớp nhau. Hãy thu mọi episode với cùng cấu hình robot.",
+      "missing_file": "Thiếu file: {{path}}. Hãy kiểm tra đã nén toàn bộ thư mục dataset chưa.",
+      "multiple_dataset_roots": "File nén chứa nhiều hơn một dataset. Hãy tải từng dataset riêng, rồi gộp sau.",
+      "nan_values": "Có giá trị NaN trong {{feature}}. Hãy xóa hoặc thu lại các episode bị ảnh hưởng.",
+      "no_camera": "Dataset không có camera. Hầu hết policy cần ít nhất một camera.",
+      "stats_mismatch": "Thống kê tính lại khác với meta/stats.json. Hãy tính lại thống kê bằng LeRobot trước khi tải lên.",
+      "stats_missing": "Thiếu meta/stats.json. Hãy tính thống kê bằng LeRobot rồi tải lên lại.",
+      "task_missing": "Có episode không có mô tả task. Hãy thêm mô tả task khi thu dữ liệu.",
+      "timestamp_fps_mismatch": "Mốc thời gian không khớp FPS của dataset (episode {{episode}}). Hãy kiểm tra FPS khi thu.",
+      "timestamp_irregular": "Mốc thời gian không đều ở episode {{episode}} (rớt hoặc lặp frame). Vẫn train được nhưng có thể kém chính xác.",
+      "unsupported_codebase_version": "Không hỗ trợ version dataset LeRobot này. Hãy dùng v3.0 hoặc v2.1.",
+      "video_decode_failed": "Không giải mã được video (episode {{episode}}). Hãy xóa hoặc thu lại episode đó.",
+      "video_missing": "Thiếu file video ({{path}}). Hãy kiểm tra thư mục videos/ trước khi nén."
+    },
+    "job_progress": "Tiến độ kiểm tra",
+    "password_max": "Dùng tối đa 256 ký tự.",
+    "password_min": "Dùng ít nhất {{min}} ký tự.",
+    "password_mismatch": "Mật khẩu nhập lại không khớp.",
+    "required": "Trường này là bắt buộc.",
+    "rerun": "Kiểm tra lại",
+    "result": {
+      "failed": "Không đạt",
+      "passed": "Đạt",
+      "passed_with_warnings": "Đạt, có cảnh báo",
+      "running": "Đang chạy"
+    },
+    "scopes": "Hãy chọn ít nhất một quyền.",
+    "severity": {
+      "error": "Lỗi",
+      "info": "Thông tin",
+      "warning": "Cảnh báo"
+    },
+    "step": {
+      "checksum": "Kiểm tra checksum",
+      "decode": "Giải mã frame video",
+      "schema": "Cấu trúc feature",
+      "stats": "Thống kê",
+      "structure": "Cấu trúc (meta/, episode)",
+      "timestamps": "Mốc thời gian & NaN",
+      "unpack": "Giải nén"
+    },
+    "step_status": {
+      "failed": "Không đạt",
+      "passed": "Đạt",
+      "pending": "Đang chờ",
+      "running": "Đang chạy",
+      "skipped": "Bỏ qua",
+      "warning": "Cảnh báo"
+    },
+    "totp": "Hãy nhập mã 6 chữ số.",
+    "truncated": "Còn {{count}} lỗi khác không hiển thị"
+  },
+  "wizard": {
+    "adjusted": "Đã đổi {{field}} từ {{from}} thành {{to}} theo gợi ý khắc phục. Kiểm tra lại rồi bắt đầu.",
+    "advanced": "Nâng cao",
+    "basic": "Cơ bản",
+    "checks": "Kiểm tra trước khi chạy",
+    "choose_dataset": "Chọn dataset",
+    "clone_title": "Sao chép {{name}}",
+    "dataset": "Dataset",
+    "description": "Chọn dataset, policy và tham số. Giá trị mặc định là điểm khởi đầu tốt.",
+    "estimate": "Ước tính",
+    "estimate_source": {
+      "cached": "Từ lần đo trước.",
+      "heuristic": "Ước tính sơ bộ (chưa đo).",
+      "measured": "Đo bằng 20 bước chạy thử.",
+      "pending": "Đang đo…"
+    },
+    "export": "Sau khi train",
+    "export_eval": "Đánh giá trên episode giữ lại",
+    "export_fp16": "Xuất thêm model ONNX fp16",
+    "export_onnx": "Xuất ONNX và kiểm tra parity",
+    "fix_errors": "Hãy sửa các trường được đánh dấu để tiếp tục.",
+    "gpu": "GPU",
+    "gpu_help": "Tự động chọn GPU đủ bộ nhớ. P40 train ở fp32.",
+    "heldout": "Episode giữ lại (%)",
+    "heldout_help": "Để riêng trước khi train, dùng cho đánh giá offline.",
+    "init_help": "Tinh chỉnh bắt đầu từ trọng số có sẵn.",
+    "init_hf": "…hoặc repo Hugging Face",
+    "init_model": "Bắt đầu từ model",
+    "init_required": "Preset Tinh chỉnh cần một model hoặc repo Hub để bắt đầu.",
+    "lerobot_args": "Tham số lerobot-train",
+    "mixed_precision": "Mixed precision",
+    "peak_vram": "Bộ nhớ GPU cao nhất",
+    "policy_section": "Policy {{policy}}",
+    "preflight_blocked": "Hãy sửa các lỗi ở trên trước khi bắt đầu.",
+    "preset": "Preset",
+    "progress": "Tiến độ các bước",
+    "review": "Xem lại",
+    "run_name": "Tên lượt train",
+    "run_name_help": "Không bắt buộc. Để trống sẽ tự đặt tên.",
+    "run_settings": "Cài đặt lượt train",
+    "sec_per_step": "Giây mỗi bước",
+    "seed": "Seed",
+    "seed_help": "Không bắt buộc. Để trống sẽ dùng seed ngẫu nhiên (ghi trong manifest).",
+    "split": "Episode (train / giữ lại)",
+    "split_value": "{{train}} / {{heldout}}",
+    "start": "Bắt đầu train",
+    "step": {
+      "dataset": "Dataset",
+      "params": "Tham số",
+      "policy": "Policy",
+      "review": "Xem lại"
+    },
+    "step_n_of": "{{n}}/{{total}}",
+    "title": "Tạo lượt train mới",
+    "total_time": "Thời gian dự kiến",
+    "training_section": "Train",
+    "version": "Version",
+    "version_summary": "{{episodes}} episode · {{frames}} frame · {{size}}"
+  },
+  "workspace": {
+    "active_runs": "Lượt train đang chạy",
+    "danger_zone": "Vùng nguy hiểm",
+    "default_gpu": "GPU mặc định",
+    "default_heldout": "Episode giữ lại mặc định (%)",
+    "default_heldout_help": "Tỉ lệ episode để riêng cho đánh giá offline (0–50%).",
+    "delete": "Xóa workspace",
+    "delete_confirm": "Xóa workspace “{{name}}”?",
+    "delete_help": "Xóa workspace cho mọi thành viên. Hãy dừng các lượt train đang chạy trước.",
+    "fair_share": "GPU-giờ của tôi (7 ngày)",
+    "general": "Chung",
+    "gpu_hours": "GPU-giờ trong tháng",
+    "max_concurrent": "Chạy cùng lúc tối đa",
+    "max_upload": "Tải lên tối đa",
+    "my_gpu_hours": "GPU-giờ của tôi (tháng này)",
+    "name": "Tên workspace",
+    "none_description": "Hãy nhờ admin của một workspace mời bạn vào.",
+    "none_title": "Bạn chưa thuộc workspace nào",
+    "queued_runs": "Lượt train đang chờ",
+    "select": "Workspace…",
+    "settings_title": "Cài đặt {{name}}",
+    "storage": "Dung lượng lưu trữ",
+    "switch": "Đổi workspace",
+    "tab": {
+      "general": "Chung",
+      "invites": "Lời mời",
+      "members": "Thành viên",
+      "tokens": "Token truy cập"
+    },
+    "usage": "Mức dùng & hạn mức",
+    "your_role": "Vai trò của bạn: {{role}}"
+  },
+  "crash": {
+    "title": "Đã xảy ra lỗi",
+    "description": "Hibi vấp phải một lỗi trên trang này. Hãy tải lại trang; nếu vẫn lỗi, hãy báo quản trị viên.",
+    "reload": "Tải lại",
+    "home": "Về trang chủ"
+  }
+}

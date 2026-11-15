@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use Hibiscus in your research, please cite it as below."
+type: software
+title: "Hibiscus: a self-hosted training platform for LeRobot policies"
+abstract: >-
+  Hibiscus is a self-hosted, team-oriented web platform to upload LeRobot datasets, train
+  LeRobot policies (ACT, Diffusion, VQ-BeT, TD-MPC, SmolVLA, pi0) on local GPUs with live
+  monitoring, and export verified model bundles (LeRobot pretrained_model, ONNX, offline
+  evaluation) that run directly on real robots.
+authors:
+  - alias: Bigkatoan
+  - name: "The Hibiscus contributors"
+repository-code: "https://github.com/Bigkatoan/Hibiscus"
+url: "https://bigkatoan.github.io/Hibiscus/"
+license: AGPL-3.0-only
+version: 0.1.0
+keywords:
+  - robotics
+  - imitation learning
+  - lerobot
+  - machine learning operations
+  - training platform
+  - onnx
+references:
+  - type: software
+    title: "LeRobot: State-of-the-art Machine Learning for Real-World Robotics in Pytorch"
+    authors:
+      - name: "Hugging Face"
+    repository-code: "https://github.com/huggingface/lerobot"
+    license: Apache-2.0

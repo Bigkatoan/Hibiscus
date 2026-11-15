@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/policy-schemas/vqbet.json",
+  "title": "VQBeTConfig (vqbet)",
+  "description": "Configuration class for VQ-BeT.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "n_obs_steps": {
+      "type": "integer",
+      "default": 5,
+      "description": "Number of environment steps worth of observations to pass to the policy (takes the current step and additional steps going back).",
+      "minimum": 1,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.n_obs_steps"
+    },
+    "n_action_pred_token": {
+      "type": "integer",
+      "default": 3,
+      "description": "Total number of current token and future tokens that VQ-BeT predicts.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.n_action_pred_token"
+    },
+    "action_chunk_size": {
+      "type": "integer",
+      "default": 5,
+      "description": "Action chunk size of each action prediction token.",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.action_chunk_size"
+    },
+    "normalization_mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "MIN_MAX",
+          "MEAN_STD",
+          "IDENTITY",
+          "QUANTILES",
+          "QUANTILE10"
+        ]
+      },
+      "default": {
+        "VISUAL": "IDENTITY",
+        "STATE": "MIN_MAX",
+        "ACTION": "MIN_MAX"
+      },
+      "description": "A dictionary that maps from a str value of FeatureType (e.g., \"STATE\", \"VISUAL\") to a corresponding NormalizationMode (e.g., NormalizationMode.MIN_MAX)",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.normalization_mapping"
+    },
+    "vision_backbone": {
+      "type": "string",
+      "default": "resnet18",
+      "description": "Name of the torchvision resnet backbone to use for encoding images.",
+      "pattern": "^resnet",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.vision_backbone"
+    },
+    "crop_shape": {
+      "anyOf": [
+        {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": [
+        84,
+        84
+      ],
+      "description": "(H, W) shape to crop images to as a preprocessing step for the vision backbone. Must fit within the image size. If None, no cropping is done.",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.crop_shape"
+    },
+    "crop_is_random": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the crop should be random at training time (it's always a center crop in eval mode).",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.crop_is_random"
+    },
+    "pretrained_backbone_weights": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": "ResNet18_Weights.IMAGENET1K_V1",
+      "description": "Pretrained weights from torchvision to initialize the backbone. `None` means no pretrained weights.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.pretrained_backbone_weights"
+    },
+    "use_group_norm": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to replace batch normalization with group normalization in the backbone. The group sizes are set to be about 16 (to be precise, feature_dim // 16).",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.use_group_norm"
+    },
+    "spatial_softmax_num_keypoints": {
+      "type": "integer",
+      "default": 32,
+      "description": "Number of keypoints for SpatialSoftmax.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.spatial_softmax_num_keypoints"
+    },
+    "n_vqvae_training_steps": {
+      "type": "integer",
+      "default": 20000,
+      "description": "Number of optimization steps for training Residual VQ.",
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.n_vqvae_training_steps"
+    },
+    "vqvae_n_embed": {
+      "type": "integer",
+      "default": 16,
+      "description": "Number of embedding vectors in the RVQ dictionary (each layer).",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.vqvae_n_embed"
+    },
+    "vqvae_embedding_dim": {
+      "type": "integer",
+      "default": 256,
+      "description": "Dimension of each embedding vector in the RVQ dictionary.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.vqvae_embedding_dim"
+    },
+    "vqvae_enc_hidden_dim": {
+      "type": "integer",
+      "default": 128,
+      "description": "Size of hidden dimensions of Encoder / Decoder part of Residaul VQ-VAE",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.vqvae_enc_hidden_dim"
+    },
+    "gpt_block_size": {
+      "type": "integer",
+      "default": 500,
+      "description": "Max block size of minGPT (should be larger than the number of input tokens)",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_block_size"
+    },
+    "gpt_input_dim": {
+      "type": "integer",
+      "default": 512,
+      "description": "Size of output input of GPT. This is also used as the dimension of observation features.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_input_dim"
+    },
+    "gpt_output_dim": {
+      "type": "integer",
+      "default": 512,
+      "description": "Size of output dimension of GPT. This is also used as a input dimension of offset / bin prediction headers.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_output_dim"
+    },
+    "gpt_n_layer": {
+      "type": "integer",
+      "default": 8,
+      "description": "Number of layers of GPT",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_n_layer"
+    },
+    "gpt_n_head": {
+      "type": "integer",
+      "default": 8,
+      "description": "Number of headers of GPT",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_n_head"
+    },
+    "gpt_hidden_dim": {
+      "type": "integer",
+      "default": 512,
+      "description": "Size of hidden dimensions of GPT",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.gpt_hidden_dim"
+    },
+    "dropout": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Dropout rate for GPT",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.dropout"
+    },
+    "offset_loss_weight": {
+      "type": "number",
+      "default": 10000.0,
+      "description": "A constant that is multiplied to the offset loss",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.offset_loss_weight"
+    },
+    "primary_code_loss_weight": {
+      "type": "number",
+      "default": 5.0,
+      "description": "A constant that is multiplied to the primary code prediction loss",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.primary_code_loss_weight"
+    },
+    "secondary_code_loss_weight": {
+      "type": "number",
+      "default": 0.5,
+      "description": "A constant that is multiplied to the secondary code prediction loss",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.secondary_code_loss_weight"
+    },
+    "bet_softmax_temperature": {
+      "type": "number",
+      "default": 0.1,
+      "description": "Sampling temperature of code for rollout with VQ-BeT",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.bet_softmax_temperature"
+    },
+    "sequentially_select": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether select code of primary / secondary as sequentially (pick primary code, and then select secodnary code), or at the same time.",
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.sequentially_select"
+    },
+    "optimizer_lr": {
+      "type": "number",
+      "default": 0.0001,
+      "description": "Training presets",
+      "exclusiveMinimum": 0,
+      "x-hibiscus-group": "basic",
+      "x-hibiscus-cli": "--policy.optimizer_lr"
+    },
+    "optimizer_betas": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "default": [
+        0.95,
+        0.999
+      ],
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_betas"
+    },
+    "optimizer_eps": {
+      "type": "number",
+      "default": 1e-08,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_eps"
+    },
+    "optimizer_weight_decay": {
+      "type": "number",
+      "default": 1e-06,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_weight_decay"
+    },
+    "optimizer_vqvae_lr": {
+      "type": "number",
+      "default": 0.001,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_vqvae_lr"
+    },
+    "optimizer_vqvae_weight_decay": {
+      "type": "number",
+      "default": 0.0001,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.optimizer_vqvae_weight_decay"
+    },
+    "scheduler_warmup_steps": {
+      "type": "integer",
+      "default": 500,
+      "x-hibiscus-group": "advanced",
+      "x-hibiscus-cli": "--policy.scheduler_warmup_steps"
+    }
+  },
+  "x-hibiscus": {
+    "policy_type": "vqbet",
+    "config_class": "lerobot.policies.vqbet.configuration_vqbet.VQBeTConfig",
+    "lerobot_version": "0.7.1",
+    "generator_version": "1",
+    "cli_prefix": "--policy.",
+    "basic_order": [
+      "n_obs_steps",
+      "action_chunk_size",
+      "n_vqvae_training_steps",
+      "crop_shape",
+      "optimizer_lr"
+    ],
+    "excluded": {
+      "input_features": "derived from the dataset version schema by the worker",
+      "output_features": "derived from the dataset version schema by the worker",
+      "device": "always 'cuda'; the GPU is chosen by the scheduler (CUDA_VISIBLE_DEVICES)",
+      "dtype": "torch.dtype is not JSON-serialisable; precision is controlled by train.mixed_precision",
+      "use_amp": "deprecated in 0.7.1; use train.mixed_precision (--accelerator.mixed_precision)",
+      "use_peft": "set implicitly when train.peft is provided",
+      "push_to_hub": "always false; Hub push is a separate Hibiscus action on a model",
+      "repo_id": "Hub push is a separate Hibiscus action",
+      "private": "Hub push is a separate Hibiscus action",
+      "tags": "Hub push is a separate Hibiscus action",
+      "license": "Hub push is a separate Hibiscus action",
+      "pretrained_path": "set from RunCreate.init_from (model or checkpoint) by the worker",
+      "pretrained_revision": "set from RunCreate.init_from by the worker"
+    },
+    "cross_field_rules": []
+  }
+}

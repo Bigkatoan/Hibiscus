@@ -1,0 +1,143 @@
+# Hibiscus pre-commit hooks (docs/CONTRIBUTING.md §3). Install once per worktree:
+#   make pre-commit-install        (= uv tool run pre-commit install)
+# Local hooks run tools through `uv run` with PYTHONPATH removed (ROS on the GPU box), and Node
+# tooling through deploy/scripts/node-run.sh (uses local node if present, else a node:22 container).
+# Hooks for a component are inert until that component's files exist.
+default_install_hook_types: [pre-commit]
+fail_fast: false
+exclude: |
+  (?x)^(
+    frontend/src/api/generated/|
+    cli/hibiscus/_generated/|
+    api/policy-schemas/|
+    .*/node_modules/|
+    .*\.lock$|
+    .*/package-lock\.json$|
+    .*/pnpm-lock\.yaml$
+  )
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        # compose files use !override / !reset tags; openapi has multiple documents? no, but be lenient
+        args: [--unsafe]
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.5
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        files: ^(backend|worker|cli|deploy)/.*\.py$
+      - id: ruff-format
+        files: ^(backend|worker|cli|deploy)/.*\.py$
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
+    hooks:
+      - id: shellcheck
+        args: [-x]
+
+  - repo: local
+    hooks:
+      - id: hadolint
+        name: hadolint (pinned image)
+        language: docker_image
+        entry: hadolint/hadolint:v2.15.1 hadolint --ignore DL3008 --ignore DL3018 --ignore DL3016
+        files: (^|/)([^/]*\.)?Dockerfile$
+
+      # ---- Python: mypy --strict + lock freshness per uv project --------------------------------
+      - id: mypy-backend
+        name: mypy --strict (backend)
+        language: system
+        entry: bash -c 'cd backend && env -u PYTHONPATH uv run mypy --strict app'
+        files: ^backend/.*\.py$
+        pass_filenames: false
+      - id: mypy-worker
+        name: mypy --strict (worker)
+        language: system
+        entry: bash -c 'cd worker && env -u PYTHONPATH uv run mypy --strict .'
+        files: ^worker/.*\.py$
+        pass_filenames: false
+      - id: mypy-cli
+        name: mypy --strict (cli)
+        language: system
+        entry: bash -c 'cd cli && env -u PYTHONPATH uv run mypy --strict hibiscus'
+        files: ^cli/.*\.py$
+        pass_filenames: false
+      - id: mypy-deploy
+        name: mypy --strict (deploy tooling)
+        language: system
+        entry: bash -c 'cd deploy && env -u PYTHONPATH uv run mypy --strict scripts tests cloudflare/edge'
+        files: ^deploy/.*\.py$
+        pass_filenames: false
+      - id: uv-lock-check
+        name: uv lock --check
+        language: system
+        entry: bash -c 'for p in backend worker cli deploy; do [ -f "$p/uv.lock" ] || continue; (cd "$p" && env -u PYTHONPATH uv lock --check) || exit 1; done'
+        files: (^|/)(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
+
+      # ---- Contract ------------------------------------------------------------------------------
+      - id: openapi-spec-validator
+        name: openapi-spec-validator api/openapi.yaml
+        language: system
+        entry: bash -c 'env -u PYTHONPATH uvx --python 3.12 --from "openapi-spec-validator>=0.7" openapi-spec-validator api/openapi.yaml'
+        files: ^api/openapi\.yaml$
+        pass_filenames: false
+
+      # ---- Deploy --------------------------------------------------------------------------------
+      - id: compose-policy
+        name: compose exposure policy (127.0.0.1 only, 18000, never 8000)
+        language: system
+        entry: bash -c 'for m in prod dev; do env -u PYTHONPATH uv run --project deploy python deploy/scripts/check_compose.py --mode $m || exit 1; done'
+        files: ^deploy/(docker-compose\.yml|compose\.dev\.yml|\.env\.example|scripts/check_compose\.py)$
+        pass_filenames: false
+      - id: grafana-dashboards
+        name: grafana dashboards generated from source
+        language: system
+        entry: bash -c 'env -u PYTHONPATH uv run --project deploy python deploy/scripts/gen_dashboards.py --check'
+        files: ^deploy/(scripts/gen_dashboards\.py|observability/grafana/dashboards/.*)$
+        pass_filenames: false
+
+      # ---- TypeScript (frontend, A6; Email Worker, A8) -------------------------------------------
+      - id: frontend-prettier
+        name: prettier --check (frontend)
+        language: system
+        entry: deploy/scripts/node-run.sh frontend pnpm exec prettier --check .
+        files: ^frontend/
+        pass_filenames: false
+      - id: frontend-eslint
+        name: eslint (frontend)
+        language: system
+        entry: deploy/scripts/node-run.sh frontend pnpm lint
+        files: ^frontend/.*\.(ts|tsx|js|mjs)$
+        pass_filenames: false
+      - id: frontend-tsc
+        name: tsc --noEmit (frontend)
+        language: system
+        entry: deploy/scripts/node-run.sh frontend pnpm typecheck
+        files: ^frontend/.*\.(ts|tsx)$
+        pass_filenames: false
+      - id: email-worker
+        name: email worker (tsc, eslint, prettier)
+        language: system
+        entry: deploy/scripts/node-run.sh deploy/cloudflare/email-worker sh -c 'npm run -s typecheck && npm run -s lint && npm run -s format:check'
+        files: ^deploy/cloudflare/email-worker/
+        pass_filenames: false

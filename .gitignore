@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.log
+!worker/train/tests/fixtures/*.log.gz
+
+# mkdocs build output (mkdocs.yml)
+/site/
+
+# Station SPA copied in by station/hatch_build.py at wheel build (frontend: pnpm build:station)
+/station/hibiscus_station/static/

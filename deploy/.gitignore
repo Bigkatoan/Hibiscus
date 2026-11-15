@@ -1,0 +1,11 @@
+# Secrets and host data never go in git.
+.env
+.env.*
+!.env.example
+backups/
+data/
+secrets/
+cloudflare/email-worker/node_modules/
+cloudflare/email-worker/.wrangler/
+cloudflare/email-worker/coverage/
+cloudflare/email-worker/.dev.vars

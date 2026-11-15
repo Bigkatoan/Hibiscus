@@ -1,0 +1,22 @@
+{
+  "hostname": "robot.example.com",
+  "plan": "free",
+  "auth_rate_limit": {
+    "requests": 10,
+    "period_seconds": 10,
+    "mitigation_timeout_seconds": 10
+  },
+  "api_rate_limit": {
+    "requests": 1200,
+    "period_seconds": 60,
+    "mitigation_timeout_seconds": 60
+  },
+  "allowed_countries": [],
+  "bot_fight_mode": null,
+  "access": {
+    "enabled": false,
+    "session_duration": "8h",
+    "allowed_emails": []
+  },
+  "zone_settings": {}
+}

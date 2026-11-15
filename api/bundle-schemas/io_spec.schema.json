@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/bundle-schemas/io_spec.schema.json",
+  "title": "Hibiscus bundle onnx/io_spec.json v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_type", "onnx_support", "opset", "fps", "graphs", "cameras", "state", "action", "normalization_file", "image_preprocess"],
+  "$defs": {
+    "dim": {"oneOf": [{"type": "integer", "minimum": 1}, {"enum": ["batch"]}]},
+    "tensor": {
+      "type": "object", "additionalProperties": false, "required": ["name", "dtype", "shape", "role"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "lerobot_key": {"type": ["string", "null"], "description": "LeRobot feature key this tensor carries (null for internal tensors such as timestep)"},
+        "dtype": {"enum": ["float32", "float16", "int64"]},
+        "shape": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/dim"}},
+        "role": {"enum": ["state", "image", "action", "noisy_action", "timestep", "global_cond", "env_state", "sampling_noise", "model_output"]},
+        "normalized": {"type": "boolean", "description": "true = value is in the policy's normalised space (see normalization.json)"}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": "1"},
+    "policy_type": {"enum": ["act", "diffusion", "vqbet"]},
+    "onnx_support": {"enum": ["full", "split"]},
+    "opset": {"const": 17},
+    "fps": {"type": "number", "exclusiveMinimum": 0},
+    "n_obs_steps": {"type": "integer", "minimum": 1},
+    "graphs": {
+      "type": "array", "minItems": 1, "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "file", "inputs", "outputs"],
+        "properties": {
+          "id": {"enum": ["model", "obs_encoder", "denoiser"]},
+          "file": {"type": "string", "pattern": "^[a-z_]+(\\.fp16)?\\.onnx$"},
+          "fp16_file": {"type": ["string", "null"]},
+          "inputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/tensor"}},
+          "outputs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/tensor"}}
+        }
+      }
+    },
+    "cameras": {
+      "type": "array",
+      "description": "Order = order of image inputs in the graph and in LeRobot config.input_features.",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["key", "input_name", "height", "width", "channels_order", "source_codec"],
+        "properties": {
+          "key": {"type": "string", "pattern": "^observation\\.images\\."},
+          "input_name": {"type": "string"},
+          "height": {"type": "integer", "minimum": 1},
+          "width": {"type": "integer", "minimum": 1},
+          "channels_order": {"const": "RGB"},
+          "source_codec": {"type": ["string", "null"]}
+        }
+      }
+    },
+    "state": {
+      "type": ["object", "null"], "additionalProperties": false, "required": ["key", "dim", "names"],
+      "properties": {"key": {"type": "string"}, "dim": {"type": "integer", "minimum": 1}, "names": {"type": "array", "items": {"type": "string"}}}
+    },
+    "action": {
+      "type": "object", "additionalProperties": false, "required": ["key", "dim", "names", "chunk_size", "n_action_steps"],
+      "properties": {
+        "key": {"const": "action"},
+        "dim": {"type": "integer", "minimum": 1},
+        "names": {"type": "array", "items": {"type": "string"}},
+        "chunk_size": {"type": "integer", "minimum": 1},
+        "n_action_steps": {"type": "integer", "minimum": 1},
+        "temporal_ensemble_coeff": {"type": ["number", "null"], "description": "ACT only: LeRobot ACTTemporalEnsembler coefficient. When set, select_action runs the graph every step and blends the overlapping chunks with weights exp(-coeff*i) (infer_onnx.py implements it); null = execute n_action_steps of each chunk"}
+      }
+    },
+    "normalization_file": {"const": "normalization.json"},
+    "image_preprocess": {
+      "type": "object", "additionalProperties": false, "required": ["input", "steps"],
+      "properties": {
+        "input": {"const": "uint8 HWC RGB frame as decoded from the camera"},
+        "steps": {"type": "array", "items": {"enum": ["to_float32", "divide_255", "hwc_to_chw", "normalize", "add_batch_dim", "stack_obs_steps"]}}
+      }
+    },
+    "diffusion": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["scheduler", "num_train_timesteps", "num_inference_steps", "beta_schedule", "beta_start", "beta_end", "prediction_type", "clip_sample", "clip_sample_range", "horizon"],
+      "properties": {
+        "scheduler": {"enum": ["DDPM", "DDIM"]},
+        "num_train_timesteps": {"type": "integer"},
+        "num_inference_steps": {"type": "integer"},
+        "beta_schedule": {"type": "string"},
+        "beta_start": {"type": "number"},
+        "beta_end": {"type": "number"},
+        "prediction_type": {"enum": ["epsilon", "sample"]},
+        "clip_sample": {"type": "boolean"},
+        "clip_sample_range": {"type": "number"},
+        "horizon": {"type": "integer"}
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"onnx_support": {"const": "split"}}}, "then": {"required": ["diffusion"], "properties": {"graphs": {"minItems": 2}}}}
+  ]
+}

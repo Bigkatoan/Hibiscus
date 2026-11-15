@@ -1,0 +1,84 @@
+# On a version tag (v0.1.0, v0.2.0-rc.1, ...): create the GitHub release with the matching
+# CHANGELOG.md section as notes. Images are published by docker.yml on the same tag.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          # the "## [X.Y.Z] - date" section, up to the next "## [" heading or the link references
+          awk -v v="$version" '
+            $0 ~ "^## \\[" v "\\]" {found=1; next}
+            found && /^## \[/ {exit}
+            found && /^\[[^]]+\]: / {exit}
+            found {print}
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if ! grep -q '[^[:space:]]' RELEASE_NOTES.md; then
+            echo "::error file=CHANGELOG.md::no '## [$version]' section in CHANGELOG.md"
+            exit 1
+          fi
+          {
+            echo
+            echo "### Container images"
+            echo
+            for i in api web worker-cpu worker-gpu worker-gpu-pascal; do
+              echo "- \`ghcr.io/bigkatoan/hibiscus-$i:$version\`"
+            done
+          } >> RELEASE_NOTES.md
+          if [[ "$version" == *-* ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+          cat RELEASE_NOTES.md
+      - name: Create the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRERELEASE: ${{ steps.notes.outputs.prerelease }}
+        run: |
+          flags=(--title "Hibiscus ${GITHUB_REF_NAME}" --notes-file RELEASE_NOTES.md --verify-tag)
+          if [ "$PRERELEASE" = "true" ]; then flags+=(--prerelease); fi
+          gh release create "$GITHUB_REF_NAME" "${flags[@]}"
+
+  # Installable artifacts for the robot / collect machine: Hibiscus Station (wheel with the built
+  # UI inside) and the hibiscus CLI. Install with:
+  #   uv tool install https://github.com/Bigkatoan/Hibiscus/releases/download/<tag>/<wheel>
+  wheels:
+    needs: release
+    runs-on: ubuntu-24.04
+    env:
+      NODE_VERSION: "22.12.0"
+      PNPM_VERSION: "9.15.0"
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.1
+        with: {version: "${{ env.PNPM_VERSION }}"}
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - uses: astral-sh/setup-uv@v10.3.3
+      - name: Build the Station UI
+        working-directory: frontend
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build:station
+      - name: Build wheels (station with UI, cli)
+        run: |
+          mkdir -p dist
+          uv build --wheel --out-dir dist station
+          uv build --wheel --out-dir dist cli
+          ls -l dist
+      - name: Attach wheels to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "$GITHUB_REF_NAME" dist/*.whl --clobber

@@ -1,0 +1,82 @@
+name: 🐛 Bug report
+description: Something in Hibiscus does not work as expected
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! 🌺
+        **Security issues must not be reported here**: use [private vulnerability reporting](https://github.com/Bigkatoan/Hibiscus/security/advisories/new) instead.
+        Please search [existing issues](https://github.com/Bigkatoan/Hibiscus/issues?q=is%3Aissue) first.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Web UI (frontend)
+        - API (backend)
+        - Training / worker
+        - Model bundle / ONNX export
+        - hibiscus CLI
+        - Deployment (Docker Compose, images)
+        - Documentation
+        - Other / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, including the error message or `problem+json` `code` if any.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Upload dataset `...`
+        2. Start a run with policy `act`, preset `standard`
+        3. See error ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Hibiscus version or commit
+      description: Shown in the UI, `hibiscus --version`, or the short commit hash of your checkout.
+      placeholder: "0.1.0 / abc1234"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Docker / Compose version, GPU model(s) and driver, browser, Python version for the CLI.
+      placeholder: |
+        - OS: Ubuntu 24.04
+        - Docker 29.x, Compose v5
+        - GPU: RTX 3060 12 GB, driver 580
+        - Browser: Firefox 150
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: API / worker logs (`make logs SERVICE=api`) or CLI output. Remove tokens, passwords and private hostnames. This is rendered as code.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed secrets (tokens, passwords, .env values) from everything I pasted.
+          required: true

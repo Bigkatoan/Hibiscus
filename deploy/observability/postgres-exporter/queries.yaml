@@ -1,0 +1,87 @@
+# Custom postgres-exporter queries (--extend.query-path). Each query calls an aggregate-only
+# SECURITY DEFINER function from deploy/postgres/initdb/10-hibiscus.sh, so the exporter role
+# (hibiscus_monitor) never reads application rows. Metric name = <query name>_<column>.
+
+hibiscus_runs:
+  query: "SELECT status, runs FROM monitoring.run_status_counts()"
+  metrics:
+    - status:
+        usage: "LABEL"
+        description: "Run status (docs/spec/run-lifecycle.md)"
+    - runs:
+        usage: "GAUGE"
+        description: "Number of runs in this status"
+
+hibiscus_run_queue:
+  query: "SELECT queued, oldest_queued_seconds, active FROM monitoring.run_queue()"
+  metrics:
+    - queued:
+        usage: "GAUGE"
+        description: "Training runs waiting for a GPU (queue depth)"
+    - oldest_queued_seconds:
+        usage: "GAUGE"
+        description: "Age of the oldest queued run in seconds (0 when the queue is empty)"
+    - active:
+        usage: "GAUGE"
+        description: "Runs holding a GPU (preparing/running/pausing/exporting/cancelling)"
+
+hibiscus_jobs:
+  query: "SELECT kind, COALESCE(resource, 'none') AS resource, status, jobs FROM monitoring.job_status_counts()"
+  metrics:
+    - kind:
+        usage: "LABEL"
+        description: "Background job kind"
+    - resource:
+        usage: "LABEL"
+        description: "cpu or gpu"
+    - status:
+        usage: "LABEL"
+        description: "Job status"
+    - jobs:
+        usage: "GAUGE"
+        description: "Number of jobs"
+
+hibiscus_job_queue:
+  query: "SELECT resource, queued, oldest_queued_seconds FROM monitoring.job_queue()"
+  metrics:
+    - resource:
+        usage: "LABEL"
+        description: "cpu or gpu"
+    - queued:
+        usage: "GAUGE"
+        description: "Background jobs waiting for a worker"
+    - oldest_queued_seconds:
+        usage: "GAUGE"
+        description: "Age of the oldest queued job in seconds"
+
+hibiscus_gpu_node:
+  query: "SELECT node, name, status, online, heartbeat_age_seconds, busy FROM monitoring.gpu_nodes()"
+  metrics:
+    - node:
+        usage: "LABEL"
+        description: "gpu_nodes.id (cuda0, cuda1)"
+    - name:
+        usage: "LABEL"
+        description: "GPU model name"
+    - status:
+        usage: "LABEL"
+        description: "online/draining/offline/disabled"
+    - online:
+        usage: "GAUGE"
+        description: "1 when the node status is online"
+    - heartbeat_age_seconds:
+        usage: "GAUGE"
+        description: "Seconds since the worker heartbeat (-1 = never)"
+    - busy:
+        usage: "GAUGE"
+        description: "1 when the node holds a run"
+
+hibiscus_uploads:
+  query: "SELECT status, sessions FROM monitoring.upload_sessions()"
+  metrics:
+    - status:
+        usage: "LABEL"
+        description: "Upload session status"
+    - sessions:
+        usage: "GAUGE"
+        description: "Number of upload sessions"

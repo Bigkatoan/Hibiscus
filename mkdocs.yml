@@ -1,0 +1,194 @@
+# Hibiscus documentation site (mkdocs-material, pixel theme).
+#   uv run --no-project --with-requirements docs/requirements.txt mkdocs serve
+#   uv run --no-project --with-requirements docs/requirements.txt mkdocs build --strict
+# Published to GitHub Pages by .github/workflows/docs.yml.
+site_name: Hibiscus
+site_description: Self-hosted training platform for LeRobot policies, with a cozy pixel-art UI.
+site_url: https://bigkatoan.github.io/Hibiscus/
+repo_url: https://github.com/Bigkatoan/Hibiscus
+repo_name: Bigkatoan/Hibiscus
+edit_uri: edit/main/docs/
+copyright: Hibiscus is free software under the GNU AGPL v3.0 · pixel art © the Hibiscus contributors
+
+docs_dir: docs
+hooks:
+  - tools/mkdocs_hooks.py
+
+# Internal engineering material stays out of the public site.
+exclude_docs: |
+  handoff/
+  qa/
+  security/
+  PLAN.md
+  OWNERSHIP.md
+  CONTRACT_NOTES.md
+  CONTRIBUTING.md
+  db-schema.md
+  runbook/README.md
+  ux/README.md
+  ux/copy-deck.md
+  ux/personas.md
+  ux/uat.md
+  ux/user-flows.md
+  ux/wireframes.md
+  ux/tools/
+  *.py
+  requirements.txt
+
+validation:
+  nav:
+    omitted_files: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: info
+    unrecognized_links: info
+
+theme:
+  name: material
+  language: en
+  font: false # self-hosted Nunito (hibiscus-assets), see docs/stylesheets/hibiscus.css
+  logo: assets/brand/logo-64.png
+  favicon: assets/brand/favicon-32.png
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Night garden
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/white-balance-sunny
+        name: Day garden
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+extra_css:
+  - stylesheets/hibiscus.css
+
+extra:
+  generator: false
+  alternate:
+    - name: English
+      link: /Hibiscus/user-guide/en/01-getting-started/
+      lang: en
+    - name: Tiếng Việt
+      link: /Hibiscus/user-guide/vi/01-bat-dau/
+      lang: vi
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Bigkatoan/Hibiscus
+      name: Hibiscus on GitHub
+    - icon: fontawesome/brands/docker
+      link: https://github.com/Bigkatoan?tab=packages&repo_name=Hibiscus
+      name: Container images on GHCR
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - def_list
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Hướng dẫn (Tiếng Việt):
+      - Mục lục: user-guide/README.md
+      - 1. Bắt đầu: user-guide/vi/01-bat-dau.md
+      - 2. Dataset: user-guide/vi/02-dataset.md
+      - 3. CLI trên máy collect: user-guide/vi/03-cli-may-collect.md
+      - 4. Train model: user-guide/vi/04-train.md
+      - 5. Đọc metrics: user-guide/vi/05-doc-metrics.md
+      - 6. Chạy trên robot: user-guide/vi/06-chay-tren-robot.md
+      - 7. Team và quản trị: user-guide/vi/07-team-quan-tri.md
+      - 8. Xử lý sự cố: user-guide/vi/08-xu-ly-su-co.md
+      - Hibiscus Station: user-guide/vi/station.md
+      - Nghiệm thu Station trên phần cứng: user-guide/vi/station-hardware-uat.md
+  - User guide (English):
+      - 1. Getting started: user-guide/en/01-getting-started.md
+      - 2. Datasets: user-guide/en/02-datasets.md
+      - 3. CLI: user-guide/en/03-cli.md
+      - 4. Training: user-guide/en/04-training.md
+      - 5. Reading metrics: user-guide/en/05-metrics.md
+      - 6. Running on the robot: user-guide/en/06-run-on-robot.md
+      - 7. Teams and admin: user-guide/en/07-team-admin.md
+      - 8. Troubleshooting: user-guide/en/08-troubleshooting.md
+      - Hibiscus Station: user-guide/en/station.md
+      - Station hardware UAT: user-guide/en/station-hardware-uat.md
+  - Self-hosting:
+      - Install: runbook/install.md
+      - Upgrade and rollback: runbook/upgrade.md
+      - GPU workers: runbook/gpu.md
+      - Secrets: runbook/secrets.md
+      - Backup and restore: runbook/backup-restore.md
+      - Observability: runbook/observability.md
+      - Cloudflare edge: runbook/cloudflare.md
+      - Email: runbook/email.md
+      - Incident playbooks: runbook/incidents.md
+  - Reference:
+      - Model bundle: spec/bundle.md
+      - Run lifecycle: spec/run-lifecycle.md
+      - Policy schemas: spec/policy-schema.md
+      - Training log parsing: spec/log-parsing.md
+      - Hibiscus Station: spec/station.md
+  - Architecture:
+      - ADR-0001 FastAPI + Python 3.12: adr/0001-fastapi-python312.md
+      - ADR-0002 Postgres job queue: adr/0002-postgres-skip-locked-queue.md
+      - ADR-0003 Unmodified lerobot-train: adr/0003-unmodified-lerobot-train-subprocess.md
+      - ADR-0004 MinIO / S3 storage: adr/0004-minio-s3-storage.md
+      - ADR-0005 Forms from draccus schemas: adr/0005-policy-form-from-draccus-json-schema.md
+      - ADR-0006 In-house auth: adr/0006-in-house-auth-on-vetted-libs.md
+      - ADR-0007 React + Vite + Tailwind: adr/0007-frontend-react-ts-vite-tailwind-shadcn.md
+      - ADR-0008 Cloudflare Tunnel: adr/0008-cloudflare-tunnel-ingress.md
+      - ADR-0009 Workspaces and fair-share: adr/0009-workspaces-and-fair-share.md
+      - ADR-0010 Chunked upload + SSE: adr/0010-chunked-upload-via-api-and-sse-heartbeat.md
+      - ADR-0011 No LeLab patch: adr/0011-no-lelab-patch.md
+  - Design:
+      - Visual style (design system): ux/pixel-style.md
+      - Accessibility: ux/accessibility.md
+      - i18n conventions: ux/i18n-conventions.md
+      - Error catalogue: ux/error-catalogue.md
+  - Project:
+      - Contributing: https://github.com/Bigkatoan/Hibiscus/blob/main/CONTRIBUTING.md
+      - Changelog: https://github.com/Bigkatoan/Hibiscus/blob/main/CHANGELOG.md
+      - Security policy: https://github.com/Bigkatoan/Hibiscus/blob/main/SECURITY.md
+      - Code of conduct: https://github.com/Bigkatoan/Hibiscus/blob/main/CODE_OF_CONDUCT.md
+      - License (AGPL-3.0): https://github.com/Bigkatoan/Hibiscus/blob/main/LICENSE
+      - Assets license: https://github.com/Bigkatoan/Hibiscus/blob/main/ASSETS-LICENSE

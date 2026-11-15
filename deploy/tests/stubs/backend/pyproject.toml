@@ -1,0 +1,10 @@
+[project]
+name = "hibiscus-api-stub"
+version = "0.0.0"
+description = "Deploy smoke-test stand-in for the Hibiscus API (never shipped)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn[standard]>=0.32",
+    "prometheus-client>=0.21",
+]

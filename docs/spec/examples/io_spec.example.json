@@ -1,0 +1,103 @@
+{
+  "schema_version": "1",
+  "policy_type": "act",
+  "onnx_support": "full",
+  "opset": 17,
+  "fps": 30,
+  "n_obs_steps": 1,
+  "graphs": [
+    {
+      "id": "model",
+      "file": "model.onnx",
+      "fp16_file": null,
+      "inputs": [
+        {
+          "name": "observation.state",
+          "lerobot_key": "observation.state",
+          "dtype": "float32",
+          "shape": [
+            "batch",
+            6
+          ],
+          "role": "state",
+          "normalized": true
+        },
+        {
+          "name": "observation.images.wrist_cam",
+          "lerobot_key": "observation.images.wrist_cam",
+          "dtype": "float32",
+          "shape": [
+            "batch",
+            3,
+            360,
+            640
+          ],
+          "role": "image",
+          "normalized": true
+        }
+      ],
+      "outputs": [
+        {
+          "name": "action",
+          "lerobot_key": "action",
+          "dtype": "float32",
+          "shape": [
+            "batch",
+            100,
+            6
+          ],
+          "role": "action",
+          "normalized": true
+        }
+      ]
+    }
+  ],
+  "cameras": [
+    {
+      "key": "observation.images.wrist_cam",
+      "input_name": "observation.images.wrist_cam",
+      "height": 360,
+      "width": 640,
+      "channels_order": "RGB",
+      "source_codec": "av1"
+    }
+  ],
+  "state": {
+    "key": "observation.state",
+    "dim": 6,
+    "names": [
+      "shoulder_pan.pos",
+      "shoulder_lift.pos",
+      "elbow_flex.pos",
+      "wrist_flex.pos",
+      "wrist_roll.pos",
+      "gripper.pos"
+    ]
+  },
+  "action": {
+    "key": "action",
+    "dim": 6,
+    "names": [
+      "shoulder_pan.pos",
+      "shoulder_lift.pos",
+      "elbow_flex.pos",
+      "wrist_flex.pos",
+      "wrist_roll.pos",
+      "gripper.pos"
+    ],
+    "chunk_size": 100,
+    "n_action_steps": 100
+  },
+  "normalization_file": "normalization.json",
+  "image_preprocess": {
+    "input": "uint8 HWC RGB frame as decoded from the camera",
+    "steps": [
+      "to_float32",
+      "divide_255",
+      "hwc_to_chw",
+      "normalize",
+      "add_batch_dim"
+    ]
+  },
+  "diffusion": null
+}

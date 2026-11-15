@@ -1,0 +1,57 @@
+# Dependabot: weekly grouped updates. uv projects are updated through their uv.lock files.
+version: 2
+updates:
+  - package-ecosystem: uv
+    directories: ["/backend", "/cli", "/deploy"]
+    schedule: {interval: weekly, day: monday}
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "python"]
+    groups:
+      python-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: uv
+    directory: /worker
+    schedule: {interval: weekly, day: monday}
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "python", "worker"]
+    ignore:
+      # Pinned on purpose (ADR-0003): bump LeRobot / torch only together with the policy schemas.
+      - dependency-name: lerobot
+      - dependency-name: torch
+      - dependency-name: torchvision
+    groups:
+      worker-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directories: ["/frontend", "/deploy/cloudflare/email-worker"]
+    schedule: {interval: weekly, day: monday}
+    open-pull-requests-limit: 5
+    labels: ["dependencies", "javascript"]
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /deploy/docker
+    schedule: {interval: weekly, day: monday}
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: docker-compose
+    directory: /deploy
+    schedule: {interval: weekly, day: monday}
+    labels: ["dependencies", "docker"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule: {interval: weekly, day: monday}
+    labels: ["dependencies", "ci"]
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /docs
+    schedule: {interval: monthly}
+    labels: ["dependencies", "documentation"]

@@ -1,0 +1,94 @@
+# Developer / staging overlay. Use a separate project name so it never touches production:
+#   docker compose -p hibiscus-dev -f docker-compose.yml -f compose.dev.yml --env-file .env.dev up -d
+#   (or: make dev-up)
+# All published ports are loopback-only and in the 18100-18199 range (never 8000 / 18000).
+#   18100 proxy (SPA + API)      18101 Grafana       18102 Prometheus
+#   18103 MinIO console          18104 Postgres      18105 Redis      18106 MinIO S3 API
+# GPU workers and the GPU exporter are behind the `gpu` profile here (`--profile gpu` to add
+# them); the dev subnets differ from production so both stacks can coexist on one host.
+
+name: hibiscus-dev
+
+services:
+  proxy:
+    ports: !override
+      - "127.0.0.1:18100:8080"
+    environment:
+      HIBISCUS_EDGE_GATEWAY: ${HIBISCUS_DEV_EDGE_GATEWAY:-172.31.240.1}
+    networks:
+      edge: {}
+      app:
+        ipv4_address: ${HIBISCUS_DEV_PROXY_APP_IP:-172.31.241.2}
+
+  api:
+    environment:
+      # Settings.env is Literal["prod", "dev", "test"] (QC-e2e-01). The JWT key, cursor secret and
+      # data key still come from the env file: dev must not fall back to per-process random keys
+      # (QC-e2e-02).
+      HIBISCUS_ENV: dev
+      HIBISCUS_PUBLIC_BASE_URL: http://127.0.0.1:18100
+      HIBISCUS_TRUSTED_PROXY_IPS: ${HIBISCUS_DEV_PROXY_APP_IP:-172.31.241.2}
+      HIBISCUS_TRUSTED_PROXY_CIDRS: '["${HIBISCUS_DEV_PROXY_APP_IP:-172.31.241.2}/32"]'
+      HIBISCUS_COOKIE_SECURE: "false"
+      HIBISCUS_EMAIL_PROVIDER: ${HIBISCUS_EMAIL_PROVIDER:-none}
+    networks:
+      app:
+        ipv4_address: ${HIBISCUS_DEV_API_APP_IP:-172.31.241.10}
+      data: {}
+      obs: {}
+      egress: {}
+
+  migrate:
+    environment:
+      HIBISCUS_ENV: dev
+
+  grafana:
+    ports: !override
+      - "127.0.0.1:18101:3000"
+    environment:
+      GF_SERVER_ROOT_URL: http://127.0.0.1:18101/
+
+  prometheus:
+    ports:
+      - "127.0.0.1:18102:9090"
+    networks: [obs, ops]
+
+  minio:
+    ports:
+      - "127.0.0.1:18103:9001"
+      - "127.0.0.1:18106:9000"
+    environment:
+      MINIO_BROWSER_REDIRECT: "on"
+    networks: [data, obs, ops]
+
+  postgres:
+    ports:
+      - "127.0.0.1:18104:5432"
+    networks: [data, ops]
+
+  redis:
+    ports:
+      - "127.0.0.1:18105:6379"
+    networks: [data, ops]
+
+  worker-cuda0:
+    profiles: [gpu]
+  worker-cuda1:
+    profiles: [gpu]
+  gpu-exporter:
+    profiles: [gpu]
+
+  backup:
+    environment:
+      BACKUP_AT: "04:45"
+
+networks:
+  edge:
+    ipam:
+      config: !override
+        - subnet: ${HIBISCUS_DEV_EDGE_SUBNET:-172.31.240.0/24}
+          gateway: ${HIBISCUS_DEV_EDGE_GATEWAY:-172.31.240.1}
+  app:
+    ipam:
+      config: !override
+        - subnet: ${HIBISCUS_DEV_APP_SUBNET:-172.31.241.0/24}

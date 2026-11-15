@@ -1,0 +1,29 @@
+# Repository labels, synced by .github/workflows/labels.yml.
+# Colours come from the Hibiscus pixel palette (docs/ux/pixel-style.md).
+- {name: bug, color: d7263d, description: "Something isn't working"}
+- {name: enhancement, color: 5fa04e, description: "New feature or request"}
+- {name: triage, color: ffc531, description: "Needs a maintainer to look at it"}
+- {name: question, color: 6fb7e8, description: "Further information is requested"}
+- {name: documentation, color: 2f6f9f, description: "Docs, user guide, runbooks"}
+- {name: good first issue, color: 9bd35a, description: "Good for newcomers"}
+- {name: help wanted, color: f08a24, description: "Extra attention is needed"}
+- {name: duplicate, color: c7d3e3, description: "This issue or PR already exists"}
+- {name: wontfix, color: 8b9bb4, description: "This will not be worked on"}
+- {name: invalid, color: 8b9bb4, description: "This doesn't seem right"}
+- {name: security, color: 8c1c3a, description: "Security hardening (vulnerabilities go to private advisories)"}
+- {name: breaking, color: 8c1c3a, description: "Breaking change"}
+- {name: dependencies, color: 7b5bb5, description: "Dependency updates"}
+- {name: python, color: 2f6f9f, description: "Python dependency or code"}
+- {name: javascript, color: ffc531, description: "JavaScript / TypeScript dependency or code"}
+- {name: docker, color: 2f6f9f, description: "Docker images and Compose"}
+- {name: ci, color: 4a5368, description: "GitHub Actions and CI"}
+- {name: worker, color: 4a5368, description: "Worker dependencies"}
+- {name: i18n, color: b39ce6, description: "Vietnamese / English translations"}
+- {name: "area: datasets", color: c99a62, description: "Upload, validation, preview"}
+- {name: "area: training", color: c99a62, description: "Wizard, scheduler, workers, policies"}
+- {name: "area: bundle", color: c99a62, description: "Model bundle, ONNX export, eval, run_on_robot.sh"}
+- {name: "area: cli", color: c99a62, description: "hibiscus CLI"}
+- {name: "area: ui", color: c99a62, description: "Web UI, pixel art, i18n, accessibility"}
+- {name: "area: auth", color: c99a62, description: "Accounts, 2FA, tokens, RBAC"}
+- {name: "area: deploy", color: c99a62, description: "Compose, observability, backups"}
+- {name: "area: station", color: ff9eb5, description: "Hibiscus Station: robot setup, calibration, teleop, recording"}

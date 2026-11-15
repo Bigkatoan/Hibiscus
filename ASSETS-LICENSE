@@ -1,0 +1,56 @@
+Hibiscus artwork and brand assets
+=================================
+
+Copyright © Bigkatoan. All rights reserved.
+
+The source code of Hibiscus is free software under the GNU Affero General Public License v3.0
+(see LICENSE). The artwork and brand assets listed below are NOT covered by the AGPL-3.0: they are
+licensed separately under the terms in this file.
+
+1. Covered assets ("the Assets")
+--------------------------------
+
+* the pixel art: sprites, animation strips, tiles and frames in `frontend/public/pixel/`;
+* the UI glyphs in `frontend/public/icons/`;
+* the sprite and glyph data generated from them in `frontend/src/hibiscus/*.gen.ts`;
+* the mascot "Hibi" (a robot arm holding a hibiscus flower) in every pose, size and mood;
+* the hibiscus logo / mark, the "Hibiscus" lockups and the favicons (`frontend/public/favicon.*`,
+  `frontend/public/apple-touch-icon.png`);
+* the brand images in `assets/brand/` (banners, social preview, logos, wordmarks);
+* the screenshots in `docs/ux/screenshots/` insofar as they show the Assets.
+
+The Assets are produced from the private Hibiscus design system (github.com/Bigkatoan/hibiscus-assets);
+only the built files above are distributed with Hibiscus. The design sources are not part of this
+repository and are not licensed to you.
+
+2. What you may do
+------------------
+
+You may use, copy and redistribute the Assets **unmodified**, and only as part of running,
+building, packaging, documenting or redistributing Hibiscus itself (including modified versions of
+the Hibiscus code, as long as the Assets are used to depict Hibiscus). Screenshots, talks, articles
+and reviews that show Hibiscus as it is are welcome.
+
+3. What you may not do without written permission
+--------------------------------------------------
+
+* use the Assets, the name "Hibiscus" or the mascot "Hibi" as the brand, logo or mascot of a fork,
+  a derived product or service, or in any way that suggests endorsement by the Hibiscus project;
+* modify the Assets and distribute the modified versions;
+* use the Assets in other products, projects, games, merchandise or marketing.
+
+A fork that is distributed under another name must replace the Assets (or ask for permission).
+Permission requests: open an issue at github.com/Bigkatoan/Hibiscus.
+
+4. Fonts
+--------
+
+Nunito (`frontend/public/fonts/nunito-*.woff2`) is copyright The Nunito Project Authors and is
+licensed under the SIL Open Font License, Version 1.1. The full licence text ships next to the font
+files as `frontend/public/fonts/OFL-Nunito.txt`. The OFL applies to the fonts only, not to the
+Assets.
+
+5. No warranty
+--------------
+
+The Assets are provided "as is", without warranty of any kind.

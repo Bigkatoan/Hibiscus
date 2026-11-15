@@ -1,0 +1,15 @@
+# BuildKit Dockerfile-specific ignore file (context = repo root).
+*
+!worker/
+!api/
+!deploy/docker/worker-constraints.txt
+!deploy/docker/worker-healthcheck.sh
+**/__pycache__
+**/*.py[cod]
+**/.venv
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+worker/**/tests/
+**/.env
+**/.env.*

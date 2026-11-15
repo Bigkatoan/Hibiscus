@@ -1,0 +1,291 @@
+/* Hibiscus docs: "robot garden" theme for mkdocs-material, following the Hibiscus design system
+ * (hibiscus-assets: docs/style-guide.md, css/tokens.css; synced into frontend/src/hibiscus/).
+ * Colours are the 27-colour sprite palette plus the night tokens; Nunito for every piece of text
+ * (headings included), self-hosted (copied from frontend/public/fonts by tools/mkdocs_hooks.py).
+ * Pixel unit: 1 art px = 2 CSS px, so frames are 2 px, shadows 4 px. */
+
+/* ---------------------------------------------------------------- fonts */
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../assets/fonts/nunito-vietnamese.woff2") format("woff2");
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301,
+    U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../assets/fonts/nunito-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("../assets/fonts/nunito-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,
+    U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------------------------------------------------------------- palette tokens */
+:root {
+  --px-o: #3b2027; /* outline, warm dark brown */
+  --px-d: #6b4433; /* dark wood */
+  --px-w: #9c6b45; /* wood */
+  --px-w-hi: #c99a62; /* light wood */
+  --px-c: #f3dfb2; /* parchment */
+  --px-c-hi: #fff6dc; /* highlight */
+  --px-m: #8c1c3a; /* hibiscus deep */
+  --px-r: #d7263d; /* hibiscus red */
+  --px-p: #ff9eb5; /* blush */
+  --px-y: #ffc531; /* pollen */
+  --px-f: #2f6b3a; /* leaf dark */
+  --px-g: #5fa04e; /* leaf */
+  --px-g-hi: #9bd35a; /* leaf light */
+  --px-b: #2f6f9f; /* robot blue */
+  --px-b-hi: #6fb7e8; /* robot blue light */
+  --px-l: #5ef1e3; /* screen glow */
+  --px-k: #4a5368; /* steel dark */
+  /* night tokens (tokens.css) */
+  --hb-night-bg: #161a2e;
+  --hb-night-surface: #222842;
+  --hb-night-surface-2: #2b3253;
+  --hb-night-border: #3d4566;
+  --hb-night-frame: #0c0e1f;
+  --hb-night-header: #11142a;
+  --hb-night-text: #f4ecd6;
+
+  --md-text-font: "Nunito";
+  --md-code-font: ui-monospace, "SFMono-Regular", "Cascadia Code", "DejaVu Sans Mono", monospace;
+  --hb-heading-font: "Nunito", system-ui, sans-serif;
+  --hb-shadow: 4px 4px 0 rgb(59 32 39 / 25%);
+}
+
+/* Day garden (light): parchment, wood header */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--px-d);
+  --md-primary-fg-color--light: var(--px-w);
+  --md-primary-fg-color--dark: var(--px-o);
+  --md-primary-bg-color: var(--px-c-hi);
+  --md-primary-bg-color--light: var(--px-c);
+  --md-accent-fg-color: var(--px-r);
+  --md-accent-fg-color--transparent: rgb(215 38 61 / 10%);
+  --md-default-bg-color: var(--px-c-hi);
+  --md-default-fg-color: var(--px-o);
+  --md-default-fg-color--light: rgb(59 32 39 / 72%);
+  --md-default-fg-color--lighter: rgb(59 32 39 / 40%);
+  --md-default-fg-color--lightest: rgb(59 32 39 / 12%);
+  --md-typeset-color: var(--px-o);
+  --md-typeset-a-color: var(--px-f);
+  --md-code-bg-color: #fbecc9;
+  --md-code-fg-color: var(--px-o);
+  --md-footer-bg-color: var(--px-o);
+  --md-footer-bg-color--dark: #2a161b;
+  --hb-frame: var(--px-o);
+  --hb-panel: var(--px-c);
+  --hb-sidebar: transparent;
+}
+
+/* Night garden (dark): indigo sky, flat indigo frames (never wood) */
+[data-md-color-scheme="slate"] {
+  --md-hue: 232;
+  --md-primary-fg-color: var(--hb-night-header);
+  --md-primary-fg-color--light: var(--hb-night-surface);
+  --md-primary-fg-color--dark: var(--hb-night-frame);
+  --md-primary-bg-color: var(--hb-night-text);
+  --md-primary-bg-color--light: #aeb9d0;
+  --md-accent-fg-color: var(--px-p);
+  --md-accent-fg-color--transparent: rgb(255 158 181 / 12%);
+  --md-default-bg-color: var(--hb-night-bg);
+  --md-default-fg-color: var(--hb-night-text);
+  --md-default-fg-color--light: rgb(244 236 214 / 76%);
+  --md-default-fg-color--lighter: rgb(244 236 214 / 45%);
+  --md-default-fg-color--lightest: rgb(244 236 214 / 12%);
+  --md-typeset-color: var(--hb-night-text);
+  --md-typeset-a-color: var(--px-g-hi);
+  --md-code-bg-color: var(--hb-night-surface);
+  --md-code-fg-color: var(--hb-night-text);
+  --md-footer-bg-color: var(--hb-night-header);
+  --md-footer-bg-color--dark: var(--hb-night-frame);
+  --hb-frame: var(--hb-night-frame);
+  --hb-panel: var(--hb-night-surface);
+  --hb-shadow: 4px 4px 0 rgb(0 0 0 / 45%);
+}
+
+/* ---------------------------------------------------------------- pixel shapes */
+.md-typeset h1,
+.md-typeset h2,
+.md-header__topic,
+.md-tabs__link,
+.md-nav__title {
+  font-family: var(--hb-heading-font);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+.md-typeset h1 {
+  font-size: 32px;
+  line-height: 40px;
+  color: var(--md-typeset-color);
+}
+.md-typeset h2 {
+  font-size: 24px;
+  line-height: 32px;
+  border-bottom: 4px solid var(--md-default-fg-color--lightest);
+  padding-bottom: 4px;
+}
+.md-typeset h3 {
+  font-weight: 800;
+}
+.md-header__topic:first-child {
+  font-size: 22px;
+}
+.md-tabs__link,
+.md-nav__title {
+  font-size: 16px;
+}
+.hb-sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.md-header {
+  border-bottom: 4px solid var(--hb-frame);
+  box-shadow: none;
+}
+.md-tabs {
+  border-bottom: 4px solid var(--hb-frame);
+}
+.md-logo img,
+.md-typeset img {
+  image-rendering: pixelated;
+}
+
+/* no rounded corners, 2 px frames, hard offset shadows */
+.md-typeset .admonition,
+.md-typeset details,
+.md-typeset pre > code,
+.md-typeset .highlight,
+.md-typeset table:not([class]),
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card,
+.md-search__form,
+.md-search__output,
+.md-typeset kbd,
+.md-typeset code,
+.md-clipboard,
+.md-top {
+  border-radius: 0 !important;
+}
+.md-typeset .admonition,
+.md-typeset details {
+  border: 2px solid var(--hb-frame);
+  border-left-width: 6px;
+  box-shadow: var(--hb-shadow);
+}
+.md-typeset table:not([class]) {
+  border: 2px solid var(--hb-frame);
+  box-shadow: var(--hb-shadow);
+}
+.md-typeset table:not([class]) th {
+  background: var(--hb-panel);
+}
+.md-typeset .highlight {
+  border: 2px solid var(--hb-frame);
+  box-shadow: var(--hb-shadow);
+}
+.md-typeset .grid.cards > ul > li {
+  border: 2px solid var(--hb-frame);
+  background: var(--hb-panel);
+  box-shadow: var(--hb-shadow);
+  transition: transform 120ms steps(2);
+}
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgb(59 32 39 / 25%);
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li {
+  box-shadow: inset 0 2px 0 #3a4370, var(--hb-shadow);
+}
+[data-md-color-scheme="slate"] .md-typeset .grid.cards > ul > li:hover {
+  box-shadow: inset 0 2px 0 #3a4370, 6px 6px 0 rgb(0 0 0 / 45%);
+}
+
+/* pixel buttons: leaf green primary, light wood secondary by day, flat indigo at night */
+.md-typeset .md-button {
+  border-radius: 0;
+  border: 2px solid var(--px-o);
+  background: var(--px-w-hi);
+  color: var(--px-o);
+  box-shadow: inset 2px 2px 0 var(--px-c-hi), inset -2px -4px 0 var(--px-w), var(--hb-shadow);
+  font-family: var(--hb-heading-font);
+  font-weight: 800;
+  font-size: 15px;
+  padding: 8px 20px;
+  margin: 4px 4px 4px 0;
+}
+.md-typeset .md-button--primary {
+  background: var(--px-g);
+  color: var(--px-o);
+  border-color: var(--px-o);
+  box-shadow: inset 2px 2px 0 var(--px-g-hi), inset -2px -4px 0 var(--px-f), var(--hb-shadow);
+}
+.md-typeset .md-button:focus,
+.md-typeset .md-button:hover {
+  background: var(--px-y);
+  color: var(--px-o);
+  border-color: var(--px-o);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .md-button {
+  border-color: var(--hb-night-frame);
+  background: #3a4370;
+  color: var(--hb-night-text);
+  box-shadow: inset 0 2px 0 #4f5a80, inset 0 -4px 0 #2b3253, var(--hb-shadow);
+}
+[data-md-color-scheme="slate"] .md-typeset .md-button--primary {
+  background: var(--px-g);
+  color: var(--hb-night-bg);
+  box-shadow: inset 0 2px 0 var(--px-g-hi), inset 0 -4px 0 var(--px-f), var(--hb-shadow);
+}
+[data-md-color-scheme="slate"] .md-typeset .md-button:focus,
+[data-md-color-scheme="slate"] .md-typeset .md-button:hover {
+  background: var(--px-y);
+  color: var(--hb-night-bg);
+}
+
+/* focus: frame ring + screen-glow outline, visible on parchment, wood and night */
+:focus-visible {
+  outline: 3px solid var(--px-l) !important;
+  outline-offset: 2px;
+}
+
+/* home hero */
+.hb-hero {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.hb-hero img {
+  width: 100%;
+  max-width: 1280px;
+  border: 4px solid var(--hb-frame);
+  box-shadow: var(--hb-shadow);
+}
+.hb-hero p strong {
+  font-size: 1.1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .grid.cards > ul > li {
+    transition: none;
+  }
+}

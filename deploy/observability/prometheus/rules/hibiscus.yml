@@ -1,0 +1,111 @@
+# Alert + recording rules. There is no Alertmanager in v1: firing alerts are visible in the
+# Grafana "Hibiscus overview" dashboard and Prometheus /alerts (docs/runbook/incidents.md maps
+# each alert to a playbook).
+groups:
+  - name: hibiscus-recording
+    rules:
+      - record: hibiscus:api_requests:rate5m
+        expr: sum by (status_class) (label_replace(rate(hibiscus_http_requests_total[5m]), "status_class", "${1}xx", "status", "([0-9]).."))
+      - record: hibiscus:api_5xx_ratio:rate5m
+        expr: |
+          sum(rate(hibiscus_http_requests_total{status=~"5.."}[5m]))
+            / clamp_min(sum(rate(hibiscus_http_requests_total[5m])), 1e-9)
+      - record: hibiscus:api_latency_p95:5m
+        expr: |
+          histogram_quantile(0.95, sum by (le) (rate(hibiscus_http_request_duration_seconds_bucket{route!~"/api/v1/uploads/.*/parts/.*|/api/v1/runs/.*/events"}[5m])))
+
+  - name: hibiscus-alerts
+    rules:
+      - alert: HibiscusTargetDown
+        expr: up{job=~"api|postgres|minio|loki|alloy|gpu"} == 0
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: "{{ $labels.job }} target {{ $labels.instance }} is down"
+          runbook: docs/runbook/incidents.md#target-down
+
+      - alert: HibiscusWorkerDown
+        expr: up{job="workers"} == 0
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "worker {{ $labels.instance }} metrics endpoint unreachable"
+          runbook: docs/runbook/incidents.md#worker-down
+
+      - alert: HibiscusPostgresDown
+        expr: pg_up == 0
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: "postgres-exporter cannot reach Postgres"
+          runbook: docs/runbook/incidents.md#postgres-down
+
+      - alert: HibiscusApiErrorRate
+        expr: hibiscus:api_5xx_ratio:rate5m > 0.05
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "API 5xx ratio {{ $value | humanizePercentage }} over 10 min"
+          runbook: docs/runbook/incidents.md#api-errors
+
+      - alert: HibiscusApiLatencyP95
+        expr: hibiscus:api_latency_p95:5m > 0.2
+        for: 15m
+        labels: {severity: warning}
+        annotations:
+          summary: "API p95 latency {{ $value | humanizeDuration }} (> 200 ms target, PLAN §6)"
+          runbook: docs/runbook/incidents.md#api-latency
+
+      - alert: HibiscusRunQueueStuck
+        expr: hibiscus_run_queue_queued > 0 and on() hibiscus_run_queue_active == 0
+        for: 15m
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $value }} runs queued but no GPU is running anything for 15 min"
+          runbook: docs/runbook/incidents.md#queue-stuck
+
+      - alert: HibiscusRunQueueOld
+        expr: hibiscus_run_queue_oldest_queued_seconds > 6 * 3600
+        for: 10m
+        labels: {severity: info}
+        annotations:
+          summary: "oldest queued run has waited {{ $value | humanizeDuration }}"
+
+      - alert: HibiscusJobQueueStuck
+        expr: hibiscus_job_queue_oldest_queued_seconds{resource="cpu"} > 1800
+        for: 10m
+        labels: {severity: warning}
+        annotations:
+          summary: "CPU jobs (validate/import) waiting > 30 min; is worker-cpu alive?"
+          runbook: docs/runbook/incidents.md#worker-down
+
+      - alert: HibiscusGpuNodeHeartbeatStale
+        expr: hibiscus_gpu_node_heartbeat_age_seconds{status="online"} > 60
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: "GPU node {{ $labels.node }} heartbeat is {{ $value }}s old (lease TTL 60 s)"
+          runbook: docs/runbook/incidents.md#worker-down
+
+      - alert: HibiscusGpuTemperatureHigh
+        expr: nvidia_smi_temperature_gpu > 85
+        for: 5m
+        labels: {severity: warning}
+        annotations:
+          summary: "{{ $labels.name }} at {{ $value }} °C"
+          runbook: docs/runbook/incidents.md#gpu-hot
+
+      - alert: HibiscusGpuMemoryNearFull
+        expr: nvidia_smi_memory_used_bytes / nvidia_smi_memory_total_bytes > 0.97
+        for: 10m
+        labels: {severity: info}
+        annotations:
+          summary: "{{ $labels.name }} VRAM {{ $value | humanizePercentage }} used"
+
+      - alert: HibiscusMinioDiskLow
+        expr: minio_cluster_capacity_usable_free_bytes / minio_cluster_capacity_usable_total_bytes < 0.10
+        for: 15m
+        labels: {severity: critical}
+        annotations:
+          summary: "MinIO usable capacity below 10 %"
+          runbook: docs/runbook/incidents.md#disk-full

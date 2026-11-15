@@ -1,0 +1,134 @@
+# Hibiscus reverse proxy (Caddy 2.11). Plain HTTP only: TLS terminates at Cloudflare and the
+# tunnel reaches this container through the host loopback port 127.0.0.1:18000
+# (CONTRACT_NOTES §3; port 8000 on the host belongs to LeLab and is never used).
+#
+# Responsibilities
+#   * serve the SPA (static build baked into the image at /srv)
+#   * proxy /api/* and /healthz to api:8000 (Docker network only)
+#   * 404 for internal endpoints (/metrics, /readyz) — they are scraped/probed inside Docker
+#   * body limits: 70 MiB on upload parts, 1 MiB elsewhere (ADR-0010; Cloudflare caps at 100 MB)
+#   * SSE: no buffering, long read timeout (>= 1 h)
+#   * real client IP: CF-Connecting-IP is trusted ONLY when the TCP peer is the Docker gateway of
+#     the edge network (= the request entered through the published loopback port, where only
+#     cloudflared and local processes can connect). Any other peer gets its socket address.
+#     The verified address is forwarded to the API in X-Forwarded-For / X-Real-IP /
+#     CF-Connecting-IP (overwritten, never appended), so the API only has to trust this proxy.
+{
+	admin off
+	auto_https off
+	persist_config off
+	grace_period 30s
+	servers {
+		trusted_proxies static {$HIBISCUS_EDGE_GATEWAY:172.31.250.1}/32
+		trusted_proxies_strict
+		client_ip_headers CF-Connecting-IP
+		timeouts {
+			read_header 15s
+			read_body 15m
+			idle 5m
+		}
+	}
+	# Error entries (e.g. an upstream 502) carry the request too: same redaction as the access log.
+	log {
+		output stdout
+		format filter {
+			wrap json
+			request>uri regexp (?i)((?:/|%2F)+auth(?:/|%2F)+invites(?:/|%2F)+|(?:/|%2F)+invite(?:/|%2F)+|token(?:=|%3D|%253D))[A-Za-z0-9_-]{32,} ${1}REDACTED
+			request>headers>Referer delete
+		}
+		level INFO
+	}
+}
+
+# Internal-only liveness endpoint for the container healthcheck (not published, not routed).
+:8081 {
+	respond /livez "ok" 200
+	respond 404
+}
+
+:8080 {
+	log {
+		output stdout
+		# One-time tokens (>= 32 url-safe chars) must not reach the access log (SEC-auth-04): the
+		# deprecated API invite routes (/api/v1/auth/invites/<token>), legacy SPA links
+		# (/invite/<token>) and token= query strings, matched anywhere in the URI, with duplicate
+		# slashes and percent-encoded separators (/api/v1//auth/..., ?next=%2Finvite%3Ftoken%3D...).
+		# The Referer header is dropped from the log entirely (it carries the page URL). The API's
+		# own access log redacts the same (app/core/middleware.py redact_path).
+		format filter {
+			wrap json
+			request>uri regexp (?i)((?:/|%2F)+auth(?:/|%2F)+invites(?:/|%2F)+|(?:/|%2F)+invite(?:/|%2F)+|token(?:=|%3D|%253D))[A-Za-z0-9_-]{32,} ${1}REDACTED
+			request>headers>Referer delete
+		}
+	}
+
+	@upload_part path_regexp upload_part ^/api/v1/uploads/[^/]+/parts/[0-9]+$
+	request_body @upload_part {
+		max_size 70MiB
+	}
+	@not_upload_part not path_regexp ^/api/v1/uploads/[^/]+/parts/[0-9]+$
+	request_body @not_upload_part {
+		max_size 1MiB
+	}
+
+	header {
+		-Server
+		X-Content-Type-Options "nosniff"
+		# strict-origin: never the path or query (invite links, SEC-auth-04); Turnstile keeps the origin.
+		Referrer-Policy "strict-origin"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+	}
+
+	# `route` keeps the order below literal (Caddy would otherwise sort `handle` before `respond`).
+	route {
+		# Never routed publicly (OpenAPI ops tag): Prometheus scrape + readiness are Docker-internal.
+		@internal path /metrics /metrics/* /readyz /readyz/*
+		respond @internal 404
+
+		handle /api/* {
+			reverse_proxy {$HIBISCUS_API_UPSTREAM:api:8000} {
+				header_up X-Forwarded-For {client_ip}
+				header_up X-Real-IP {client_ip}
+				header_up CF-Connecting-IP {client_ip}
+				# SSE (text/event-stream) and chunked downloads stream without buffering.
+				flush_interval -1
+				transport http {
+					dial_timeout 5s
+					read_timeout 1h
+					write_timeout 15m
+				}
+			}
+		}
+
+		handle /healthz {
+			reverse_proxy {$HIBISCUS_API_UPSTREAM:api:8000} {
+				transport http {
+					dial_timeout 2s
+					read_timeout 5s
+				}
+			}
+		}
+
+		# Single-page app. Hashed assets are immutable; index.html is always revalidated.
+		handle {
+			root * /srv
+			encode zstd gzip
+			# CSP stays strict: NO unsafe-eval / wasm-unsafe-eval in script-src (QC-e2e-04). Code
+			# that compiles strings at run time (new Function / eval, e.g. Ajv's runtime codegen) must
+			# be replaced in the SPA (precompiled / interpreting validators), never allowed here.
+			# Enforced by deploy/tests/test_configs.py::test_csp_forbids_eval.
+			header {
+				Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+				X-Frame-Options "DENY"
+				Cross-Origin-Opener-Policy "same-origin"
+				Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+			}
+			@assets path /assets/*
+			header @assets Cache-Control "public, max-age=31536000, immutable"
+			@html not path /assets/*
+			header @html Cache-Control "no-cache"
+			try_files {path} /index.html
+			file_server
+		}
+	}
+}

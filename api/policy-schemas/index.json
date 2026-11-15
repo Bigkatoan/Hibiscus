@@ -1,0 +1,23 @@
+{
+  "lerobot_version": "0.7.1",
+  "generator_version": "1",
+  "policies": [
+    "act",
+    "diffusion",
+    "pi0",
+    "pi05",
+    "smolvla",
+    "tdmpc",
+    "vqbet"
+  ],
+  "files": [
+    "act.json",
+    "diffusion.json",
+    "pi0.json",
+    "pi05.json",
+    "smolvla.json",
+    "tdmpc.json",
+    "train.json",
+    "vqbet.json"
+  ]
+}

@@ -1,0 +1,95 @@
+// Grafana Alloy: ship Hibiscus container logs to Loki.
+// Source = Docker json-file logs (read-only bind of /var/lib/docker/containers); no Docker socket.
+// docker-compose.yml sets `labels: com.docker.compose.service,com.docker.compose.project` on the
+// json-file driver, so each line carries {"attrs": {...}} with the compose service name.
+// Only projects named hibiscus* are kept (the host also runs unrelated containers).
+
+local.file_match "docker" {
+  path_targets = [{"__path__" = "/var/lib/docker/containers/*/*-json.log", "job" = "docker"}]
+  sync_period  = "10s"
+}
+
+loki.source.file "docker" {
+  targets       = local.file_match.docker.targets
+  forward_to    = [loki.process.docker.receiver]
+  tail_from_end = true
+}
+
+loki.process "docker" {
+  // Docker envelope: {"log": "...", "stream": "stdout", "attrs": {...}, "time": "..."}
+  stage.json {
+    expressions = {
+      line   = "log",
+      stream = "stream",
+      time   = "time",
+      attrs  = "attrs",
+    }
+  }
+
+  stage.json {
+    source      = "attrs"
+    expressions = {
+      service = "\"com.docker.compose.service\"",
+      project = "\"com.docker.compose.project\"",
+    }
+  }
+
+  stage.labels {
+    values = {
+      service = "",
+      project = "",
+      stream  = "",
+    }
+  }
+
+  stage.match {
+    selector = "{project!~\"hibiscus.*\"}"
+    action   = "drop"
+    drop_counter_reason = "not_hibiscus"
+  }
+
+  stage.timestamp {
+    source = "time"
+    format = "RFC3339Nano"
+  }
+
+  // Application lines are structured JSON (CONTRIBUTING §6): lift level (label, low
+  // cardinality) and request_id / run_id / workspace_id (structured metadata, high cardinality).
+  stage.json {
+    source      = "line"
+    expressions = {
+      level        = "level",
+      request_id   = "request_id",
+      run_id       = "run_id",
+      workspace_id = "workspace_id",
+    }
+  }
+
+  stage.labels {
+    values = { level = "" }
+  }
+
+  stage.structured_metadata {
+    values = {
+      request_id   = "",
+      run_id       = "",
+      workspace_id = "",
+    }
+  }
+
+  stage.label_drop {
+    values = ["filename"]
+  }
+
+  stage.output {
+    source = "line"
+  }
+
+  forward_to = [loki.write.default.receiver]
+}
+
+loki.write "default" {
+  endpoint {
+    url = "http://loki:3100/loki/api/v1/push"
+  }
+}

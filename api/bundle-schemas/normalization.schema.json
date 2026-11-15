@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hibiscus.local/api/bundle-schemas/normalization.schema.json",
+  "title": "Hibiscus bundle onnx/normalization.json v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "eps", "features"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "eps": {"type": "number", "description": "lerobot NormalizerProcessorStep.eps (1e-8)"},
+    "features": {
+      "type": "object",
+      "description": "Only features the policy normalises (inputs + action). Arrays have the stat's natural shape flattened per channel/dim: state/action [dim]; images [3] (per channel).",
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false, "required": ["type", "mode"],
+        "properties": {
+          "type": {"enum": ["STATE", "VISUAL", "ACTION", "ENV"]},
+          "mode": {"enum": ["MEAN_STD", "MIN_MAX", "QUANTILES", "QUANTILE10", "IDENTITY"]},
+          "mean": {"type": "array", "items": {"type": "number"}},
+          "std": {"type": "array", "items": {"type": "number"}},
+          "min": {"type": "array", "items": {"type": "number"}},
+          "max": {"type": "array", "items": {"type": "number"}},
+          "q01": {"type": "array", "items": {"type": "number"}},
+          "q99": {"type": "array", "items": {"type": "number"}},
+          "q10": {"type": "array", "items": {"type": "number"}},
+          "q90": {"type": "array", "items": {"type": "number"}}
+        }
+      }
+    }
+  }
+}

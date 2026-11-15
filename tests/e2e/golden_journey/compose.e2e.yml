@@ -1,0 +1,31 @@
+# Golden-journey E2E overlay (owner: A10). Applied on top of deploy/docker-compose.yml +
+# deploy/compose.dev.yml by run.sh with its own project name, so it never touches the
+# production stack (127.0.0.1:18000) or the shared dev project (hibiscus-dev).
+#
+# Published ports (loopback only, inside the 18100-18199 band reserved for dev/test):
+#   E2E_PORT_BASE+0 proxy (SPA + API)   +1 Grafana   +2 Prometheus   +3 MinIO console
+#   +4 Postgres                          +5 Redis     +6 MinIO S3
+# Only worker-cuda0 (RTX 3060) is started; worker-cuda1 / gpu-exporter stay off.
+services:
+  proxy:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_BASE:-18150}:8080"
+  api:
+    environment:
+      HIBISCUS_PUBLIC_BASE_URL: http://127.0.0.1:${E2E_PORT_BASE:-18150}
+  grafana:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_GRAFANA:-18151}:3000"
+  prometheus:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_PROMETHEUS:-18152}:9090"
+  minio:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_MINIO_CONSOLE:-18153}:9001"
+      - "127.0.0.1:${E2E_PORT_MINIO_S3:-18156}:9000"
+  postgres:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_POSTGRES:-18154}:5432"
+  redis:
+    ports: !override
+      - "127.0.0.1:${E2E_PORT_REDIS:-18155}:6379"

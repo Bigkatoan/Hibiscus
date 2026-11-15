@@ -1,0 +1,71 @@
+[project]
+name = "hibiscus-worker"
+version = "0.1.0"
+description = "Hibiscus GPU worker: validate / train / eval / export jobs"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # Pinned per ADR-3. The worker image installs exactly this LeRobot version.
+    "lerobot[training,diffusion,smolvla,pi,peft]==0.7.1",
+    "sqlalchemy>=2.0.36,<2.1",
+    "psycopg[binary]>=3.2,<4",
+    "redis>=5.2,<6",
+    "boto3>=1.35,<2",
+    "nvidia-ml-py>=12.560",
+    "onnx>=1.17",
+    "onnxruntime>=1.20",
+    "libarchive-c>=5.1",
+    "pydantic>=2.9,<3",
+    "pydantic-settings>=2.6",
+    # A5 export/eval (CR via docs/handoff/A5-export.md)
+    "onnxscript>=0.1",
+    "onnxconverter-common>=1.14",
+    "matplotlib>=3.9",
+    "jsonschema>=4.23",
+    # A3 validate (docs/handoff/A3-data.md)
+    "cryptography>=43",
+    "prometheus-client>=0.21,<1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "testcontainers[postgres,redis,minio]>=4.8",
+    "boto3-stubs[s3]>=1.35",
+    "types-jsonschema",
+    "pyyaml>=6",
+    "types-PyYAML",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["train/tests", "core/tests", "validate", "export", "eval"]
+markers = ["gpu: needs a CUDA GPU", "slow: > 30 s"]
+addopts = "-m 'not gpu and not slow'"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = ["ignore::DeprecationWarning:testcontainers.*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "ASYNC", "N", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["S101"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+[[tool.mypy.overrides]]
+module = ["lerobot.*", "torch.*", "torchvision.*", "onnxruntime.*", "onnxconverter_common.*", "diffusers.*", "draccus.*", "libarchive.*", "pynvml.*", "testcontainers.*"]
+ignore_missing_imports = true
+
+[tool.uv.sources]
+# lerobot 0.7.1 is not on PyPI under that version: pin the exact upstream commit the reference
+# environment (~/lelab/leLab/.venv, lerobot 0.7.1) was installed from.
+lerobot = { git = "https://github.com/huggingface/lerobot.git", rev = "fe1c54594f6ba275fccf210b9f7b11f0e2324b89" }

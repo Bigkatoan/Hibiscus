@@ -1,0 +1,690 @@
+# Hibiscus production stack (single GPU host). Owner: A8 DevOps.
+#
+#   cd deploy && cp .env.example .env && $EDITOR .env      # fill every CHANGE_ME
+#   docker compose up -d --build                           # or: make up (repo root)
+#
+# Network exposure (CONTRACT_NOTES §3 — verified by deploy/scripts/check_compose.py in CI):
+#   * the ONLY public entrypoint is `proxy`, published as 127.0.0.1:18000 (plain HTTP);
+#     the Cloudflare Tunnel (host systemd service, not managed here) points at it.
+#   * host port 8000 is LeLab's and is never used. Nothing binds a non-loopback interface.
+#   * Grafana is published on 127.0.0.1:13000 for the operator (SSH tunnel / LAN only).
+#   * Postgres, Redis, MinIO, Prometheus, Loki and the API itself are reachable only on
+#     internal Docker networks.
+# Local development uses compose.dev.yml (project `hibiscus-dev`, ports 18100-18199).
+
+name: hibiscus
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "50m"
+    max-file: "5"
+    # Adds {"attrs": {"com.docker.compose.service": ...}} to every JSON log line; Alloy turns
+    # it into the `service` label without needing the Docker socket.
+    labels: "com.docker.compose.service,com.docker.compose.project"
+
+x-hardening: &hardening
+  security_opt:
+    - no-new-privileges:true
+  cap_drop:
+    - ALL
+
+# --- container environment ------------------------------------------------------------------
+# Every HIBISCUS_* name below is one the process in that container actually reads: pydantic
+# settings fields of backend/app/core/settings.py (api, migrate), worker/core/settings.py (GPU
+# workers) or worker/validate/settings.py (worker-cpu), or a name the image's CMD consumes.
+# deploy/tests/test_env_contract.py fails on any other name (QC-e2e-10), so a typo or a renamed
+# setting can never be ignored silently again. Secrets are given only to the services that use them.
+x-s3-env: &s3-env
+  HIBISCUS_S3_ENDPOINT_URL: http://minio:9000
+  HIBISCUS_S3_REGION: us-east-1
+  HIBISCUS_S3_ACCESS_KEY: ${HIBISCUS_S3_ACCESS_KEY:-hibiscus-app}
+  HIBISCUS_S3_SECRET_KEY: ${HIBISCUS_S3_SECRET_KEY:?set HIBISCUS_S3_SECRET_KEY in deploy/.env}
+
+# api + migrate (backend Settings). HIBISCUS_ENV is prod|dev|test (Settings.env Literal).
+x-api-env: &api-env
+  <<: *s3-env
+  HIBISCUS_ENV: ${HIBISCUS_ENV:-prod}
+  HIBISCUS_VERSION: ${HIBISCUS_VERSION:-0.1.0}
+  HIBISCUS_PUBLIC_BASE_URL: ${HIBISCUS_PUBLIC_BASE_URL:-https://robot.example.com}
+  HIBISCUS_LOG_LEVEL: ${HIBISCUS_LOG_LEVEL:-INFO}
+  HIBISCUS_LOG_JSON: "true"
+  HIBISCUS_DATABASE_URL: postgresql+asyncpg://${HIBISCUS_DB_USER:-hibiscus}:${HIBISCUS_DB_PASSWORD:?set HIBISCUS_DB_PASSWORD in deploy/.env}@postgres:5432/${HIBISCUS_DB_NAME:-hibiscus}
+  HIBISCUS_REDIS_URL: redis://:${HIBISCUS_REDIS_PASSWORD:?set HIBISCUS_REDIS_PASSWORD in deploy/.env}@redis:6379/0
+  # Required in every env: a per-process random key (dev/test fallback) breaks multi-worker
+  # uvicorn (QC-e2e-02), so the deploy never relies on it.
+  HIBISCUS_DATA_KEY: ${HIBISCUS_DATA_KEY:?set HIBISCUS_DATA_KEY in deploy/.env}
+  HIBISCUS_JWT_PRIVATE_KEY: ${HIBISCUS_JWT_PRIVATE_KEY:?set HIBISCUS_JWT_PRIVATE_KEY in deploy/.env (deploy/scripts/gen-secrets.sh)}
+  HIBISCUS_CURSOR_SECRET: ${HIBISCUS_CURSOR_SECRET:?set HIBISCUS_CURSOR_SECRET in deploy/.env}
+  # worker-cpu (validate) runs push_model_hub jobs with the user's encrypted HF token (QC-backend-02)
+  HIBISCUS_HUB_PUSH_ENABLED: "true"
+  # Hub repos a run may start from (init_from) / name as VLM backbone; comma-separated (RunsSettings)
+  HIBISCUS_INIT_FROM_HF_ALLOWLIST: ${HIBISCUS_INIT_FROM_HF_ALLOWLIST:-}
+  HIBISCUS_VLM_MODEL_ALLOWLIST: ${HIBISCUS_VLM_MODEL_ALLOWLIST:-HuggingFaceTB/SmolVLM2-500M-Video-Instruct,google/paligemma-3b-pt-224}
+
+# GPU workers (worker/core/settings.py WorkerSettings). No HIBISCUS_DATA_KEY: nothing in the train
+# worker decrypts user secrets, and the lerobot-train child must not inherit it (SEC-input-2).
+x-worker-env: &worker-env
+  <<: *s3-env
+  HIBISCUS_DATABASE_URL: postgresql+psycopg://${HIBISCUS_DB_USER:-hibiscus}:${HIBISCUS_DB_PASSWORD}@postgres:5432/${HIBISCUS_DB_NAME:-hibiscus}
+  HIBISCUS_REDIS_URL: redis://:${HIBISCUS_REDIS_PASSWORD}@redis:6379/0
+  HIBISCUS_LOG_LEVEL: ${HIBISCUS_LOG_LEVEL:-INFO}
+  HIBISCUS_WORKER_VERSION: ${HIBISCUS_VERSION:-0.1.0}
+  HIBISCUS_HEARTBEAT_INTERVAL_S: "10"
+  HIBISCUS_LEASE_TTL_S: "60"
+  # prometheus_client /metrics (worker/core/metrics.py), scraped by Prometheus job `workers`
+  HIBISCUS_METRICS_PORT: "9108"
+  HIBISCUS_CACHE_DIR: /cache
+  HIBISCUS_SCRATCH_DIR: /scratch
+  HIBISCUS_DATASET_CACHE_MAX_BYTES: ${HIBISCUS_DATASET_CACHE_MAX_BYTES:-161061273600}
+  HF_HOME: /cache/hf
+  HF_HUB_OFFLINE: "1"
+  PYTHONUNBUFFERED: "1"
+
+x-gpu-worker: &gpu-worker
+  <<: *hardening
+  restart: unless-stopped
+  logging: *logging
+  # ADR-0002 / run-lifecycle §8: give the worker time to stop lerobot-train and checkpoint.
+  stop_grace_period: 120s
+  stop_signal: SIGTERM
+  init: false            # tini is PID 1 in the image
+  # PyTorch DataLoader workers exchange batches through /dev/shm (default 64 MiB is far too small).
+  shm_size: ${HIBISCUS_WORKER_SHM_SIZE:-8gb}
+  ulimits:
+    memlock: -1
+    nofile: {soft: 65536, hard: 65536}
+  pids_limit: 4096
+  read_only: true
+  tmpfs:
+    - /tmp:size=2g,mode=1777
+  volumes:
+    # Shared between both GPU workers at identical paths (run-lifecycle §10).
+    - cache:/cache
+    - scratch:/scratch
+  networks: [data, obs, egress]
+  depends_on:
+    postgres: {condition: service_healthy}
+    redis: {condition: service_healthy}
+    minio-init: {condition: service_completed_successfully}
+    migrate: {condition: service_completed_successfully}
+
+services:
+  # ============================================================================================
+  # Data plane
+  # ============================================================================================
+  postgres:
+    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:16.16-trixie@sha256:dd2bf3ce2dc83a81674cf7f217fcfd8a5009a4b325dda5b843bfee82a06cff6f}
+    restart: unless-stopped
+    logging: *logging
+    security_opt: ["no-new-privileges:true"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD:?set POSTGRES_SUPERUSER_PASSWORD in deploy/.env}
+      POSTGRES_DB: postgres
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --data-checksums"
+      # consumed by postgres/initdb/10-hibiscus.sh (first start only)
+      HIBISCUS_DB_NAME: ${HIBISCUS_DB_NAME:-hibiscus}
+      HIBISCUS_DB_USER: ${HIBISCUS_DB_USER:-hibiscus}
+      HIBISCUS_DB_PASSWORD: ${HIBISCUS_DB_PASSWORD}
+      HIBISCUS_DB_MONITOR_PASSWORD: ${HIBISCUS_DB_MONITOR_PASSWORD:?set HIBISCUS_DB_MONITOR_PASSWORD in deploy/.env}
+    command:
+      - postgres
+      - -c
+      - max_connections=200
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - effective_cache_size=3GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=256MB
+      - -c
+      - wal_level=replica
+      - -c
+      - max_wal_size=2GB
+      - -c
+      - log_min_duration_statement=500
+      - -c
+      - log_lock_waits=on
+      - -c
+      - idle_in_transaction_session_timeout=300000
+      - -c
+      - password_encryption=scram-sha-256
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres/initdb:/docker-entrypoint-initdb.d:ro
+    shm_size: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ${HIBISCUS_DB_NAME:-hibiscus} -h 127.0.0.1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    stop_grace_period: 60s
+    networks: [data]
+    deploy:
+      resources:
+        limits: {cpus: "2", memory: 4g}
+
+  redis:
+    image: ${HIBISCUS_REDIS_IMAGE:-redis:7.4.12-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    user: redis   # the image's redis user; /data in the named volume is owned by it
+    environment:
+      REDIS_PASSWORD: ${HIBISCUS_REDIS_PASSWORD}
+      REDISCLI_AUTH: ${HIBISCUS_REDIS_PASSWORD}
+    command:
+      - sh
+      - -c
+      - >-
+        exec redis-server --appendonly yes --appendfsync everysec
+        --maxmemory 768mb --maxmemory-policy volatile-lru
+        --protected-mode yes --requirepass "$$REDIS_PASSWORD"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    networks: [data]
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 1g}
+
+  minio:
+    # Upstream MinIO stopped publishing images in 2025 (minio/minio and quay.io/minio/minio are
+    # gone); pgsty/minio is the maintained community build of the same AGPL server.
+    image: ${HIBISCUS_MINIO_IMAGE:-pgsty/minio:RELEASE.2026-08-04T00-00-00Z@sha256:b6bfe7239bfc83fb90d31612d9704d86039dd714f7904b3f1ad68f211e602372}
+    restart: unless-stopped
+    logging: *logging
+    security_opt: ["no-new-privileges:true"]
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-hibiscus-root}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:?set MINIO_ROOT_PASSWORD in deploy/.env}
+      MINIO_PROMETHEUS_AUTH_TYPE: public   # scraped only on the internal obs network
+      MINIO_BROWSER_REDIRECT: "off"
+      MINIO_API_REQUESTS_DEADLINE: 15m
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 10s
+    networks: [data, obs]
+    deploy:
+      resources:
+        limits: {cpus: "2", memory: 2g}
+
+  minio-init:
+    image: ${HIBISCUS_MC_IMAGE:-pgsty/mc:RELEASE.2026-11-12T00-00-00Z@sha256:b532278b7a3747dbab6fe45eebb40a653efa704e6758e24e9d9ec54fc96c1800}
+    restart: "no"
+    logging: *logging
+    security_opt: ["no-new-privileges:true"]
+    entrypoint: ["/bin/sh", "/init/minio-init.sh"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-hibiscus-root}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      HIBISCUS_S3_ACCESS_KEY: ${HIBISCUS_S3_ACCESS_KEY:-hibiscus-app}
+      HIBISCUS_S3_SECRET_KEY: ${HIBISCUS_S3_SECRET_KEY}
+      HIBISCUS_UPLOADS_EXPIRE_DAYS: ${HIBISCUS_UPLOADS_EXPIRE_DAYS:-14}
+      HIBISCUS_NONCURRENT_EXPIRE_DAYS: ${HIBISCUS_NONCURRENT_EXPIRE_DAYS:-30}
+    volumes:
+      - ./minio:/init:ro
+    depends_on:
+      minio: {condition: service_healthy}
+    networks: [data]
+
+  # ============================================================================================
+  # Application
+  # ============================================================================================
+  migrate:
+    image: hibiscus/api:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/api.Dockerfile
+    restart: "no"
+    logging: *logging
+    <<: *hardening
+    read_only: true
+    tmpfs: [/tmp]
+    environment:
+      <<: *api-env
+    # Alembic migrations live in backend/app/db/migrations (A1, Phase 3).
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      postgres: {condition: service_healthy}
+    networks: [data]
+
+  api:
+    image: hibiscus/api:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/api.Dockerfile
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    read_only: true
+    tmpfs: ["/tmp:size=256m"]
+    environment:
+      <<: *api-env
+      WEB_CONCURRENCY: ${HIBISCUS_API_WORKERS:-2}
+      # The proxy's fixed address on the `app` network; only it may set X-Forwarded-For
+      # (uvicorn --forwarded-allow-ips in the image CMD) and CF-Connecting-IP (Settings
+      # trusted_proxy_cidrs, ADR-0008; a JSON list).
+      HIBISCUS_TRUSTED_PROXY_IPS: ${HIBISCUS_PROXY_APP_IP:-172.31.251.2}
+      HIBISCUS_TRUSTED_PROXY_CIDRS: '["${HIBISCUS_PROXY_APP_IP:-172.31.251.2}/32"]'
+      HIBISCUS_COOKIE_SECURE: "true"
+      HIBISCUS_EMAIL_PROVIDER: ${HIBISCUS_EMAIL_PROVIDER:-cloudflare}
+      HIBISCUS_EMAIL_FROM: ${HIBISCUS_EMAIL_FROM:-Hibiscus <no-reply@robot.example.com>}
+      HIBISCUS_EMAIL_WORKER_URL: ${HIBISCUS_EMAIL_WORKER_URL:-}
+      HIBISCUS_EMAIL_WORKER_SECRET: ${HIBISCUS_EMAIL_WORKER_SECRET:-}
+      HIBISCUS_SMTP_HOST: ${HIBISCUS_SMTP_HOST:-localhost}
+      HIBISCUS_SMTP_PORT: ${HIBISCUS_SMTP_PORT:-587}
+      HIBISCUS_SMTP_USERNAME: ${HIBISCUS_SMTP_USERNAME:-}
+      HIBISCUS_SMTP_PASSWORD: ${HIBISCUS_SMTP_PASSWORD:-}
+      HIBISCUS_SMTP_STARTTLS: ${HIBISCUS_SMTP_STARTTLS:-true}
+      HIBISCUS_SMTP_SSL: ${HIBISCUS_SMTP_SSL:-false}
+      HIBISCUS_TURNSTILE_SITE_KEY: ${HIBISCUS_TURNSTILE_SITE_KEY:-}
+      HIBISCUS_TURNSTILE_SECRET_KEY: ${HIBISCUS_TURNSTILE_SECRET_KEY:-}
+      HIBISCUS_CF_ACCESS_TEAM_DOMAIN: ${HIBISCUS_CF_ACCESS_TEAM_DOMAIN:-}
+      HIBISCUS_CF_ACCESS_AUD: ${HIBISCUS_CF_ACCESS_AUD:-}
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+      minio-init: {condition: service_completed_successfully}
+    networks:
+      app:
+        ipv4_address: ${HIBISCUS_API_APP_IP:-172.31.251.10}
+      data: {}
+      obs: {}
+      egress: {}   # Cloudflare email Worker, Turnstile siteverify, Hub metadata
+    deploy:
+      resources:
+        limits: {cpus: "2", memory: 2g}
+
+  proxy:
+    image: hibiscus/web:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/web.Dockerfile
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    read_only: true
+    tmpfs: [/tmp, /data, /config]
+    environment:
+      HIBISCUS_EDGE_GATEWAY: ${HIBISCUS_EDGE_GATEWAY:-172.31.250.1}
+      HIBISCUS_API_UPSTREAM: api:8000
+    ports:
+      # THE public entrypoint: loopback only; cloudflared -> http://localhost:18000.
+      - "127.0.0.1:18000:8080"
+    depends_on:
+      api: {condition: service_started}
+    networks:
+      edge: {}
+      app:
+        ipv4_address: ${HIBISCUS_PROXY_APP_IP:-172.31.251.2}
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 512m}
+
+  # ============================================================================================
+  # Workers (ADR-0002: one container per GPU; device order = PCI bus id, see docs/runbook/gpu.md)
+  # ============================================================================================
+  worker-cuda0:
+    <<: *gpu-worker
+    image: hibiscus/worker-gpu:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        RUNTIME_BASE: nvidia/cuda:13.2.0-base-ubuntu24.04@sha256:36cccda4bebc3b0b1ebe1907ead8169cf144d45df890be871b36b304cf91145a
+        TORCH_INDEX_URL: https://pypi.org/simple
+        TORCH_PACKAGES: "torch==2.15.0 torchvision==0.29.2"
+        TORCHCODEC_PACKAGE: "torchcodec==0.17.0"
+        WORKER_VARIANT: gpu
+    hostname: worker-cuda0
+    environment:
+      <<: *worker-env
+      # gpu_nodes id = "cuda<HIBISCUS_GPU_INDEX>" (host PCI index, = device_ids below). The
+      # container sees only its own GPU, so NVML opens index 0 (QC-e2e-09).
+      HIBISCUS_GPU_INDEX: "0"
+      HIBISCUS_NVML_INDEX: "0"
+    deploy:
+      resources:
+        limits:
+          cpus: ${HIBISCUS_WORKER_GPU_CPUS:-4}
+          memory: ${HIBISCUS_WORKER_GPU_MEMORY:-11g}
+          pids: 4096
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${HIBISCUS_GPU0_DEVICE:-0}"]   # RTX 3060 12 GB (sm_86, bf16)
+              capabilities: [gpu, utility, compute]
+
+  worker-cuda1:
+    <<: *gpu-worker
+    image: hibiscus/worker-gpu-pascal:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        RUNTIME_BASE: nvidia/cuda:12.6.3-base-ubuntu24.04@sha256:c87e78933f4c16e3272123bf2f75537306596d0fbaa395a29696a22786e5ee0e
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu126
+        TORCH_PACKAGES: "torch==2.14.1 torchvision==0.29.1"
+        TORCHCODEC_PACKAGE: "torchcodec==0.16.0"
+        WORKER_VARIANT: gpu-pascal
+    hostname: worker-cuda1
+    environment:
+      <<: *worker-env
+      # Registers as gpu_nodes "cuda1"; inside the container the P40 is NVML index 0 (QC-e2e-09).
+      HIBISCUS_GPU_INDEX: "1"
+      HIBISCUS_NVML_INDEX: "0"
+      # Tesla P40 (Pascal, sm_61): no bf16, crippled fp16 -> fp32 (ADR-0002, D10). The worker
+      # derives this from the NVML compute capability it registers (supports_bf16 /
+      # supports_fast_fp16) and downgrades a requested bf16/fp16 run; no env switch is involved.
+      NVIDIA_TF32_OVERRIDE: "0"
+    deploy:
+      resources:
+        limits:
+          cpus: ${HIBISCUS_WORKER_GPU_CPUS:-4}
+          memory: ${HIBISCUS_WORKER_GPU_MEMORY:-11g}
+          pids: 4096
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${HIBISCUS_GPU1_DEVICE:-1}"]   # Tesla P40 24 GB (sm_61, fp32 only)
+              capabilities: [gpu, utility, compute]
+
+  worker-cpu:
+    <<: *hardening
+    image: hibiscus/worker-cpu:${HIBISCUS_IMAGE_TAG:-dev}
+    build:
+      context: ..
+      network: ${HIBISCUS_BUILD_NETWORK:-default}
+      dockerfile: deploy/docker/worker.Dockerfile
+      args:
+        RUNTIME_BASE: python:3.12.16-slim-trixie@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cpu
+        TORCH_PACKAGES: "torch==2.15.0 torchvision==0.29.1"
+        TORCHCODEC_PACKAGE: "torchcodec==0.17.0"
+        WORKER_VARIANT: cpu
+    hostname: worker-cpu
+    restart: unless-stopped
+    logging: *logging
+    stop_grace_period: 120s
+    shm_size: 1gb
+    pids_limit: 2048
+    read_only: true
+    tmpfs: ["/tmp:size=2g,mode=1777"]
+    environment:
+      # worker/validate/settings.py (WorkerSettings.from_env). The image defaults to the GPU
+      # `train` module; this container runs the CPU job loop (validate_dataset,
+      # import_hf_dataset, merge_datasets) instead (QC-e2e-03).
+      <<: *s3-env
+      HIBISCUS_WORKER_MODULE: validate
+      HIBISCUS_DATABASE_URL: postgresql+psycopg://${HIBISCUS_DB_USER:-hibiscus}:${HIBISCUS_DB_PASSWORD}@postgres:5432/${HIBISCUS_DB_NAME:-hibiscus}
+      HIBISCUS_REDIS_URL: redis://:${HIBISCUS_REDIS_PASSWORD}@redis:6379/0
+      # decrypts the user's stored HF token for import_hf_dataset
+      HIBISCUS_DATA_KEY: ${HIBISCUS_DATA_KEY}
+      HIBISCUS_VALIDATE_WORK_DIR: /scratch/validate
+      HIBISCUS_METRICS_PORT: "9108"   # /metrics for Prometheus job `workers`
+      HF_HOME: /cache/hf
+      HF_HUB_OFFLINE: "0"   # HF import (CONTRACT_NOTES §4.7)
+      PYTHONUNBUFFERED: "1"
+      CUDA_VISIBLE_DEVICES: ""
+    volumes:
+      - cache:/cache
+      - scratch:/scratch
+    networks: [data, obs, egress]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      minio-init: {condition: service_completed_successfully}
+      migrate: {condition: service_completed_successfully}
+    deploy:
+      resources:
+        limits:
+          cpus: ${HIBISCUS_WORKER_CPU_CPUS:-2}
+          memory: ${HIBISCUS_WORKER_CPU_MEMORY:-6g}
+          pids: 2048
+
+  # ============================================================================================
+  # Backups (docs/runbook/backup-restore.md)
+  # ============================================================================================
+  backup:
+    image: ${HIBISCUS_POSTGRES_IMAGE:-postgres:16.16-trixie@sha256:dd2bf3ce2dc83a81674cf7f217fcfd8a5009a4b325dda5b843bfee82a06cff6f}
+    restart: unless-stopped
+    logging: *logging
+    security_opt: ["no-new-privileges:true"]
+    entrypoint: ["/bin/bash", "/backup/backup-loop.sh"]
+    environment:
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: ${HIBISCUS_DB_NAME:-hibiscus}
+      PGUSER: ${HIBISCUS_DB_USER:-hibiscus}
+      PGPASSWORD: ${HIBISCUS_DB_PASSWORD}
+      BACKUP_DIR: /backups
+      BACKUP_AT: ${HIBISCUS_BACKUP_AT:-03:15}
+      BACKUP_RETENTION_DAYS: ${HIBISCUS_BACKUP_RETENTION_DAYS:-14}
+      # Every dump is gpg-encrypted (AES-256) before it reaches the host directory (SEC-infra-2).
+      HIBISCUS_BACKUP_PASSPHRASE: ${HIBISCUS_BACKUP_PASSPHRASE:?set HIBISCUS_BACKUP_PASSPHRASE in deploy/.env}
+      TZ: ${TZ:-Asia/Ho_Chi_Minh}
+    volumes:
+      - ./backup:/backup:ro
+      - ${HIBISCUS_BACKUP_DIR:-./backups}:/backups
+    depends_on:
+      postgres: {condition: service_healthy}
+    healthcheck:
+      # healthy = the last successful dump is younger than 26 h (or the loop just started)
+      test: ["CMD", "/bin/bash", "/backup/backup-health.sh"]
+      interval: 5m
+      timeout: 10s
+      retries: 1
+      start_period: 1m
+    networks: [data]
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 512m}
+
+  # ============================================================================================
+  # Observability (docs/runbook/observability.md)
+  # ============================================================================================
+  prometheus:
+    image: ${HIBISCUS_PROMETHEUS_IMAGE:-prom/prometheus:v3.16.0@sha256:e04987641b57704f408e31f6373ba4138ecf27cb4a165d24aabb6c38fddd0f06}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=${HIBISCUS_PROMETHEUS_RETENTION:-30d}
+    volumes:
+      - ./observability/prometheus:/etc/prometheus:ro
+      - promdata:/prometheus
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9090/-/ready"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks: [obs]
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 1g}
+
+  postgres-exporter:
+    image: ${HIBISCUS_PG_EXPORTER_IMAGE:-prometheuscommunity/postgres-exporter:v0.20.1@sha256:ac5ec343104fae0e2d84a27bb8d69b38430a11910c5382cad85d478d2bab713e}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    environment:
+      DATA_SOURCE_URI: postgres:5432/${HIBISCUS_DB_NAME:-hibiscus}?sslmode=disable
+      DATA_SOURCE_USER: hibiscus_monitor
+      DATA_SOURCE_PASS: ${HIBISCUS_DB_MONITOR_PASSWORD}
+    command:
+      - --extend.query-path=/etc/postgres-exporter/queries.yaml
+      - --no-collector.stat_bgwriter
+    volumes:
+      - ./observability/postgres-exporter:/etc/postgres-exporter:ro
+    depends_on:
+      postgres: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:9187/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks: [data, obs]
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 256m}
+
+  gpu-exporter:
+    # nvidia-smi based (works for both the GeForce 3060 and the Tesla P40; dcgm-exporter does not
+    # support GeForce cards). Read-only telemetry: no CUDA context is created.
+    image: ${HIBISCUS_GPU_EXPORTER_IMAGE:-utkuozdemir/nvidia_gpu_exporter:1.18.0@sha256:26c2a24ddb97356ae9461113a32697a1d7d1697b9e24b5faf86e0d643594a104}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    environment:
+      NVIDIA_DRIVER_CAPABILITIES: utility
+    healthcheck:
+      disable: true   # scratch image (no shell); Prometheus alerts on up{job="gpu"} == 0
+    networks: [obs]
+    deploy:
+      resources:
+        limits: {cpus: "0.25", memory: 128m}
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [utility]
+
+  loki:
+    image: ${HIBISCUS_LOKI_IMAGE:-grafana/loki:3.7.10@sha256:b43c257ccfc925d4a50b8717cac61a3b51df8c48d01847936057e5c4075a24a7}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    command: ["-config.file=/etc/loki/loki.yml"]
+    volumes:
+      - ./observability/loki/loki.yml:/etc/loki/loki.yml:ro
+      - lokidata:/loki
+    # distroless image: no shell for a healthcheck; Prometheus scrapes /ready-equivalent /metrics.
+    networks: [obs]
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 1g}
+
+  alloy:
+    # Ships every container's JSON log file to Loki. Reads /var/lib/docker/containers read-only;
+    # deliberately NOT given the Docker socket (that would be root on the host).
+    image: ${HIBISCUS_ALLOY_IMAGE:-grafana/alloy:v1.22.0@sha256:9acc2529bc1edb7f5b2bd801dd8334ebc80c158e3a9e5526ecd7c9a273d43189}
+    restart: unless-stopped
+    logging: *logging
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    cap_add: [DAC_READ_SEARCH]   # read root-owned 0640 log files without being able to write
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/alloy-data
+      - /etc/alloy/config.alloy
+    volumes:
+      - ./observability/alloy/config.alloy:/etc/alloy/config.alloy:ro
+      - ${DOCKER_CONTAINERS_DIR:-/var/lib/docker/containers}:/var/lib/docker/containers:ro
+      - alloydata:/alloy-data   # root-owned (the image dir belongs to another uid)
+    depends_on:
+      loki: {condition: service_started}
+    networks: [obs]
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 512m}
+
+  grafana:
+    image: ${HIBISCUS_GRAFANA_IMAGE:-grafana/grafana:13.2.6@sha256:b21409d7951ddcfd63a4b49083e4ef2cc35bc1437d071813bf82bfb238b00bca}
+    restart: unless-stopped
+    logging: *logging
+    <<: *hardening
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?set GRAFANA_ADMIN_PASSWORD in deploy/.env}
+      GF_SECURITY_COOKIE_SECURE: "false"   # loopback HTTP only
+      GF_SECURITY_DISABLE_GRAVATAR: "true"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"   # no outbound plugin downloads
+      GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://127.0.0.1:13000/}
+      GF_LOG_MODE: console
+      GF_LOG_CONSOLE_FORMAT: json
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafanadata:/var/lib/grafana
+    ports:
+      - "127.0.0.1:13000:3000"   # operator access only; never routed through the tunnel
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      prometheus: {condition: service_healthy}
+      loki: {condition: service_started}
+    networks: [obs, ops]
+    deploy:
+      resources:
+        limits: {cpus: "1", memory: 512m}
+
+networks:
+  # Holds only the proxy; its gateway (= peer address of connections that arrive through the
+  # published loopback port) is the one address allowed to supply CF-Connecting-IP.
+  edge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${HIBISCUS_EDGE_SUBNET:-172.31.250.0/24}
+          gateway: ${HIBISCUS_EDGE_GATEWAY:-172.31.250.1}
+  # proxy <-> api, fixed addresses so the API can trust exactly one forwarder.
+  app:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${HIBISCUS_APP_SUBNET:-172.31.251.0/24}
+  data:
+    internal: true
+  obs:
+    internal: true
+  egress:
+    driver: bridge
+  ops:
+    driver: bridge
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+  cache:
+  scratch:
+  promdata:
+  lokidata:
+  alloydata:
+  grafanadata:

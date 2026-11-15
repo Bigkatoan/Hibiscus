@@ -1,0 +1,137 @@
+{
+  "schema_version": "1",
+  "bundle_name": "so101_picknplace_act-r1-step10000",
+  "created_at": "2026-11-15T10:00:00Z",
+  "hibiscus_version": "0.1.0",
+  "model_id": "00000000-0000-4000-8000-000000000001",
+  "run": {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "number": 1,
+    "name": "act_picknplace",
+    "workspace_id": "00000000-0000-4000-8000-000000000003"
+  },
+  "checkpoint_step": 10000,
+  "policy": {
+    "type": "act",
+    "onnx_support": "full",
+    "chunk_size": 100,
+    "n_action_steps": 100,
+    "peft": null
+  },
+  "dataset": {
+    "dataset_id": "00000000-0000-4000-8000-000000000004",
+    "version_id": "00000000-0000-4000-8000-000000000005",
+    "version": 1,
+    "name": "so101_picknplace_20261114",
+    "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "repo_id": "local/so101_picknplace_20261114",
+    "robot_type": "so_follower",
+    "fps": 30,
+    "camera_keys": [
+      "observation.images.wrist_cam"
+    ],
+    "state_names": [
+      "shoulder_pan.pos",
+      "shoulder_lift.pos",
+      "elbow_flex.pos",
+      "wrist_flex.pos",
+      "wrist_roll.pos",
+      "gripper.pos"
+    ],
+    "action_names": [
+      "shoulder_pan.pos",
+      "shoulder_lift.pos",
+      "elbow_flex.pos",
+      "wrist_flex.pos",
+      "wrist_roll.pos",
+      "gripper.pos"
+    ],
+    "tasks": [
+      "pick and place"
+    ]
+  },
+  "software": {
+    "lerobot": "0.7.1",
+    "torch": "2.15.0+cu132",
+    "cuda": "13.2",
+    "python": "3.12.16",
+    "onnx": null,
+    "onnxruntime": null,
+    "image_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "training": {
+    "seed": 1000,
+    "total_steps": 100000,
+    "batch_size": 8,
+    "mixed_precision": "no",
+    "gpu_name": "NVIDIA GeForce RTX 3060",
+    "heldout_episodes": [],
+    "train_episodes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "gpu_seconds": 1103.0,
+    "final_loss": 0.347
+  },
+  "checks": {
+    "load_ok": true,
+    "parity_ok": null,
+    "onnx_status": "skipped",
+    "eval": null
+  },
+  "files": [
+    {
+      "path": "pretrained_model/config.json",
+      "size": 1578,
+      "sha256": "b43666d8249ead99769d7d6a2dfbaae9b7ac49f5225010646504ccee3a18fb99"
+    },
+    {
+      "path": "pretrained_model/model.safetensors",
+      "size": 206699768,
+      "sha256": "feda02de909ec268079497ef14e89c8676e292845f02a5d97992312cb20f016a"
+    },
+    {
+      "path": "pretrained_model/policy_postprocessor.json",
+      "size": 660,
+      "sha256": "648b415125a183dfd6cbc47c1dc04ab3f2d912654ef22a12ca5e8b93d7d85cdd"
+    },
+    {
+      "path": "pretrained_model/policy_postprocessor_step_0_unnormalizer_processor.safetensors",
+      "size": 6600,
+      "sha256": "8f95aaaafb9f3d29bfcb853b0c27acafc366b4a51dc04615a77e4d86c714c495"
+    },
+    {
+      "path": "pretrained_model/policy_preprocessor.json",
+      "size": 1158,
+      "sha256": "f8d9269973627dc8302ae8682384c7ef46e08b9edcd2c84f445f3467aea6938a"
+    },
+    {
+      "path": "pretrained_model/policy_preprocessor_step_3_normalizer_processor.safetensors",
+      "size": 6608,
+      "sha256": "efa8e91b6be4009bb84e86f43b894369da38585f4361389c23497b75b2c17fb7"
+    },
+    {
+      "path": "pretrained_model/train_config.json",
+      "size": 8316,
+      "sha256": "de32eeca2de5b79444ebbbb04084b8ff317f17e188780fb17aeab815c0cc38f0"
+    }
+  ]
+}

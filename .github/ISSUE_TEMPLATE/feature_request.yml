@@ -1,0 +1,53 @@
+name: 🌱 Feature request
+description: Suggest an idea or improvement for Hibiscus
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for planting an idea! 🌱 Check the [roadmap](https://github.com/Bigkatoan/Hibiscus#roadmap) and [existing requests](https://github.com/Bigkatoan/Hibiscus/issues?q=is%3Aissue+label%3Aenhancement) first.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Datasets
+        - Training / policies
+        - Monitoring / metrics
+        - Model bundle / running on the robot
+        - Hibiscus Station (robot setup, calibration, teleop, recording)
+        - CLI
+        - Teams / auth / admin
+        - Deployment / operations
+        - UI / pixel art / i18n
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what makes it hard today?
+      placeholder: "When I run a policy on the robot I can't see ..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What would you like Hibiscus to do? Mock-ups and examples are welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you like to work on it?
+      options:
+        - "Yes, I can open a PR"
+        - "Maybe, with some guidance"
+        - "No"

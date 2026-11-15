@@ -1,0 +1,26 @@
+# Hibiscus Email Worker. Deploy: see README.md. No secrets in this file:
+#   wrangler secret put HIBISCUS_EMAIL_HMAC_SECRET        (same value as HIBISCUS_EMAIL_WORKER_SECRET in deploy/.env)
+name = "hibiscus-email"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = true          # https://hibiscus-email.<account-subdomain>.workers.dev/send
+preview_urls = false
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# Cloudflare Email Service sending binding. MAIL_FROM must be an address on a domain onboarded to
+# Email Service (SPF/DKIM published, docs/runbook/email.md).
+[[send_email]]
+name = "EMAIL"
+
+[vars]
+MAIL_FROM = "no-reply@robot.example.com"
+MAIL_FROM_NAME = "Hibiscus"
+# "service" = Email Service structured send (default). "routing" = raw MIME via EmailMessage
+# (Email Routing binding; can only deliver to verified destination addresses — fallback/testing).
+SEND_MODE = "service"
+
+# Optional: serve on your own zone instead of workers.dev (the API then uses this URL).
+# routes = [{ pattern = "email-api.example.com/send", zone_name = "example.com" }]
