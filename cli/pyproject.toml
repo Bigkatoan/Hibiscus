@@ -43,7 +43,7 @@ dev = [
     "types-jsonschema",
     "poethepoet>=0.29",
     # pinned: 0.27+ emits `typing.Self` (Python >= 3.11 only); the CLI must run on Python 3.10
-    "openapi-python-client==0.26.2",
+    "openapi-python-client==0.28.4",
 ]
 
 [tool.poe.tasks.gen-api]
