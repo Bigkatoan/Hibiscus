@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
@@ -5,7 +7,6 @@ from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -31,14 +32,14 @@ class RunWarningEvent:
         code (RunWarningEventCode):
         message (str):
         ts (datetime.datetime):
-        params (Union[Unset, RunWarningEventParams]):
+        params (RunWarningEventParams | Unset):
     """
 
     kind: Literal["warning"]
     code: RunWarningEventCode
     message: str
     ts: datetime.datetime
-    params: Union[Unset, "RunWarningEventParams"] = UNSET
+    params: RunWarningEventParams | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -50,7 +51,7 @@ class RunWarningEvent:
 
         ts = self.ts.isoformat()
 
-        params: Union[Unset, dict[str, Any]] = UNSET
+        params: dict[str, Any] | Unset = UNSET
         if not isinstance(self.params, Unset):
             params = self.params.to_dict()
 
@@ -85,7 +86,7 @@ class RunWarningEvent:
         ts = isoparse(d.pop("ts"))
 
         _params = d.pop("params", UNSET)
-        params: Union[Unset, RunWarningEventParams]
+        params: RunWarningEventParams | Unset
         if isinstance(_params, Unset):
             params = UNSET
         else:

@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,11 +17,11 @@ T = TypeVar("T", bound="ListRunEventsResponse200")
 class ListRunEventsResponse200:
     """
     Attributes:
-        items (list['RunEventRecord']):
+        items (list[RunEventRecord]):
         last_seq (int):
     """
 
-    items: list["RunEventRecord"]
+    items: list[RunEventRecord]
     last_seq: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

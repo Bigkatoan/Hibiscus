@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -32,21 +28,21 @@ class ValidationReport:
         validator_version (str):
         lerobot_version (str):
         summary (ValidationSummary):
-        steps (list['ValidationStep']):
-        job_id (Union[None, UUID, Unset]):
-        recomputed_stats_max_rel_diff (Union['ValidationReportRecomputedStatsMaxRelDiffType0', None, Unset]): feature
-            key -> {mean, std, min, max} max relative difference vs stats.json
+        steps (list[ValidationStep]):
+        job_id (None | Unset | UUID):
+        recomputed_stats_max_rel_diff (None | Unset | ValidationReportRecomputedStatsMaxRelDiffType0): feature key ->
+            {mean, std, min, max} max relative difference vs stats.json
     """
 
     dataset_version_id: UUID
     validator_version: str
     lerobot_version: str
-    summary: "ValidationSummary"
-    steps: list["ValidationStep"]
-    job_id: Union[None, UUID, Unset] = UNSET
-    recomputed_stats_max_rel_diff: Union[
-        "ValidationReportRecomputedStatsMaxRelDiffType0", None, Unset
-    ] = UNSET
+    summary: ValidationSummary
+    steps: list[ValidationStep]
+    job_id: None | Unset | UUID = UNSET
+    recomputed_stats_max_rel_diff: (
+        None | Unset | ValidationReportRecomputedStatsMaxRelDiffType0
+    ) = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -67,7 +63,7 @@ class ValidationReport:
             steps_item = steps_item_data.to_dict()
             steps.append(steps_item)
 
-        job_id: Union[None, Unset, str]
+        job_id: None | str | Unset
         if isinstance(self.job_id, Unset):
             job_id = UNSET
         elif isinstance(self.job_id, UUID):
@@ -75,7 +71,7 @@ class ValidationReport:
         else:
             job_id = self.job_id
 
-        recomputed_stats_max_rel_diff: Union[None, Unset, dict[str, Any]]
+        recomputed_stats_max_rel_diff: dict[str, Any] | None | Unset
         if isinstance(self.recomputed_stats_max_rel_diff, Unset):
             recomputed_stats_max_rel_diff = UNSET
         elif isinstance(
@@ -128,7 +124,7 @@ class ValidationReport:
 
             steps.append(steps_item)
 
-        def _parse_job_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_job_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -139,15 +135,15 @@ class ValidationReport:
                 job_id_type_0 = UUID(data)
 
                 return job_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         job_id = _parse_job_id(d.pop("job_id", UNSET))
 
         def _parse_recomputed_stats_max_rel_diff(
             data: object,
-        ) -> Union["ValidationReportRecomputedStatsMaxRelDiffType0", None, Unset]:
+        ) -> None | Unset | ValidationReportRecomputedStatsMaxRelDiffType0:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -160,11 +156,10 @@ class ValidationReport:
                 )
 
                 return recomputed_stats_max_rel_diff_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             return cast(
-                Union["ValidationReportRecomputedStatsMaxRelDiffType0", None, Unset],
-                data,
+                None | Unset | ValidationReportRecomputedStatsMaxRelDiffType0, data
             )
 
         recomputed_stats_max_rel_diff = _parse_recomputed_stats_max_rel_diff(

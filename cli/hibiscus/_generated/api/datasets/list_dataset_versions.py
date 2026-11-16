@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -14,8 +15,8 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     dataset_id: UUID,
     *,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -28,7 +29,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/datasets/{dataset_id}/versions".format(
-            dataset_id=dataset_id,
+            dataset_id=quote(str(dataset_id), safe=""),
         ),
         "params": params,
     }
@@ -37,8 +38,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[DatasetVersionPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DatasetVersionPage | Problem | None:
     if response.status_code == 200:
         response_200 = DatasetVersionPage.from_dict(response.json())
 
@@ -61,8 +62,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[DatasetVersionPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DatasetVersionPage | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,22 +76,22 @@ def sync_detailed(
     dataset_id: UUID,
     *,
     client: AuthenticatedClient,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetVersionPage, Problem]]:
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[DatasetVersionPage | Problem]:
     """Versions, highest version number first
 
     Args:
         dataset_id (UUID):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersionPage, Problem]]
+        Response[DatasetVersionPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -110,22 +111,22 @@ def sync(
     dataset_id: UUID,
     *,
     client: AuthenticatedClient,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetVersionPage, Problem]]:
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> DatasetVersionPage | Problem | None:
     """Versions, highest version number first
 
     Args:
         dataset_id (UUID):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersionPage, Problem]
+        DatasetVersionPage | Problem
     """
 
     return sync_detailed(
@@ -140,22 +141,22 @@ async def asyncio_detailed(
     dataset_id: UUID,
     *,
     client: AuthenticatedClient,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetVersionPage, Problem]]:
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[DatasetVersionPage | Problem]:
     """Versions, highest version number first
 
     Args:
         dataset_id (UUID):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersionPage, Problem]]
+        Response[DatasetVersionPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -173,22 +174,22 @@ async def asyncio(
     dataset_id: UUID,
     *,
     client: AuthenticatedClient,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetVersionPage, Problem]]:
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> DatasetVersionPage | Problem | None:
     """Versions, highest version number first
 
     Args:
         dataset_id (UUID):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersionPage, Problem]
+        DatasetVersionPage | Problem
     """
 
     return (

@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -24,7 +21,7 @@ class Quota:
         max_upload_bytes (int):
         id (UUID):
         workspace_id (UUID):
-        user_id (Union[None, UUID]): null = workspace default
+        user_id (None | UUID): null = workspace default
     """
 
     max_concurrent_runs: int
@@ -34,7 +31,7 @@ class Quota:
     max_upload_bytes: int
     id: UUID
     workspace_id: UUID
-    user_id: Union[None, UUID]
+    user_id: None | UUID
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -52,7 +49,7 @@ class Quota:
 
         workspace_id = str(self.workspace_id)
 
-        user_id: Union[None, str]
+        user_id: None | str
         if isinstance(self.user_id, UUID):
             user_id = str(self.user_id)
         else:
@@ -92,7 +89,7 @@ class Quota:
 
         workspace_id = UUID(d.pop("workspace_id"))
 
-        def _parse_user_id(data: object) -> Union[None, UUID]:
+        def _parse_user_id(data: object) -> None | UUID:
             if data is None:
                 return data
             try:
@@ -101,9 +98,9 @@ class Quota:
                 user_id_type_0 = UUID(data)
 
                 return user_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID], data)
+            return cast(None | UUID, data)
 
         user_id = _parse_user_id(d.pop("user_id"))
 

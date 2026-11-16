@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -20,8 +20,8 @@ def _get_kwargs() -> dict[str, Any]:
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[GetQueueResponse200, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> GetQueueResponse200 | Problem | None:
     if response.status_code == 200:
         response_200 = GetQueueResponse200.from_dict(response.json())
 
@@ -44,8 +44,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[GetQueueResponse200, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[GetQueueResponse200 | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -57,7 +57,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[GetQueueResponse200, Problem]]:
+) -> Response[GetQueueResponse200 | Problem]:
     """Global queue in scheduling order (runs of other workspaces are anonymised)
 
     Raises:
@@ -65,7 +65,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GetQueueResponse200, Problem]]
+        Response[GetQueueResponse200 | Problem]
     """
 
     kwargs = _get_kwargs()
@@ -80,7 +80,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[GetQueueResponse200, Problem]]:
+) -> GetQueueResponse200 | Problem | None:
     """Global queue in scheduling order (runs of other workspaces are anonymised)
 
     Raises:
@@ -88,7 +88,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GetQueueResponse200, Problem]
+        GetQueueResponse200 | Problem
     """
 
     return sync_detailed(
@@ -99,7 +99,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[GetQueueResponse200, Problem]]:
+) -> Response[GetQueueResponse200 | Problem]:
     """Global queue in scheduling order (runs of other workspaces are anonymised)
 
     Raises:
@@ -107,7 +107,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GetQueueResponse200, Problem]]
+        Response[GetQueueResponse200 | Problem]
     """
 
     kwargs = _get_kwargs()
@@ -120,7 +120,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[GetQueueResponse200, Problem]]:
+) -> GetQueueResponse200 | Problem | None:
     """Global queue in scheduling order (runs of other workspaces are anonymised)
 
     Raises:
@@ -128,7 +128,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GetQueueResponse200, Problem]
+        GetQueueResponse200 | Problem
     """
 
     return (

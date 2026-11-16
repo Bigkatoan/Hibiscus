@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -20,11 +18,11 @@ class ListPoliciesResponse200:
     """
     Attributes:
         lerobot_version (str):
-        items (list['PolicySummary']):
+        items (list[PolicySummary]):
     """
 
     lerobot_version: str
-    items: list["PolicySummary"]
+    items: list[PolicySummary]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -17,12 +15,12 @@ class ForgotPasswordRequest:
     """
     Attributes:
         email (str):
-        turnstile_token (Union[Unset, str]): Cloudflare Turnstile response token (required when
-            AuthConfig.turnstile_site_key is set)
+        turnstile_token (str | Unset): Cloudflare Turnstile response token (required when AuthConfig.turnstile_site_key
+            is set)
     """
 
     email: str
-    turnstile_token: Union[Unset, str] = UNSET
+    turnstile_token: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         email = self.email

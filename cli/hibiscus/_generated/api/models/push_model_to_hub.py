@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     model_id: UUID,
     *,
     body: HubPushRequest,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -25,7 +26,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/models/{model_id}/push-hub".format(
-            model_id=model_id,
+            model_id=quote(str(model_id), safe=""),
         ),
     }
 
@@ -38,8 +39,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Job, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Job | Problem | None:
     if response.status_code == 202:
         response_202 = Job.from_dict(response.json())
 
@@ -82,8 +83,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Job, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Job | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -97,13 +98,13 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: HubPushRequest,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Job | Problem]:
     """Push pretrained_model/ (+ MODEL_CARD.md as README.md) to the HF Hub using the caller's stored token
 
     Args:
         model_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (HubPushRequest):
 
     Raises:
@@ -111,7 +112,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Job, Problem]]
+        Response[Job | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -132,13 +133,13 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: HubPushRequest,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Job | Problem | None:
     """Push pretrained_model/ (+ MODEL_CARD.md as README.md) to the HF Hub using the caller's stored token
 
     Args:
         model_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (HubPushRequest):
 
     Raises:
@@ -146,7 +147,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Job, Problem]
+        Job | Problem
     """
 
     return sync_detailed(
@@ -162,13 +163,13 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: HubPushRequest,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Job | Problem]:
     """Push pretrained_model/ (+ MODEL_CARD.md as README.md) to the HF Hub using the caller's stored token
 
     Args:
         model_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (HubPushRequest):
 
     Raises:
@@ -176,7 +177,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Job, Problem]]
+        Response[Job | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -195,13 +196,13 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: HubPushRequest,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Job | Problem | None:
     """Push pretrained_model/ (+ MODEL_CARD.md as README.md) to the HF Hub using the caller's stored token
 
     Args:
         model_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (HubPushRequest):
 
     Raises:
@@ -209,7 +210,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Job, Problem]
+        Job | Problem
     """
 
     return (

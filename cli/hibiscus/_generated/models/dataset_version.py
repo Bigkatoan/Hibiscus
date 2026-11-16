@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -35,25 +31,25 @@ class DatasetVersion:
         status (DatasetVersionStatus):
         source (DatasetSource):
         created_at (datetime.datetime):
-        content_hash (Union[None, str]):
-        codebase_version (Union[None, str]):
-        robot_type (Union[None, str]):
+        content_hash (None | str):
+        codebase_version (None | str):
+        robot_type (None | str):
         camera_keys (list[str]):
-        features (Union['DatasetVersionFeaturesType0', None]):
-        state_dim (Union[None, int]):
-        action_dim (Union[None, int]):
+        features (DatasetVersionFeaturesType0 | None):
+        state_dim (int | None):
+        action_dim (int | None):
         joint_names (list[str]):
-        validation_summary (Union['ValidationSummary', None]):
-        total_episodes (Union[None, Unset, int]):
-        total_frames (Union[None, Unset, int]):
-        fps (Union[None, Unset, float]):
-        size_bytes (Union[None, Unset, int]):
-        source_ref (Union[None, Unset, str]):
-        merged_from (Union[None, Unset, list[UUID]]):
-        converted_from (Union[None, Unset, str]):
-        tasks (Union[Unset, list[str]]):
-        error_code (Union[None, Unset, str]): Infra failure code when status=failed (e.g. upload_checksum_mismatch
-        ready_at (Union[None, Unset, datetime.datetime]):
+        validation_summary (None | ValidationSummary):
+        total_episodes (int | None | Unset):
+        total_frames (int | None | Unset):
+        fps (float | None | Unset):
+        size_bytes (int | None | Unset):
+        source_ref (None | str | Unset):
+        merged_from (list[UUID] | None | Unset):
+        converted_from (None | str | Unset):
+        tasks (list[str] | Unset):
+        error_code (None | str | Unset): Infra failure code when status=failed (e.g. upload_checksum_mismatch
+        ready_at (datetime.datetime | None | Unset):
     """
 
     id: UUID
@@ -62,25 +58,25 @@ class DatasetVersion:
     status: DatasetVersionStatus
     source: DatasetSource
     created_at: datetime.datetime
-    content_hash: Union[None, str]
-    codebase_version: Union[None, str]
-    robot_type: Union[None, str]
+    content_hash: None | str
+    codebase_version: None | str
+    robot_type: None | str
     camera_keys: list[str]
-    features: Union["DatasetVersionFeaturesType0", None]
-    state_dim: Union[None, int]
-    action_dim: Union[None, int]
+    features: DatasetVersionFeaturesType0 | None
+    state_dim: int | None
+    action_dim: int | None
     joint_names: list[str]
-    validation_summary: Union["ValidationSummary", None]
-    total_episodes: Union[None, Unset, int] = UNSET
-    total_frames: Union[None, Unset, int] = UNSET
-    fps: Union[None, Unset, float] = UNSET
-    size_bytes: Union[None, Unset, int] = UNSET
-    source_ref: Union[None, Unset, str] = UNSET
-    merged_from: Union[None, Unset, list[UUID]] = UNSET
-    converted_from: Union[None, Unset, str] = UNSET
-    tasks: Union[Unset, list[str]] = UNSET
-    error_code: Union[None, Unset, str] = UNSET
-    ready_at: Union[None, Unset, datetime.datetime] = UNSET
+    validation_summary: None | ValidationSummary
+    total_episodes: int | None | Unset = UNSET
+    total_frames: int | None | Unset = UNSET
+    fps: float | None | Unset = UNSET
+    size_bytes: int | None | Unset = UNSET
+    source_ref: None | str | Unset = UNSET
+    merged_from: list[UUID] | None | Unset = UNSET
+    converted_from: None | str | Unset = UNSET
+    tasks: list[str] | Unset = UNSET
+    error_code: None | str | Unset = UNSET
+    ready_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -99,68 +95,68 @@ class DatasetVersion:
 
         created_at = self.created_at.isoformat()
 
-        content_hash: Union[None, str]
+        content_hash: None | str
         content_hash = self.content_hash
 
-        codebase_version: Union[None, str]
+        codebase_version: None | str
         codebase_version = self.codebase_version
 
-        robot_type: Union[None, str]
+        robot_type: None | str
         robot_type = self.robot_type
 
         camera_keys = self.camera_keys
 
-        features: Union[None, dict[str, Any]]
+        features: dict[str, Any] | None
         if isinstance(self.features, DatasetVersionFeaturesType0):
             features = self.features.to_dict()
         else:
             features = self.features
 
-        state_dim: Union[None, int]
+        state_dim: int | None
         state_dim = self.state_dim
 
-        action_dim: Union[None, int]
+        action_dim: int | None
         action_dim = self.action_dim
 
         joint_names = self.joint_names
 
-        validation_summary: Union[None, dict[str, Any]]
+        validation_summary: dict[str, Any] | None
         if isinstance(self.validation_summary, ValidationSummary):
             validation_summary = self.validation_summary.to_dict()
         else:
             validation_summary = self.validation_summary
 
-        total_episodes: Union[None, Unset, int]
+        total_episodes: int | None | Unset
         if isinstance(self.total_episodes, Unset):
             total_episodes = UNSET
         else:
             total_episodes = self.total_episodes
 
-        total_frames: Union[None, Unset, int]
+        total_frames: int | None | Unset
         if isinstance(self.total_frames, Unset):
             total_frames = UNSET
         else:
             total_frames = self.total_frames
 
-        fps: Union[None, Unset, float]
+        fps: float | None | Unset
         if isinstance(self.fps, Unset):
             fps = UNSET
         else:
             fps = self.fps
 
-        size_bytes: Union[None, Unset, int]
+        size_bytes: int | None | Unset
         if isinstance(self.size_bytes, Unset):
             size_bytes = UNSET
         else:
             size_bytes = self.size_bytes
 
-        source_ref: Union[None, Unset, str]
+        source_ref: None | str | Unset
         if isinstance(self.source_ref, Unset):
             source_ref = UNSET
         else:
             source_ref = self.source_ref
 
-        merged_from: Union[None, Unset, list[str]]
+        merged_from: list[str] | None | Unset
         if isinstance(self.merged_from, Unset):
             merged_from = UNSET
         elif isinstance(self.merged_from, list):
@@ -172,23 +168,23 @@ class DatasetVersion:
         else:
             merged_from = self.merged_from
 
-        converted_from: Union[None, Unset, str]
+        converted_from: None | str | Unset
         if isinstance(self.converted_from, Unset):
             converted_from = UNSET
         else:
             converted_from = self.converted_from
 
-        tasks: Union[Unset, list[str]] = UNSET
+        tasks: list[str] | Unset = UNSET
         if not isinstance(self.tasks, Unset):
             tasks = self.tasks
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         else:
             error_code = self.error_code
 
-        ready_at: Union[None, Unset, str]
+        ready_at: None | str | Unset
         if isinstance(self.ready_at, Unset):
             ready_at = UNSET
         elif isinstance(self.ready_at, datetime.datetime):
@@ -258,30 +254,30 @@ class DatasetVersion:
 
         created_at = isoparse(d.pop("created_at"))
 
-        def _parse_content_hash(data: object) -> Union[None, str]:
+        def _parse_content_hash(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         content_hash = _parse_content_hash(d.pop("content_hash"))
 
-        def _parse_codebase_version(data: object) -> Union[None, str]:
+        def _parse_codebase_version(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         codebase_version = _parse_codebase_version(d.pop("codebase_version"))
 
-        def _parse_robot_type(data: object) -> Union[None, str]:
+        def _parse_robot_type(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         robot_type = _parse_robot_type(d.pop("robot_type"))
 
         camera_keys = cast(list[str], d.pop("camera_keys"))
 
-        def _parse_features(data: object) -> Union["DatasetVersionFeaturesType0", None]:
+        def _parse_features(data: object) -> DatasetVersionFeaturesType0 | None:
             if data is None:
                 return data
             try:
@@ -290,29 +286,29 @@ class DatasetVersion:
                 features_type_0 = DatasetVersionFeaturesType0.from_dict(data)
 
                 return features_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["DatasetVersionFeaturesType0", None], data)
+            return cast(DatasetVersionFeaturesType0 | None, data)
 
         features = _parse_features(d.pop("features"))
 
-        def _parse_state_dim(data: object) -> Union[None, int]:
+        def _parse_state_dim(data: object) -> int | None:
             if data is None:
                 return data
-            return cast(Union[None, int], data)
+            return cast(int | None, data)
 
         state_dim = _parse_state_dim(d.pop("state_dim"))
 
-        def _parse_action_dim(data: object) -> Union[None, int]:
+        def _parse_action_dim(data: object) -> int | None:
             if data is None:
                 return data
-            return cast(Union[None, int], data)
+            return cast(int | None, data)
 
         action_dim = _parse_action_dim(d.pop("action_dim"))
 
         joint_names = cast(list[str], d.pop("joint_names"))
 
-        def _parse_validation_summary(data: object) -> Union["ValidationSummary", None]:
+        def _parse_validation_summary(data: object) -> None | ValidationSummary:
             if data is None:
                 return data
             try:
@@ -321,58 +317,58 @@ class DatasetVersion:
                 validation_summary_type_0 = ValidationSummary.from_dict(data)
 
                 return validation_summary_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["ValidationSummary", None], data)
+            return cast(None | ValidationSummary, data)
 
         validation_summary = _parse_validation_summary(d.pop("validation_summary"))
 
-        def _parse_total_episodes(data: object) -> Union[None, Unset, int]:
+        def _parse_total_episodes(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         total_episodes = _parse_total_episodes(d.pop("total_episodes", UNSET))
 
-        def _parse_total_frames(data: object) -> Union[None, Unset, int]:
+        def _parse_total_frames(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         total_frames = _parse_total_frames(d.pop("total_frames", UNSET))
 
-        def _parse_fps(data: object) -> Union[None, Unset, float]:
+        def _parse_fps(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         fps = _parse_fps(d.pop("fps", UNSET))
 
-        def _parse_size_bytes(data: object) -> Union[None, Unset, int]:
+        def _parse_size_bytes(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         size_bytes = _parse_size_bytes(d.pop("size_bytes", UNSET))
 
-        def _parse_source_ref(data: object) -> Union[None, Unset, str]:
+        def _parse_source_ref(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         source_ref = _parse_source_ref(d.pop("source_ref", UNSET))
 
-        def _parse_merged_from(data: object) -> Union[None, Unset, list[UUID]]:
+        def _parse_merged_from(data: object) -> list[UUID] | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -388,33 +384,33 @@ class DatasetVersion:
                     merged_from_type_0.append(merged_from_type_0_item)
 
                 return merged_from_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, list[UUID]], data)
+            return cast(list[UUID] | None | Unset, data)
 
         merged_from = _parse_merged_from(d.pop("merged_from", UNSET))
 
-        def _parse_converted_from(data: object) -> Union[None, Unset, str]:
+        def _parse_converted_from(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         converted_from = _parse_converted_from(d.pop("converted_from", UNSET))
 
         tasks = cast(list[str], d.pop("tasks", UNSET))
 
-        def _parse_error_code(data: object) -> Union[None, Unset, str]:
+        def _parse_error_code(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 
-        def _parse_ready_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_ready_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -425,9 +421,9 @@ class DatasetVersion:
                 ready_at_type_0 = isoparse(data)
 
                 return ready_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         ready_at = _parse_ready_at(d.pop("ready_at", UNSET))
 

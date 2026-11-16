@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     workspace_id: UUID,
     *,
     body: InviteCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -25,7 +26,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/workspaces/{workspace_id}/invites".format(
-            workspace_id=workspace_id,
+            workspace_id=quote(str(workspace_id), safe=""),
         ),
     }
 
@@ -38,8 +39,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[InviteCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> InviteCreated | Problem | None:
     if response.status_code == 201:
         response_201 = InviteCreated.from_dict(response.json())
 
@@ -77,8 +78,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[InviteCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[InviteCreated | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -92,13 +93,13 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: InviteCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[InviteCreated | Problem]:
     """Invite by email (72 h, single use). Returns `accept_url` only when email delivery is disabled.
 
     Args:
         workspace_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (InviteCreate):
 
     Raises:
@@ -106,7 +107,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InviteCreated, Problem]]
+        Response[InviteCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -127,13 +128,13 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: InviteCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> InviteCreated | Problem | None:
     """Invite by email (72 h, single use). Returns `accept_url` only when email delivery is disabled.
 
     Args:
         workspace_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (InviteCreate):
 
     Raises:
@@ -141,7 +142,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InviteCreated, Problem]
+        InviteCreated | Problem
     """
 
     return sync_detailed(
@@ -157,13 +158,13 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: InviteCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[InviteCreated | Problem]:
     """Invite by email (72 h, single use). Returns `accept_url` only when email delivery is disabled.
 
     Args:
         workspace_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (InviteCreate):
 
     Raises:
@@ -171,7 +172,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InviteCreated, Problem]]
+        Response[InviteCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -190,13 +191,13 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: InviteCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> InviteCreated | Problem | None:
     """Invite by email (72 h, single use). Returns `accept_url` only when email delivery is disabled.
 
     Args:
         workspace_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (InviteCreate):
 
     Raises:
@@ -204,7 +205,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InviteCreated, Problem]
+        InviteCreated | Problem
     """
 
     return (

@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,7 +16,7 @@ def _get_kwargs(
     version_id: UUID,
     episode_index: int,
     *,
-    max_points: Union[Unset, int] = 1000,
+    max_points: int | Unset = 1000,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -26,8 +27,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/dataset-versions/{version_id}/episodes/{episode_index}".format(
-            version_id=version_id,
-            episode_index=episode_index,
+            version_id=quote(str(version_id), safe=""),
+            episode_index=quote(str(episode_index), safe=""),
         ),
         "params": params,
     }
@@ -36,8 +37,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[EpisodeDetail, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> EpisodeDetail | Problem | None:
     if response.status_code == 200:
         response_200 = EpisodeDetail.from_dict(response.json())
 
@@ -60,8 +61,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[EpisodeDetail, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[EpisodeDetail | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,21 +76,21 @@ def sync_detailed(
     episode_index: int,
     *,
     client: AuthenticatedClient,
-    max_points: Union[Unset, int] = 1000,
-) -> Response[Union[EpisodeDetail, Problem]]:
+    max_points: int | Unset = 1000,
+) -> Response[EpisodeDetail | Problem]:
     """One episode - per-joint time series (downsampled) and video locations
 
     Args:
         version_id (UUID):
         episode_index (int):
-        max_points (Union[Unset, int]):  Default: 1000.
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[EpisodeDetail, Problem]]
+        Response[EpisodeDetail | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -110,21 +111,21 @@ def sync(
     episode_index: int,
     *,
     client: AuthenticatedClient,
-    max_points: Union[Unset, int] = 1000,
-) -> Optional[Union[EpisodeDetail, Problem]]:
+    max_points: int | Unset = 1000,
+) -> EpisodeDetail | Problem | None:
     """One episode - per-joint time series (downsampled) and video locations
 
     Args:
         version_id (UUID):
         episode_index (int):
-        max_points (Union[Unset, int]):  Default: 1000.
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[EpisodeDetail, Problem]
+        EpisodeDetail | Problem
     """
 
     return sync_detailed(
@@ -140,21 +141,21 @@ async def asyncio_detailed(
     episode_index: int,
     *,
     client: AuthenticatedClient,
-    max_points: Union[Unset, int] = 1000,
-) -> Response[Union[EpisodeDetail, Problem]]:
+    max_points: int | Unset = 1000,
+) -> Response[EpisodeDetail | Problem]:
     """One episode - per-joint time series (downsampled) and video locations
 
     Args:
         version_id (UUID):
         episode_index (int):
-        max_points (Union[Unset, int]):  Default: 1000.
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[EpisodeDetail, Problem]]
+        Response[EpisodeDetail | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -173,21 +174,21 @@ async def asyncio(
     episode_index: int,
     *,
     client: AuthenticatedClient,
-    max_points: Union[Unset, int] = 1000,
-) -> Optional[Union[EpisodeDetail, Problem]]:
+    max_points: int | Unset = 1000,
+) -> EpisodeDetail | Problem | None:
     """One episode - per-joint time series (downsampled) and video locations
 
     Args:
         version_id (UUID):
         episode_index (int):
-        max_points (Union[Unset, int]):  Default: 1000.
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[EpisodeDetail, Problem]
+        EpisodeDetail | Problem
     """
 
     return (

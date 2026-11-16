@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -29,20 +25,20 @@ class ValidationStep:
     Attributes:
         id (ValidationStepId): Order is fixed (PLAN 3.2) - checksum and unpack precede the 5 validation steps.
         status (ValidationStepStatus):
-        issues (list['ValidationIssue']):
-        started_at (Union[None, Unset, datetime.datetime]):
-        finished_at (Union[None, Unset, datetime.datetime]):
-        progress (Union[Unset, float]):
-        issues_truncated (Union[Unset, int]): Number of issues beyond the 500 kept
+        issues (list[ValidationIssue]):
+        started_at (datetime.datetime | None | Unset):
+        finished_at (datetime.datetime | None | Unset):
+        progress (float | Unset):
+        issues_truncated (int | Unset): Number of issues beyond the 500 kept
     """
 
     id: ValidationStepId
     status: ValidationStepStatus
-    issues: list["ValidationIssue"]
-    started_at: Union[None, Unset, datetime.datetime] = UNSET
-    finished_at: Union[None, Unset, datetime.datetime] = UNSET
-    progress: Union[Unset, float] = UNSET
-    issues_truncated: Union[Unset, int] = UNSET
+    issues: list[ValidationIssue]
+    started_at: datetime.datetime | None | Unset = UNSET
+    finished_at: datetime.datetime | None | Unset = UNSET
+    progress: float | Unset = UNSET
+    issues_truncated: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -55,7 +51,7 @@ class ValidationStep:
             issues_item = issues_item_data.to_dict()
             issues.append(issues_item)
 
-        started_at: Union[None, Unset, str]
+        started_at: None | str | Unset
         if isinstance(self.started_at, Unset):
             started_at = UNSET
         elif isinstance(self.started_at, datetime.datetime):
@@ -63,7 +59,7 @@ class ValidationStep:
         else:
             started_at = self.started_at
 
-        finished_at: Union[None, Unset, str]
+        finished_at: None | str | Unset
         if isinstance(self.finished_at, Unset):
             finished_at = UNSET
         elif isinstance(self.finished_at, datetime.datetime):
@@ -111,7 +107,7 @@ class ValidationStep:
 
             issues.append(issues_item)
 
-        def _parse_started_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_started_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -122,13 +118,13 @@ class ValidationStep:
                 started_at_type_0 = isoparse(data)
 
                 return started_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         started_at = _parse_started_at(d.pop("started_at", UNSET))
 
-        def _parse_finished_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_finished_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -139,9 +135,9 @@ class ValidationStep:
                 finished_at_type_0 = isoparse(data)
 
                 return finished_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         finished_at = _parse_finished_at(d.pop("finished_at", UNSET))
 

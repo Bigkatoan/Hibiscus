@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -17,13 +15,13 @@ T = TypeVar("T", bound="RunPauseRequest")
 class RunPauseRequest:
     """
     Attributes:
-        mode (Union[Unset, RunPauseRequestMode]):  Default: RunPauseRequestMode.NEXT_CHECKPOINT.
+        mode (RunPauseRequestMode | Unset):  Default: RunPauseRequestMode.NEXT_CHECKPOINT.
     """
 
-    mode: Union[Unset, RunPauseRequestMode] = RunPauseRequestMode.NEXT_CHECKPOINT
+    mode: RunPauseRequestMode | Unset = RunPauseRequestMode.NEXT_CHECKPOINT
 
     def to_dict(self) -> dict[str, Any]:
-        mode: Union[Unset, str] = UNSET
+        mode: str | Unset = UNSET
         if not isinstance(self.mode, Unset):
             mode = self.mode.value
 
@@ -39,7 +37,7 @@ class RunPauseRequest:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         _mode = d.pop("mode", UNSET)
-        mode: Union[Unset, RunPauseRequestMode]
+        mode: RunPauseRequestMode | Unset
         if isinstance(_mode, Unset):
             mode = UNSET
         else:

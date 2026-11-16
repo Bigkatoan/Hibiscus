@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,12 +17,12 @@ T = TypeVar("T", bound="ModelPage")
 class ModelPage:
     """
     Attributes:
-        items (list['Model']):
-        next_cursor (Union[None, str]): Null on the last page
+        items (list[Model]):
+        next_cursor (None | str): Null on the last page
     """
 
-    items: list["Model"]
-    next_cursor: Union[None, str]
+    items: list[Model]
+    next_cursor: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -35,7 +31,7 @@ class ModelPage:
             items_item = items_item_data.to_dict()
             items.append(items_item)
 
-        next_cursor: Union[None, str]
+        next_cursor: None | str
         next_cursor = self.next_cursor
 
         field_dict: dict[str, Any] = {}
@@ -61,10 +57,10 @@ class ModelPage:
 
             items.append(items_item)
 
-        def _parse_next_cursor(data: object) -> Union[None, str]:
+        def _parse_next_cursor(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         next_cursor = _parse_next_cursor(d.pop("next_cursor"))
 

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -12,9 +12,9 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -36,8 +36,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[AdminUserPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> AdminUserPage | Problem | None:
     if response.status_code == 200:
         response_200 = AdminUserPage.from_dict(response.json())
 
@@ -60,8 +60,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[AdminUserPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[AdminUserPage | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,24 +72,24 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[AdminUserPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[AdminUserPage | Problem]:
     """All users, by email
 
     Args:
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AdminUserPage, Problem]]
+        Response[AdminUserPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -107,24 +107,24 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[AdminUserPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> AdminUserPage | Problem | None:
     """All users, by email
 
     Args:
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AdminUserPage, Problem]
+        AdminUserPage | Problem
     """
 
     return sync_detailed(
@@ -137,24 +137,24 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[AdminUserPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[AdminUserPage | Problem]:
     """All users, by email
 
     Args:
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AdminUserPage, Problem]]
+        Response[AdminUserPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -170,24 +170,24 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[AdminUserPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> AdminUserPage | Problem | None:
     """All users, by email
 
     Args:
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AdminUserPage, Problem]
+        AdminUserPage | Problem
     """
 
     return (

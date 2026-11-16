@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -37,27 +34,27 @@ class RunStreamEvent:
 
         Attributes:
             event (RunStreamEventEvent):
-            data (Union['CheckpointEvent', 'EndEvent', 'EvalEvent', 'Heartbeat', 'LogEvent', 'MetricsEvent', 'ModelEvent',
-                'ProgressEvent', 'RunErrorEvent', 'RunStatusEvent', 'RunWarningEvent', 'TelemetryEvent']):
-            id (Union[Unset, int]): run_events.seq
+            data (CheckpointEvent | EndEvent | EvalEvent | Heartbeat | LogEvent | MetricsEvent | ModelEvent | ProgressEvent
+                | RunErrorEvent | RunStatusEvent | RunWarningEvent | TelemetryEvent):
+            id (int | Unset): run_events.seq
     """
 
     event: RunStreamEventEvent
-    data: Union[
-        "CheckpointEvent",
-        "EndEvent",
-        "EvalEvent",
-        "Heartbeat",
-        "LogEvent",
-        "MetricsEvent",
-        "ModelEvent",
-        "ProgressEvent",
-        "RunErrorEvent",
-        "RunStatusEvent",
-        "RunWarningEvent",
-        "TelemetryEvent",
-    ]
-    id: Union[Unset, int] = UNSET
+    data: (
+        CheckpointEvent
+        | EndEvent
+        | EvalEvent
+        | Heartbeat
+        | LogEvent
+        | MetricsEvent
+        | ModelEvent
+        | ProgressEvent
+        | RunErrorEvent
+        | RunStatusEvent
+        | RunWarningEvent
+        | TelemetryEvent
+    )
+    id: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -136,27 +133,27 @@ class RunStreamEvent:
 
         def _parse_data(
             data: object,
-        ) -> Union[
-            "CheckpointEvent",
-            "EndEvent",
-            "EvalEvent",
-            "Heartbeat",
-            "LogEvent",
-            "MetricsEvent",
-            "ModelEvent",
-            "ProgressEvent",
-            "RunErrorEvent",
-            "RunStatusEvent",
-            "RunWarningEvent",
-            "TelemetryEvent",
-        ]:
+        ) -> (
+            CheckpointEvent
+            | EndEvent
+            | EvalEvent
+            | Heartbeat
+            | LogEvent
+            | MetricsEvent
+            | ModelEvent
+            | ProgressEvent
+            | RunErrorEvent
+            | RunStatusEvent
+            | RunWarningEvent
+            | TelemetryEvent
+        ):
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 data_type_0 = RunStatusEvent.from_dict(data)
 
                 return data_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -164,7 +161,7 @@ class RunStreamEvent:
                 data_type_1 = MetricsEvent.from_dict(data)
 
                 return data_type_1
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -172,7 +169,7 @@ class RunStreamEvent:
                 data_type_2 = CheckpointEvent.from_dict(data)
 
                 return data_type_2
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -180,7 +177,7 @@ class RunStreamEvent:
                 data_type_3 = RunWarningEvent.from_dict(data)
 
                 return data_type_3
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -188,7 +185,7 @@ class RunStreamEvent:
                 data_type_4 = RunErrorEvent.from_dict(data)
 
                 return data_type_4
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -196,7 +193,7 @@ class RunStreamEvent:
                 data_type_5 = ModelEvent.from_dict(data)
 
                 return data_type_5
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -204,7 +201,7 @@ class RunStreamEvent:
                 data_type_6 = EvalEvent.from_dict(data)
 
                 return data_type_6
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -212,7 +209,7 @@ class RunStreamEvent:
                 data_type_7 = ProgressEvent.from_dict(data)
 
                 return data_type_7
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -220,7 +217,7 @@ class RunStreamEvent:
                 data_type_8 = LogEvent.from_dict(data)
 
                 return data_type_8
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -228,7 +225,7 @@ class RunStreamEvent:
                 data_type_9 = TelemetryEvent.from_dict(data)
 
                 return data_type_9
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -236,7 +233,7 @@ class RunStreamEvent:
                 data_type_10 = Heartbeat.from_dict(data)
 
                 return data_type_10
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()

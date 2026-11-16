@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -25,11 +22,11 @@ class EpisodeDetailVideosItem:
         codec (str):
         width (int):
         height (int):
-        browser_playable_hint (Union[Unset, bool]): False for codecs some browsers cannot decode (UI shows fallback)
-        preview_media_path (Union[None, Unset, str]): Per-episode H.264 preview clip (<=480p, starts at t=0, no seek
-            offset), e.g. previews/observation.images.wrist_cam/episode_000003.mp4; served via the same media endpoint. null
-            until validation has generated it.
-        thumbnail_media_path (Union[None, Unset, str]): JPEG thumbnail of the first frame, e.g.
+        browser_playable_hint (bool | Unset): False for codecs some browsers cannot decode (UI shows fallback)
+        preview_media_path (None | str | Unset): Per-episode H.264 preview clip (<=480p, starts at t=0, no seek offset),
+            e.g. previews/observation.images.wrist_cam/episode_000003.mp4; served via the same media endpoint. null until
+            validation has generated it.
+        thumbnail_media_path (None | str | Unset): JPEG thumbnail of the first frame, e.g.
             previews/observation.images.wrist_cam/episode_000003.jpg
     """
 
@@ -40,9 +37,9 @@ class EpisodeDetailVideosItem:
     codec: str
     width: int
     height: int
-    browser_playable_hint: Union[Unset, bool] = UNSET
-    preview_media_path: Union[None, Unset, str] = UNSET
-    thumbnail_media_path: Union[None, Unset, str] = UNSET
+    browser_playable_hint: bool | Unset = UNSET
+    preview_media_path: None | str | Unset = UNSET
+    thumbnail_media_path: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -62,13 +59,13 @@ class EpisodeDetailVideosItem:
 
         browser_playable_hint = self.browser_playable_hint
 
-        preview_media_path: Union[None, Unset, str]
+        preview_media_path: None | str | Unset
         if isinstance(self.preview_media_path, Unset):
             preview_media_path = UNSET
         else:
             preview_media_path = self.preview_media_path
 
-        thumbnail_media_path: Union[None, Unset, str]
+        thumbnail_media_path: None | str | Unset
         if isinstance(self.thumbnail_media_path, Unset):
             thumbnail_media_path = UNSET
         else:
@@ -115,23 +112,23 @@ class EpisodeDetailVideosItem:
 
         browser_playable_hint = d.pop("browser_playable_hint", UNSET)
 
-        def _parse_preview_media_path(data: object) -> Union[None, Unset, str]:
+        def _parse_preview_media_path(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         preview_media_path = _parse_preview_media_path(
             d.pop("preview_media_path", UNSET)
         )
 
-        def _parse_thumbnail_media_path(data: object) -> Union[None, Unset, str]:
+        def _parse_thumbnail_media_path(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         thumbnail_media_path = _parse_thumbnail_media_path(
             d.pop("thumbnail_media_path", UNSET)

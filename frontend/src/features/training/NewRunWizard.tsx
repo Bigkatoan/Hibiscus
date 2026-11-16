@@ -523,7 +523,7 @@ export function NewRunWizard() {
   // Reset form values whenever policy or preset changes (clone keeps its config once).
   useEffect(() => {
     if (!base) return;
-    if (src && src.policy_type === policyType && values === null) {
+    if (src?.policy_type === policyType && values === null) {
       const cloned = {
         policy: deepMerge(base.policy, isRecord(src.config.policy) ? src.config.policy : {}),
         train: deepMerge(base.train, isRecord(src.config.train) ? src.config.train : {}),

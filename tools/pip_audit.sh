@@ -25,8 +25,8 @@ IGNORES=(
   # openapi-python-client is a dev-only code generator for cli/hibiscus/_generated (never installed
   # with the CLI). PYSEC-2026-4245 (fixed in 0.29.1) is code injection from a *malicious* OpenAPI
   # document; we only ever generate from our own api/openapi.yaml, and the generated code is
-  # committed and reviewed. 0.27+ emits typing.Self (Python >= 3.11), which would break the CLI's
-  # Python 3.10 support (see the pin in cli/pyproject.toml).
+  # committed and reviewed. Pinned at 0.28.4 (its output still runs on Python 3.10, checked by the
+  # CLI tests); remove this entry once we move to 0.29.1+.
   "cli:PYSEC-2026-4245"
 )
 

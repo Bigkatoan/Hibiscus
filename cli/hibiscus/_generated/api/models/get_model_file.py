@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, cast
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -14,7 +15,7 @@ def _get_kwargs(
     model_id: UUID,
     path: str,
     *,
-    range_: Union[Unset, str] = UNSET,
+    range_: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(range_, Unset):
@@ -23,8 +24,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/models/{model_id}/files/{path}".format(
-            model_id=model_id,
-            path=path,
+            model_id=quote(str(model_id), safe=""),
+            path=quote(str(path), safe=""),
         ),
     }
 
@@ -33,8 +34,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, str]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | str | None:
     if response.status_code == 200:
         response_200 = cast(str, response.content)
         return response_200
@@ -65,8 +66,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, str]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | str]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -80,21 +81,21 @@ def sync_detailed(
     path: str,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, str]]:
+    range_: str | Unset = UNSET,
+) -> Response[Problem | str]:
     """Download one bundle file (Range supported)
 
     Args:
         model_id (UUID):
         path (str):
-        range_ (Union[Unset, str]):
+        range_ (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, str]]
+        Response[Problem | str]
     """
 
     kwargs = _get_kwargs(
@@ -115,21 +116,21 @@ def sync(
     path: str,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, str]]:
+    range_: str | Unset = UNSET,
+) -> Problem | str | None:
     """Download one bundle file (Range supported)
 
     Args:
         model_id (UUID):
         path (str):
-        range_ (Union[Unset, str]):
+        range_ (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, str]
+        Problem | str
     """
 
     return sync_detailed(
@@ -145,21 +146,21 @@ async def asyncio_detailed(
     path: str,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, str]]:
+    range_: str | Unset = UNSET,
+) -> Response[Problem | str]:
     """Download one bundle file (Range supported)
 
     Args:
         model_id (UUID):
         path (str):
-        range_ (Union[Unset, str]):
+        range_ (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, str]]
+        Response[Problem | str]
     """
 
     kwargs = _get_kwargs(
@@ -178,21 +179,21 @@ async def asyncio(
     path: str,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, str]]:
+    range_: str | Unset = UNSET,
+) -> Problem | str | None:
     """Download one bundle file (Range supported)
 
     Args:
         model_id (UUID):
         path (str):
-        range_ (Union[Unset, str]):
+        range_ (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, str]
+        Problem | str
     """
 
     return (

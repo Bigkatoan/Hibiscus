@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -17,7 +18,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/workspaces/{workspace_id}/usage".format(
-            workspace_id=workspace_id,
+            workspace_id=quote(str(workspace_id), safe=""),
         ),
     }
 
@@ -25,8 +26,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, WorkspaceUsage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | WorkspaceUsage | None:
     if response.status_code == 200:
         response_200 = WorkspaceUsage.from_dict(response.json())
 
@@ -49,8 +50,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, WorkspaceUsage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | WorkspaceUsage]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,8 +63,8 @@ def _build_response(
 def sync_detailed(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Problem, WorkspaceUsage]]:
+    client: AuthenticatedClient | Client,
+) -> Response[Problem | WorkspaceUsage]:
     """Effective quotas and current usage (workspace and caller)
 
     Args:
@@ -74,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, WorkspaceUsage]]
+        Response[Problem | WorkspaceUsage]
     """
 
     kwargs = _get_kwargs(
@@ -91,8 +92,8 @@ def sync_detailed(
 def sync(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Problem, WorkspaceUsage]]:
+    client: AuthenticatedClient | Client,
+) -> Problem | WorkspaceUsage | None:
     """Effective quotas and current usage (workspace and caller)
 
     Args:
@@ -103,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, WorkspaceUsage]
+        Problem | WorkspaceUsage
     """
 
     return sync_detailed(
@@ -115,8 +116,8 @@ def sync(
 async def asyncio_detailed(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Problem, WorkspaceUsage]]:
+    client: AuthenticatedClient | Client,
+) -> Response[Problem | WorkspaceUsage]:
     """Effective quotas and current usage (workspace and caller)
 
     Args:
@@ -127,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, WorkspaceUsage]]
+        Response[Problem | WorkspaceUsage]
     """
 
     kwargs = _get_kwargs(
@@ -142,8 +143,8 @@ async def asyncio_detailed(
 async def asyncio(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Problem, WorkspaceUsage]]:
+    client: AuthenticatedClient | Client,
+) -> Problem | WorkspaceUsage | None:
     """Effective quotas and current usage (workspace and caller)
 
     Args:
@@ -154,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, WorkspaceUsage]
+        Problem | WorkspaceUsage
     """
 
     return (

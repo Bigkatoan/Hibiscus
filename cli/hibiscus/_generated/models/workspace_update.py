@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -21,17 +18,17 @@ T = TypeVar("T", bound="WorkspaceUpdate")
 class WorkspaceUpdate:
     """
     Attributes:
-        name (Union[Unset, str]):
-        settings (Union[Unset, WorkspaceSettings]):
+        name (str | Unset):
+        settings (WorkspaceSettings | Unset):
     """
 
-    name: Union[Unset, str] = UNSET
-    settings: Union[Unset, "WorkspaceSettings"] = UNSET
+    name: str | Unset = UNSET
+    settings: WorkspaceSettings | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
-        settings: Union[Unset, dict[str, Any]] = UNSET
+        settings: dict[str, Any] | Unset = UNSET
         if not isinstance(self.settings, Unset):
             settings = self.settings.to_dict()
 
@@ -53,7 +50,7 @@ class WorkspaceUpdate:
         name = d.pop("name", UNSET)
 
         _settings = d.pop("settings", UNSET)
-        settings: Union[Unset, WorkspaceSettings]
+        settings: WorkspaceSettings | Unset
         if isinstance(_settings, Unset):
             settings = UNSET
         else:

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,7 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     body: ApiTokenCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -34,8 +34,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[ApiTokenCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ApiTokenCreated | Problem | None:
     if response.status_code == 201:
         response_201 = ApiTokenCreated.from_dict(response.json())
 
@@ -63,8 +63,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[ApiTokenCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[ApiTokenCreated | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,8 +77,8 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: ApiTokenCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[ApiTokenCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[ApiTokenCreated | Problem]:
     """Create a PAT bound to one workspace; plaintext returned ONCE
 
      Requires a session with a verified second factor if the user has 2FA enabled, and always for a token
@@ -87,7 +87,7 @@ def sync_detailed(
     acts as a member.
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (ApiTokenCreate):
 
     Raises:
@@ -95,7 +95,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ApiTokenCreated, Problem]]
+        Response[ApiTokenCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -114,8 +114,8 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: ApiTokenCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[ApiTokenCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> ApiTokenCreated | Problem | None:
     """Create a PAT bound to one workspace; plaintext returned ONCE
 
      Requires a session with a verified second factor if the user has 2FA enabled, and always for a token
@@ -124,7 +124,7 @@ def sync(
     acts as a member.
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (ApiTokenCreate):
 
     Raises:
@@ -132,7 +132,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ApiTokenCreated, Problem]
+        ApiTokenCreated | Problem
     """
 
     return sync_detailed(
@@ -146,8 +146,8 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: ApiTokenCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[ApiTokenCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[ApiTokenCreated | Problem]:
     """Create a PAT bound to one workspace; plaintext returned ONCE
 
      Requires a session with a verified second factor if the user has 2FA enabled, and always for a token
@@ -156,7 +156,7 @@ async def asyncio_detailed(
     acts as a member.
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (ApiTokenCreate):
 
     Raises:
@@ -164,7 +164,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[ApiTokenCreated, Problem]]
+        Response[ApiTokenCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -181,8 +181,8 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: ApiTokenCreate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[ApiTokenCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> ApiTokenCreated | Problem | None:
     """Create a PAT bound to one workspace; plaintext returned ONCE
 
      Requires a session with a verified second factor if the user has 2FA enabled, and always for a token
@@ -191,7 +191,7 @@ async def asyncio(
     acts as a member.
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (ApiTokenCreate):
 
     Raises:
@@ -199,7 +199,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[ApiTokenCreated, Problem]
+        ApiTokenCreated | Problem
     """
 
     return (

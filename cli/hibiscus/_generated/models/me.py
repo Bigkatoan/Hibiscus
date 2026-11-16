@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -28,21 +24,21 @@ class Me:
     """
     Attributes:
         user (User):
-        memberships (list['Membership']):
+        memberships (list[Membership]):
         auth_method (MeAuthMethod):
         mfa_verified (bool):
         mfa_enrollment_required (bool):
-        session_id (Union[None, UUID, Unset]):
-        token (Union['ApiToken', None, Unset]): Present when auth_method=pat
+        session_id (None | Unset | UUID):
+        token (ApiToken | None | Unset): Present when auth_method=pat
     """
 
-    user: "User"
-    memberships: list["Membership"]
+    user: User
+    memberships: list[Membership]
     auth_method: MeAuthMethod
     mfa_verified: bool
     mfa_enrollment_required: bool
-    session_id: Union[None, UUID, Unset] = UNSET
-    token: Union["ApiToken", None, Unset] = UNSET
+    session_id: None | Unset | UUID = UNSET
+    token: ApiToken | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -61,7 +57,7 @@ class Me:
 
         mfa_enrollment_required = self.mfa_enrollment_required
 
-        session_id: Union[None, Unset, str]
+        session_id: None | str | Unset
         if isinstance(self.session_id, Unset):
             session_id = UNSET
         elif isinstance(self.session_id, UUID):
@@ -69,7 +65,7 @@ class Me:
         else:
             session_id = self.session_id
 
-        token: Union[None, Unset, dict[str, Any]]
+        token: dict[str, Any] | None | Unset
         if isinstance(self.token, Unset):
             token = UNSET
         elif isinstance(self.token, ApiToken):
@@ -117,7 +113,7 @@ class Me:
 
         mfa_enrollment_required = d.pop("mfa_enrollment_required")
 
-        def _parse_session_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_session_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -128,13 +124,13 @@ class Me:
                 session_id_type_0 = UUID(data)
 
                 return session_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         session_id = _parse_session_id(d.pop("session_id", UNSET))
 
-        def _parse_token(data: object) -> Union["ApiToken", None, Unset]:
+        def _parse_token(data: object) -> ApiToken | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -145,9 +141,9 @@ class Me:
                 token_type_0 = ApiToken.from_dict(data)
 
                 return token_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["ApiToken", None, Unset], data)
+            return cast(ApiToken | None | Unset, data)
 
         token = _parse_token(d.pop("token", UNSET))
 

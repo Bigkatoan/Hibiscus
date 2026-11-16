@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -53,31 +49,31 @@ class Run:
         created_by (UserRef):
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
-        status_changed_at (Union[Unset, datetime.datetime]):
-        desired_state (Union[Unset, RunDesiredState]):
-        error_code (Union[None, RunErrorCode, Unset]):
-        error_message (Union[None, Unset, str]):
-        preset (Union[None, Unset, str]):
-        heldout_episodes (Union[Unset, list[int]]):
-        seed (Union[Unset, int]):
-        latest_metrics (Union[Unset, RunLatestMetrics]): key -> last value
-        gpu_id (Union[None, Unset, str]):
-        requested_gpu (Union[Unset, str]):
-        mixed_precision_requested (Union[Unset, MixedPrecision]):
-        mixed_precision_effective (Union[MixedPrecision, None, Unset]):
-        queue_position (Union[None, Unset, int]):
-        infra_retries_used (Union[Unset, int]):
-        estimate (Union['ResourceEstimate', None, Unset]):
-        parent_run_id (Union[None, UUID, Unset]):
-        init_from (Union[Any, None, Unset]):
-        export (Union[Unset, ExportOptions]):
-        model_id (Union[None, UUID, Unset]): Model built from the final checkpoint
-        gpu_seconds (Union[Unset, float]):
-        queued_at (Union[Unset, datetime.datetime]):
-        started_at (Union[None, Unset, datetime.datetime]):
-        finished_at (Union[None, Unset, datetime.datetime]):
-        allowed_actions (Union[Unset, list[RunAllowedActionsItem]]): Actions valid for the caller now (UI enables
-            buttons from this)
+        status_changed_at (datetime.datetime | Unset):
+        desired_state (RunDesiredState | Unset):
+        error_code (None | RunErrorCode | Unset):
+        error_message (None | str | Unset):
+        preset (None | str | Unset):
+        heldout_episodes (list[int] | Unset):
+        seed (int | Unset):
+        latest_metrics (RunLatestMetrics | Unset): key -> last value
+        gpu_id (None | str | Unset):
+        requested_gpu (str | Unset):
+        mixed_precision_requested (MixedPrecision | Unset):
+        mixed_precision_effective (MixedPrecision | None | Unset):
+        queue_position (int | None | Unset):
+        infra_retries_used (int | Unset):
+        estimate (None | ResourceEstimate | Unset):
+        parent_run_id (None | Unset | UUID):
+        init_from (Any | None | Unset):
+        export (ExportOptions | Unset):
+        model_id (None | Unset | UUID): Model built from the final checkpoint
+        gpu_seconds (float | Unset):
+        queued_at (datetime.datetime | Unset):
+        started_at (datetime.datetime | None | Unset):
+        finished_at (datetime.datetime | None | Unset):
+        allowed_actions (list[RunAllowedActionsItem] | Unset): Actions valid for the caller now (UI enables buttons from
+            this)
     """
 
     id: UUID
@@ -87,38 +83,38 @@ class Run:
     status: RunStatus
     policy_type: PolicyType
     dataset_version_id: UUID
-    dataset: "RunDataset"
-    config: "RunConfig"
-    progress: "RunProgress"
+    dataset: RunDataset
+    config: RunConfig
+    progress: RunProgress
     priority: int
     attempt: int
-    created_by: "UserRef"
+    created_by: UserRef
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    status_changed_at: Union[Unset, datetime.datetime] = UNSET
-    desired_state: Union[Unset, RunDesiredState] = UNSET
-    error_code: Union[None, RunErrorCode, Unset] = UNSET
-    error_message: Union[None, Unset, str] = UNSET
-    preset: Union[None, Unset, str] = UNSET
-    heldout_episodes: Union[Unset, list[int]] = UNSET
-    seed: Union[Unset, int] = UNSET
-    latest_metrics: Union[Unset, "RunLatestMetrics"] = UNSET
-    gpu_id: Union[None, Unset, str] = UNSET
-    requested_gpu: Union[Unset, str] = UNSET
-    mixed_precision_requested: Union[Unset, MixedPrecision] = UNSET
-    mixed_precision_effective: Union[MixedPrecision, None, Unset] = UNSET
-    queue_position: Union[None, Unset, int] = UNSET
-    infra_retries_used: Union[Unset, int] = UNSET
-    estimate: Union["ResourceEstimate", None, Unset] = UNSET
-    parent_run_id: Union[None, UUID, Unset] = UNSET
-    init_from: Union[Any, None, Unset] = UNSET
-    export: Union[Unset, "ExportOptions"] = UNSET
-    model_id: Union[None, UUID, Unset] = UNSET
-    gpu_seconds: Union[Unset, float] = UNSET
-    queued_at: Union[Unset, datetime.datetime] = UNSET
-    started_at: Union[None, Unset, datetime.datetime] = UNSET
-    finished_at: Union[None, Unset, datetime.datetime] = UNSET
-    allowed_actions: Union[Unset, list[RunAllowedActionsItem]] = UNSET
+    status_changed_at: datetime.datetime | Unset = UNSET
+    desired_state: RunDesiredState | Unset = UNSET
+    error_code: None | RunErrorCode | Unset = UNSET
+    error_message: None | str | Unset = UNSET
+    preset: None | str | Unset = UNSET
+    heldout_episodes: list[int] | Unset = UNSET
+    seed: int | Unset = UNSET
+    latest_metrics: RunLatestMetrics | Unset = UNSET
+    gpu_id: None | str | Unset = UNSET
+    requested_gpu: str | Unset = UNSET
+    mixed_precision_requested: MixedPrecision | Unset = UNSET
+    mixed_precision_effective: MixedPrecision | None | Unset = UNSET
+    queue_position: int | None | Unset = UNSET
+    infra_retries_used: int | Unset = UNSET
+    estimate: None | ResourceEstimate | Unset = UNSET
+    parent_run_id: None | Unset | UUID = UNSET
+    init_from: Any | None | Unset = UNSET
+    export: ExportOptions | Unset = UNSET
+    model_id: None | Unset | UUID = UNSET
+    gpu_seconds: float | Unset = UNSET
+    queued_at: datetime.datetime | Unset = UNSET
+    started_at: datetime.datetime | None | Unset = UNSET
+    finished_at: datetime.datetime | None | Unset = UNSET
+    allowed_actions: list[RunAllowedActionsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -154,15 +150,15 @@ class Run:
 
         updated_at = self.updated_at.isoformat()
 
-        status_changed_at: Union[Unset, str] = UNSET
+        status_changed_at: str | Unset = UNSET
         if not isinstance(self.status_changed_at, Unset):
             status_changed_at = self.status_changed_at.isoformat()
 
-        desired_state: Union[Unset, str] = UNSET
+        desired_state: str | Unset = UNSET
         if not isinstance(self.desired_state, Unset):
             desired_state = self.desired_state.value
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         elif isinstance(self.error_code, RunErrorCode):
@@ -170,29 +166,29 @@ class Run:
         else:
             error_code = self.error_code
 
-        error_message: Union[None, Unset, str]
+        error_message: None | str | Unset
         if isinstance(self.error_message, Unset):
             error_message = UNSET
         else:
             error_message = self.error_message
 
-        preset: Union[None, Unset, str]
+        preset: None | str | Unset
         if isinstance(self.preset, Unset):
             preset = UNSET
         else:
             preset = self.preset
 
-        heldout_episodes: Union[Unset, list[int]] = UNSET
+        heldout_episodes: list[int] | Unset = UNSET
         if not isinstance(self.heldout_episodes, Unset):
             heldout_episodes = self.heldout_episodes
 
         seed = self.seed
 
-        latest_metrics: Union[Unset, dict[str, Any]] = UNSET
+        latest_metrics: dict[str, Any] | Unset = UNSET
         if not isinstance(self.latest_metrics, Unset):
             latest_metrics = self.latest_metrics.to_dict()
 
-        gpu_id: Union[None, Unset, str]
+        gpu_id: None | str | Unset
         if isinstance(self.gpu_id, Unset):
             gpu_id = UNSET
         else:
@@ -200,11 +196,11 @@ class Run:
 
         requested_gpu = self.requested_gpu
 
-        mixed_precision_requested: Union[Unset, str] = UNSET
+        mixed_precision_requested: str | Unset = UNSET
         if not isinstance(self.mixed_precision_requested, Unset):
             mixed_precision_requested = self.mixed_precision_requested.value
 
-        mixed_precision_effective: Union[None, Unset, str]
+        mixed_precision_effective: None | str | Unset
         if isinstance(self.mixed_precision_effective, Unset):
             mixed_precision_effective = UNSET
         elif isinstance(self.mixed_precision_effective, MixedPrecision):
@@ -212,7 +208,7 @@ class Run:
         else:
             mixed_precision_effective = self.mixed_precision_effective
 
-        queue_position: Union[None, Unset, int]
+        queue_position: int | None | Unset
         if isinstance(self.queue_position, Unset):
             queue_position = UNSET
         else:
@@ -220,7 +216,7 @@ class Run:
 
         infra_retries_used = self.infra_retries_used
 
-        estimate: Union[None, Unset, dict[str, Any]]
+        estimate: dict[str, Any] | None | Unset
         if isinstance(self.estimate, Unset):
             estimate = UNSET
         elif isinstance(self.estimate, ResourceEstimate):
@@ -228,7 +224,7 @@ class Run:
         else:
             estimate = self.estimate
 
-        parent_run_id: Union[None, Unset, str]
+        parent_run_id: None | str | Unset
         if isinstance(self.parent_run_id, Unset):
             parent_run_id = UNSET
         elif isinstance(self.parent_run_id, UUID):
@@ -236,17 +232,17 @@ class Run:
         else:
             parent_run_id = self.parent_run_id
 
-        init_from: Union[Any, None, Unset]
+        init_from: Any | None | Unset
         if isinstance(self.init_from, Unset):
             init_from = UNSET
         else:
             init_from = self.init_from
 
-        export: Union[Unset, dict[str, Any]] = UNSET
+        export: dict[str, Any] | Unset = UNSET
         if not isinstance(self.export, Unset):
             export = self.export.to_dict()
 
-        model_id: Union[None, Unset, str]
+        model_id: None | str | Unset
         if isinstance(self.model_id, Unset):
             model_id = UNSET
         elif isinstance(self.model_id, UUID):
@@ -256,11 +252,11 @@ class Run:
 
         gpu_seconds = self.gpu_seconds
 
-        queued_at: Union[Unset, str] = UNSET
+        queued_at: str | Unset = UNSET
         if not isinstance(self.queued_at, Unset):
             queued_at = self.queued_at.isoformat()
 
-        started_at: Union[None, Unset, str]
+        started_at: None | str | Unset
         if isinstance(self.started_at, Unset):
             started_at = UNSET
         elif isinstance(self.started_at, datetime.datetime):
@@ -268,7 +264,7 @@ class Run:
         else:
             started_at = self.started_at
 
-        finished_at: Union[None, Unset, str]
+        finished_at: None | str | Unset
         if isinstance(self.finished_at, Unset):
             finished_at = UNSET
         elif isinstance(self.finished_at, datetime.datetime):
@@ -276,7 +272,7 @@ class Run:
         else:
             finished_at = self.finished_at
 
-        allowed_actions: Union[Unset, list[str]] = UNSET
+        allowed_actions: list[str] | Unset = UNSET
         if not isinstance(self.allowed_actions, Unset):
             allowed_actions = []
             for allowed_actions_item_data in self.allowed_actions:
@@ -397,20 +393,20 @@ class Run:
         updated_at = isoparse(d.pop("updated_at"))
 
         _status_changed_at = d.pop("status_changed_at", UNSET)
-        status_changed_at: Union[Unset, datetime.datetime]
+        status_changed_at: datetime.datetime | Unset
         if isinstance(_status_changed_at, Unset):
             status_changed_at = UNSET
         else:
             status_changed_at = isoparse(_status_changed_at)
 
         _desired_state = d.pop("desired_state", UNSET)
-        desired_state: Union[Unset, RunDesiredState]
+        desired_state: RunDesiredState | Unset
         if isinstance(_desired_state, Unset):
             desired_state = UNSET
         else:
             desired_state = RunDesiredState(_desired_state)
 
-        def _parse_error_code(data: object) -> Union[None, RunErrorCode, Unset]:
+        def _parse_error_code(data: object) -> None | RunErrorCode | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -421,27 +417,27 @@ class Run:
                 error_code_type_0 = RunErrorCode(data)
 
                 return error_code_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, RunErrorCode, Unset], data)
+            return cast(None | RunErrorCode | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 
-        def _parse_error_message(data: object) -> Union[None, Unset, str]:
+        def _parse_error_message(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_message = _parse_error_message(d.pop("error_message", UNSET))
 
-        def _parse_preset(data: object) -> Union[None, Unset, str]:
+        def _parse_preset(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         preset = _parse_preset(d.pop("preset", UNSET))
 
@@ -450,25 +446,25 @@ class Run:
         seed = d.pop("seed", UNSET)
 
         _latest_metrics = d.pop("latest_metrics", UNSET)
-        latest_metrics: Union[Unset, RunLatestMetrics]
+        latest_metrics: RunLatestMetrics | Unset
         if isinstance(_latest_metrics, Unset):
             latest_metrics = UNSET
         else:
             latest_metrics = RunLatestMetrics.from_dict(_latest_metrics)
 
-        def _parse_gpu_id(data: object) -> Union[None, Unset, str]:
+        def _parse_gpu_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         gpu_id = _parse_gpu_id(d.pop("gpu_id", UNSET))
 
         requested_gpu = d.pop("requested_gpu", UNSET)
 
         _mixed_precision_requested = d.pop("mixed_precision_requested", UNSET)
-        mixed_precision_requested: Union[Unset, MixedPrecision]
+        mixed_precision_requested: MixedPrecision | Unset
         if isinstance(_mixed_precision_requested, Unset):
             mixed_precision_requested = UNSET
         else:
@@ -476,7 +472,7 @@ class Run:
 
         def _parse_mixed_precision_effective(
             data: object,
-        ) -> Union[MixedPrecision, None, Unset]:
+        ) -> MixedPrecision | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -487,26 +483,26 @@ class Run:
                 mixed_precision_effective_type_0 = MixedPrecision(data)
 
                 return mixed_precision_effective_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[MixedPrecision, None, Unset], data)
+            return cast(MixedPrecision | None | Unset, data)
 
         mixed_precision_effective = _parse_mixed_precision_effective(
             d.pop("mixed_precision_effective", UNSET)
         )
 
-        def _parse_queue_position(data: object) -> Union[None, Unset, int]:
+        def _parse_queue_position(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         queue_position = _parse_queue_position(d.pop("queue_position", UNSET))
 
         infra_retries_used = d.pop("infra_retries_used", UNSET)
 
-        def _parse_estimate(data: object) -> Union["ResourceEstimate", None, Unset]:
+        def _parse_estimate(data: object) -> None | ResourceEstimate | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -517,13 +513,13 @@ class Run:
                 estimate_type_0 = ResourceEstimate.from_dict(data)
 
                 return estimate_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["ResourceEstimate", None, Unset], data)
+            return cast(None | ResourceEstimate | Unset, data)
 
         estimate = _parse_estimate(d.pop("estimate", UNSET))
 
-        def _parse_parent_run_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_parent_run_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -534,29 +530,29 @@ class Run:
                 parent_run_id_type_0 = UUID(data)
 
                 return parent_run_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         parent_run_id = _parse_parent_run_id(d.pop("parent_run_id", UNSET))
 
-        def _parse_init_from(data: object) -> Union[Any, None, Unset]:
+        def _parse_init_from(data: object) -> Any | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[Any, None, Unset], data)
+            return cast(Any | None | Unset, data)
 
         init_from = _parse_init_from(d.pop("init_from", UNSET))
 
         _export = d.pop("export", UNSET)
-        export: Union[Unset, ExportOptions]
+        export: ExportOptions | Unset
         if isinstance(_export, Unset):
             export = UNSET
         else:
             export = ExportOptions.from_dict(_export)
 
-        def _parse_model_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_model_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -567,22 +563,22 @@ class Run:
                 model_id_type_0 = UUID(data)
 
                 return model_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         model_id = _parse_model_id(d.pop("model_id", UNSET))
 
         gpu_seconds = d.pop("gpu_seconds", UNSET)
 
         _queued_at = d.pop("queued_at", UNSET)
-        queued_at: Union[Unset, datetime.datetime]
+        queued_at: datetime.datetime | Unset
         if isinstance(_queued_at, Unset):
             queued_at = UNSET
         else:
             queued_at = isoparse(_queued_at)
 
-        def _parse_started_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_started_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -593,13 +589,13 @@ class Run:
                 started_at_type_0 = isoparse(data)
 
                 return started_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         started_at = _parse_started_at(d.pop("started_at", UNSET))
 
-        def _parse_finished_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_finished_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -610,18 +606,20 @@ class Run:
                 finished_at_type_0 = isoparse(data)
 
                 return finished_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         finished_at = _parse_finished_at(d.pop("finished_at", UNSET))
 
-        allowed_actions = []
         _allowed_actions = d.pop("allowed_actions", UNSET)
-        for allowed_actions_item_data in _allowed_actions or []:
-            allowed_actions_item = RunAllowedActionsItem(allowed_actions_item_data)
+        allowed_actions: list[RunAllowedActionsItem] | Unset = UNSET
+        if _allowed_actions is not UNSET:
+            allowed_actions = []
+            for allowed_actions_item_data in _allowed_actions:
+                allowed_actions_item = RunAllowedActionsItem(allowed_actions_item_data)
 
-            allowed_actions.append(allowed_actions_item)
+                allowed_actions.append(allowed_actions_item)
 
         run = cls(
             id=id,

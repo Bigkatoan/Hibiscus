@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -17,13 +15,13 @@ class HubPushRequest:
     """
     Attributes:
         repo_id (str):
-        private (Union[Unset, bool]):  Default: True.
-        include_onnx (Union[Unset, bool]):  Default: False.
+        private (bool | Unset):  Default: True.
+        include_onnx (bool | Unset):  Default: False.
     """
 
     repo_id: str
-    private: Union[Unset, bool] = True
-    include_onnx: Union[Unset, bool] = False
+    private: bool | Unset = True
+    include_onnx: bool | Unset = False
 
     def to_dict(self) -> dict[str, Any]:
         repo_id = self.repo_id

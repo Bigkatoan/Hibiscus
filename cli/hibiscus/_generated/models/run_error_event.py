@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -27,16 +28,16 @@ class RunErrorEvent:
             once.
         message (str):
         ts (datetime.datetime):
-        log_excerpt (Union[None, Unset, str]): Last <= 50 log lines
-        will_retry (Union[Unset, bool]):
+        log_excerpt (None | str | Unset): Last <= 50 log lines
+        will_retry (bool | Unset):
     """
 
     kind: Literal["error"]
     code: RunErrorCode
     message: str
     ts: datetime.datetime
-    log_excerpt: Union[None, Unset, str] = UNSET
-    will_retry: Union[Unset, bool] = UNSET
+    log_excerpt: None | str | Unset = UNSET
+    will_retry: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -48,7 +49,7 @@ class RunErrorEvent:
 
         ts = self.ts.isoformat()
 
-        log_excerpt: Union[None, Unset, str]
+        log_excerpt: None | str | Unset
         if isinstance(self.log_excerpt, Unset):
             log_excerpt = UNSET
         else:
@@ -86,12 +87,12 @@ class RunErrorEvent:
 
         ts = isoparse(d.pop("ts"))
 
-        def _parse_log_excerpt(data: object) -> Union[None, Unset, str]:
+        def _parse_log_excerpt(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         log_excerpt = _parse_log_excerpt(d.pop("log_excerpt", UNSET))
 

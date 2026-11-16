@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,15 +16,15 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     run_id: UUID,
     *,
-    keys: Union[Unset, list[str]] = UNSET,
-    from_step: Union[Unset, int] = UNSET,
-    to_step: Union[Unset, int] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-    format_: Union[Unset, GetRunMetricsFormat] = GetRunMetricsFormat.JSON,
+    keys: list[str] | Unset = UNSET,
+    from_step: int | Unset = UNSET,
+    to_step: int | Unset = UNSET,
+    max_points: int | Unset = 2000,
+    format_: GetRunMetricsFormat | Unset = GetRunMetricsFormat.JSON,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
-    json_keys: Union[Unset, list[str]] = UNSET
+    json_keys: list[str] | Unset = UNSET
     if not isinstance(keys, Unset):
         json_keys = keys
 
@@ -35,7 +36,7 @@ def _get_kwargs(
 
     params["max_points"] = max_points
 
-    json_format_: Union[Unset, str] = UNSET
+    json_format_: str | Unset = UNSET
     if not isinstance(format_, Unset):
         json_format_ = format_.value
 
@@ -46,7 +47,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/runs/{run_id}/metrics".format(
-            run_id=run_id,
+            run_id=quote(str(run_id), safe=""),
         ),
         "params": params,
     }
@@ -55,8 +56,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[MetricSeriesSet, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> MetricSeriesSet | Problem | None:
     if response.status_code == 200:
         response_200 = MetricSeriesSet.from_dict(response.json())
 
@@ -79,8 +80,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[MetricSeriesSet, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[MetricSeriesSet | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -93,28 +94,28 @@ def sync_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    keys: Union[Unset, list[str]] = UNSET,
-    from_step: Union[Unset, int] = UNSET,
-    to_step: Union[Unset, int] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-    format_: Union[Unset, GetRunMetricsFormat] = GetRunMetricsFormat.JSON,
-) -> Response[Union[MetricSeriesSet, Problem]]:
+    keys: list[str] | Unset = UNSET,
+    from_step: int | Unset = UNSET,
+    to_step: int | Unset = UNSET,
+    max_points: int | Unset = 2000,
+    format_: GetRunMetricsFormat | Unset = GetRunMetricsFormat.JSON,
+) -> Response[MetricSeriesSet | Problem]:
     """Metric series by step (LTTB-downsampled to max_points per key)
 
     Args:
         run_id (UUID):
-        keys (Union[Unset, list[str]]):
-        from_step (Union[Unset, int]):
-        to_step (Union[Unset, int]):
-        max_points (Union[Unset, int]):  Default: 2000.
-        format_ (Union[Unset, GetRunMetricsFormat]):  Default: GetRunMetricsFormat.JSON.
+        keys (list[str] | Unset):
+        from_step (int | Unset):
+        to_step (int | Unset):
+        max_points (int | Unset):  Default: 2000.
+        format_ (GetRunMetricsFormat | Unset):  Default: GetRunMetricsFormat.JSON.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[MetricSeriesSet, Problem]]
+        Response[MetricSeriesSet | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -137,28 +138,28 @@ def sync(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    keys: Union[Unset, list[str]] = UNSET,
-    from_step: Union[Unset, int] = UNSET,
-    to_step: Union[Unset, int] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-    format_: Union[Unset, GetRunMetricsFormat] = GetRunMetricsFormat.JSON,
-) -> Optional[Union[MetricSeriesSet, Problem]]:
+    keys: list[str] | Unset = UNSET,
+    from_step: int | Unset = UNSET,
+    to_step: int | Unset = UNSET,
+    max_points: int | Unset = 2000,
+    format_: GetRunMetricsFormat | Unset = GetRunMetricsFormat.JSON,
+) -> MetricSeriesSet | Problem | None:
     """Metric series by step (LTTB-downsampled to max_points per key)
 
     Args:
         run_id (UUID):
-        keys (Union[Unset, list[str]]):
-        from_step (Union[Unset, int]):
-        to_step (Union[Unset, int]):
-        max_points (Union[Unset, int]):  Default: 2000.
-        format_ (Union[Unset, GetRunMetricsFormat]):  Default: GetRunMetricsFormat.JSON.
+        keys (list[str] | Unset):
+        from_step (int | Unset):
+        to_step (int | Unset):
+        max_points (int | Unset):  Default: 2000.
+        format_ (GetRunMetricsFormat | Unset):  Default: GetRunMetricsFormat.JSON.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[MetricSeriesSet, Problem]
+        MetricSeriesSet | Problem
     """
 
     return sync_detailed(
@@ -176,28 +177,28 @@ async def asyncio_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    keys: Union[Unset, list[str]] = UNSET,
-    from_step: Union[Unset, int] = UNSET,
-    to_step: Union[Unset, int] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-    format_: Union[Unset, GetRunMetricsFormat] = GetRunMetricsFormat.JSON,
-) -> Response[Union[MetricSeriesSet, Problem]]:
+    keys: list[str] | Unset = UNSET,
+    from_step: int | Unset = UNSET,
+    to_step: int | Unset = UNSET,
+    max_points: int | Unset = 2000,
+    format_: GetRunMetricsFormat | Unset = GetRunMetricsFormat.JSON,
+) -> Response[MetricSeriesSet | Problem]:
     """Metric series by step (LTTB-downsampled to max_points per key)
 
     Args:
         run_id (UUID):
-        keys (Union[Unset, list[str]]):
-        from_step (Union[Unset, int]):
-        to_step (Union[Unset, int]):
-        max_points (Union[Unset, int]):  Default: 2000.
-        format_ (Union[Unset, GetRunMetricsFormat]):  Default: GetRunMetricsFormat.JSON.
+        keys (list[str] | Unset):
+        from_step (int | Unset):
+        to_step (int | Unset):
+        max_points (int | Unset):  Default: 2000.
+        format_ (GetRunMetricsFormat | Unset):  Default: GetRunMetricsFormat.JSON.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[MetricSeriesSet, Problem]]
+        Response[MetricSeriesSet | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -218,28 +219,28 @@ async def asyncio(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    keys: Union[Unset, list[str]] = UNSET,
-    from_step: Union[Unset, int] = UNSET,
-    to_step: Union[Unset, int] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-    format_: Union[Unset, GetRunMetricsFormat] = GetRunMetricsFormat.JSON,
-) -> Optional[Union[MetricSeriesSet, Problem]]:
+    keys: list[str] | Unset = UNSET,
+    from_step: int | Unset = UNSET,
+    to_step: int | Unset = UNSET,
+    max_points: int | Unset = 2000,
+    format_: GetRunMetricsFormat | Unset = GetRunMetricsFormat.JSON,
+) -> MetricSeriesSet | Problem | None:
     """Metric series by step (LTTB-downsampled to max_points per key)
 
     Args:
         run_id (UUID):
-        keys (Union[Unset, list[str]]):
-        from_step (Union[Unset, int]):
-        to_step (Union[Unset, int]):
-        max_points (Union[Unset, int]):  Default: 2000.
-        format_ (Union[Unset, GetRunMetricsFormat]):  Default: GetRunMetricsFormat.JSON.
+        keys (list[str] | Unset):
+        from_step (int | Unset):
+        to_step (int | Unset):
+        max_points (int | Unset):  Default: 2000.
+        format_ (GetRunMetricsFormat | Unset):  Default: GetRunMetricsFormat.JSON.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[MetricSeriesSet, Problem]
+        MetricSeriesSet | Problem
     """
 
     return (

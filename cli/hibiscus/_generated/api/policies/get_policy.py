@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -17,7 +18,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/policies/{policy_type}".format(
-            policy_type=policy_type,
+            policy_type=quote(str(policy_type), safe=""),
         ),
     }
 
@@ -25,8 +26,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[PolicyDetail, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> PolicyDetail | Problem | None:
     if response.status_code == 200:
         response_200 = PolicyDetail.from_dict(response.json())
 
@@ -54,8 +55,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[PolicyDetail, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[PolicyDetail | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,7 +69,7 @@ def sync_detailed(
     policy_type: PolicyType,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[PolicyDetail, Problem]]:
+) -> Response[PolicyDetail | Problem]:
     """JSON Schemas (policy + train) and presets for one policy
 
     Args:
@@ -79,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[PolicyDetail, Problem]]
+        Response[PolicyDetail | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -97,7 +98,7 @@ def sync(
     policy_type: PolicyType,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[PolicyDetail, Problem]]:
+) -> PolicyDetail | Problem | None:
     """JSON Schemas (policy + train) and presets for one policy
 
     Args:
@@ -108,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[PolicyDetail, Problem]
+        PolicyDetail | Problem
     """
 
     return sync_detailed(
@@ -121,7 +122,7 @@ async def asyncio_detailed(
     policy_type: PolicyType,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[PolicyDetail, Problem]]:
+) -> Response[PolicyDetail | Problem]:
     """JSON Schemas (policy + train) and presets for one policy
 
     Args:
@@ -132,7 +133,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[PolicyDetail, Problem]]
+        Response[PolicyDetail | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -148,7 +149,7 @@ async def asyncio(
     policy_type: PolicyType,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[PolicyDetail, Problem]]:
+) -> PolicyDetail | Problem | None:
     """JSON Schemas (policy + train) and presets for one policy
 
     Args:
@@ -159,7 +160,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[PolicyDetail, Problem]
+        PolicyDetail | Problem
     """
 
     return (

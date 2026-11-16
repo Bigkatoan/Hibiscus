@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -35,8 +31,8 @@ class Dataset:
         version_count (int):
         created_at (datetime.datetime):
         updated_at (datetime.datetime):
-        created_by (Union[Unset, UserRef]):
-        latest_version (Union['DatasetVersionSummary', None, Unset]):
+        created_by (UserRef | Unset):
+        latest_version (DatasetVersionSummary | None | Unset):
     """
 
     id: UUID
@@ -47,8 +43,8 @@ class Dataset:
     version_count: int
     created_at: datetime.datetime
     updated_at: datetime.datetime
-    created_by: Union[Unset, "UserRef"] = UNSET
-    latest_version: Union["DatasetVersionSummary", None, Unset] = UNSET
+    created_by: UserRef | Unset = UNSET
+    latest_version: DatasetVersionSummary | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -70,11 +66,11 @@ class Dataset:
 
         updated_at = self.updated_at.isoformat()
 
-        created_by: Union[Unset, dict[str, Any]] = UNSET
+        created_by: dict[str, Any] | Unset = UNSET
         if not isinstance(self.created_by, Unset):
             created_by = self.created_by.to_dict()
 
-        latest_version: Union[None, Unset, dict[str, Any]]
+        latest_version: dict[str, Any] | None | Unset
         if isinstance(self.latest_version, Unset):
             latest_version = UNSET
         elif isinstance(self.latest_version, DatasetVersionSummary):
@@ -126,15 +122,13 @@ class Dataset:
         updated_at = isoparse(d.pop("updated_at"))
 
         _created_by = d.pop("created_by", UNSET)
-        created_by: Union[Unset, UserRef]
+        created_by: UserRef | Unset
         if isinstance(_created_by, Unset):
             created_by = UNSET
         else:
             created_by = UserRef.from_dict(_created_by)
 
-        def _parse_latest_version(
-            data: object,
-        ) -> Union["DatasetVersionSummary", None, Unset]:
+        def _parse_latest_version(data: object) -> DatasetVersionSummary | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -145,9 +139,9 @@ class Dataset:
                 latest_version_type_0 = DatasetVersionSummary.from_dict(data)
 
                 return latest_version_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["DatasetVersionSummary", None, Unset], data)
+            return cast(DatasetVersionSummary | None | Unset, data)
 
         latest_version = _parse_latest_version(d.pop("latest_version", UNSET))
 

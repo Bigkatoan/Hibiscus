@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -34,8 +31,8 @@ class Workspace:
             all resources. member: create datasets/runs; edit/cancel/delete own runs and datasets;
             read all. viewer: read-only. owner/admin require 2FA.
         created_at (datetime.datetime):
-        member_count (Union[Unset, int]):
-        settings (Union[Unset, WorkspaceSettings]):
+        member_count (int | Unset):
+        settings (WorkspaceSettings | Unset):
     """
 
     id: UUID
@@ -43,8 +40,8 @@ class Workspace:
     name: str
     my_role: WorkspaceRole
     created_at: datetime.datetime
-    member_count: Union[Unset, int] = UNSET
-    settings: Union[Unset, "WorkspaceSettings"] = UNSET
+    member_count: int | Unset = UNSET
+    settings: WorkspaceSettings | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -60,7 +57,7 @@ class Workspace:
 
         member_count = self.member_count
 
-        settings: Union[Unset, dict[str, Any]] = UNSET
+        settings: dict[str, Any] | Unset = UNSET
         if not isinstance(self.settings, Unset):
             settings = self.settings.to_dict()
 
@@ -100,7 +97,7 @@ class Workspace:
         member_count = d.pop("member_count", UNSET)
 
         _settings = d.pop("settings", UNSET)
-        settings: Union[Unset, WorkspaceSettings]
+        settings: WorkspaceSettings | Unset
         if isinstance(_settings, Unset):
             settings = UNSET
         else:

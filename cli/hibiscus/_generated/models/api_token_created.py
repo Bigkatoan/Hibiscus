@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -29,10 +26,10 @@ class ApiTokenCreated:
         scopes (list[PatScope]):
         created_at (datetime.datetime):
         token (str): Plaintext
-        expires_at (Union[None, Unset, datetime.datetime]):
-        last_used_at (Union[None, Unset, datetime.datetime]):
-        last_used_ip (Union[None, Unset, str]):
-        revoked_at (Union[None, Unset, datetime.datetime]):
+        expires_at (datetime.datetime | None | Unset):
+        last_used_at (datetime.datetime | None | Unset):
+        last_used_ip (None | str | Unset):
+        revoked_at (datetime.datetime | None | Unset):
     """
 
     id: UUID
@@ -42,10 +39,10 @@ class ApiTokenCreated:
     scopes: list[PatScope]
     created_at: datetime.datetime
     token: str
-    expires_at: Union[None, Unset, datetime.datetime] = UNSET
-    last_used_at: Union[None, Unset, datetime.datetime] = UNSET
-    last_used_ip: Union[None, Unset, str] = UNSET
-    revoked_at: Union[None, Unset, datetime.datetime] = UNSET
+    expires_at: datetime.datetime | None | Unset = UNSET
+    last_used_at: datetime.datetime | None | Unset = UNSET
+    last_used_ip: None | str | Unset = UNSET
+    revoked_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -66,7 +63,7 @@ class ApiTokenCreated:
 
         token = self.token
 
-        expires_at: Union[None, Unset, str]
+        expires_at: None | str | Unset
         if isinstance(self.expires_at, Unset):
             expires_at = UNSET
         elif isinstance(self.expires_at, datetime.datetime):
@@ -74,7 +71,7 @@ class ApiTokenCreated:
         else:
             expires_at = self.expires_at
 
-        last_used_at: Union[None, Unset, str]
+        last_used_at: None | str | Unset
         if isinstance(self.last_used_at, Unset):
             last_used_at = UNSET
         elif isinstance(self.last_used_at, datetime.datetime):
@@ -82,13 +79,13 @@ class ApiTokenCreated:
         else:
             last_used_at = self.last_used_at
 
-        last_used_ip: Union[None, Unset, str]
+        last_used_ip: None | str | Unset
         if isinstance(self.last_used_ip, Unset):
             last_used_ip = UNSET
         else:
             last_used_ip = self.last_used_ip
 
-        revoked_at: Union[None, Unset, str]
+        revoked_at: None | str | Unset
         if isinstance(self.revoked_at, Unset):
             revoked_at = UNSET
         elif isinstance(self.revoked_at, datetime.datetime):
@@ -142,7 +139,7 @@ class ApiTokenCreated:
 
         token = d.pop("token")
 
-        def _parse_expires_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_expires_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -153,13 +150,13 @@ class ApiTokenCreated:
                 expires_at_type_0 = isoparse(data)
 
                 return expires_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         expires_at = _parse_expires_at(d.pop("expires_at", UNSET))
 
-        def _parse_last_used_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_last_used_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -170,22 +167,22 @@ class ApiTokenCreated:
                 last_used_at_type_0 = isoparse(data)
 
                 return last_used_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         last_used_at = _parse_last_used_at(d.pop("last_used_at", UNSET))
 
-        def _parse_last_used_ip(data: object) -> Union[None, Unset, str]:
+        def _parse_last_used_ip(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         last_used_ip = _parse_last_used_ip(d.pop("last_used_ip", UNSET))
 
-        def _parse_revoked_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_revoked_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -196,9 +193,9 @@ class ApiTokenCreated:
                 revoked_at_type_0 = isoparse(data)
 
                 return revoked_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         revoked_at = _parse_revoked_at(d.pop("revoked_at", UNSET))
 

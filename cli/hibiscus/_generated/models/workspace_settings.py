@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -17,21 +15,21 @@ T = TypeVar("T", bound="WorkspaceSettings")
 class WorkspaceSettings:
     """
     Attributes:
-        default_heldout_fraction (Union[Unset, float]):  Default: 0.1.
-        default_gpu (Union[Unset, str]): `auto` or a gpu id Default: 'auto'.
-        notify_on (Union[Unset, list[WorkspaceSettingsNotifyOnItem]]):
+        default_heldout_fraction (float | Unset):  Default: 0.1.
+        default_gpu (str | Unset): `auto` or a gpu id Default: 'auto'.
+        notify_on (list[WorkspaceSettingsNotifyOnItem] | Unset):
     """
 
-    default_heldout_fraction: Union[Unset, float] = 0.1
-    default_gpu: Union[Unset, str] = "auto"
-    notify_on: Union[Unset, list[WorkspaceSettingsNotifyOnItem]] = UNSET
+    default_heldout_fraction: float | Unset = 0.1
+    default_gpu: str | Unset = "auto"
+    notify_on: list[WorkspaceSettingsNotifyOnItem] | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         default_heldout_fraction = self.default_heldout_fraction
 
         default_gpu = self.default_gpu
 
-        notify_on: Union[Unset, list[str]] = UNSET
+        notify_on: list[str] | Unset = UNSET
         if not isinstance(self.notify_on, Unset):
             notify_on = []
             for notify_on_item_data in self.notify_on:
@@ -57,12 +55,14 @@ class WorkspaceSettings:
 
         default_gpu = d.pop("default_gpu", UNSET)
 
-        notify_on = []
         _notify_on = d.pop("notify_on", UNSET)
-        for notify_on_item_data in _notify_on or []:
-            notify_on_item = WorkspaceSettingsNotifyOnItem(notify_on_item_data)
+        notify_on: list[WorkspaceSettingsNotifyOnItem] | Unset = UNSET
+        if _notify_on is not UNSET:
+            notify_on = []
+            for notify_on_item_data in _notify_on:
+                notify_on_item = WorkspaceSettingsNotifyOnItem(notify_on_item_data)
 
-            notify_on.append(notify_on_item)
+                notify_on.append(notify_on_item)
 
         workspace_settings = cls(
             default_heldout_fraction=default_heldout_fraction,

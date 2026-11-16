@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -17,7 +18,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/models/{model_id}/files".format(
-            model_id=model_id,
+            model_id=quote(str(model_id), safe=""),
         ),
     }
 
@@ -25,8 +26,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[BundleManifest, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> BundleManifest | Problem | None:
     if response.status_code == 200:
         response_200 = BundleManifest.from_dict(response.json())
 
@@ -54,8 +55,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[BundleManifest, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[BundleManifest | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -68,7 +69,7 @@ def sync_detailed(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[BundleManifest, Problem]]:
+) -> Response[BundleManifest | Problem]:
     """Bundle file list from MANIFEST.json (lets `hibiscus pull --only pretrained_model` fetch per file)
 
     Args:
@@ -79,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[BundleManifest, Problem]]
+        Response[BundleManifest | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -97,7 +98,7 @@ def sync(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[BundleManifest, Problem]]:
+) -> BundleManifest | Problem | None:
     """Bundle file list from MANIFEST.json (lets `hibiscus pull --only pretrained_model` fetch per file)
 
     Args:
@@ -108,7 +109,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[BundleManifest, Problem]
+        BundleManifest | Problem
     """
 
     return sync_detailed(
@@ -121,7 +122,7 @@ async def asyncio_detailed(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[BundleManifest, Problem]]:
+) -> Response[BundleManifest | Problem]:
     """Bundle file list from MANIFEST.json (lets `hibiscus pull --only pretrained_model` fetch per file)
 
     Args:
@@ -132,7 +133,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[BundleManifest, Problem]]
+        Response[BundleManifest | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -148,7 +149,7 @@ async def asyncio(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[BundleManifest, Problem]]:
+) -> BundleManifest | Problem | None:
     """Bundle file list from MANIFEST.json (lets `hibiscus pull --only pretrained_model` fetch per file)
 
     Args:
@@ -159,7 +160,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[BundleManifest, Problem]
+        BundleManifest | Problem
     """
 
     return (

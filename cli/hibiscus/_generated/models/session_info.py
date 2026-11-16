@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -27,8 +24,8 @@ class SessionInfo:
         expires_at (datetime.datetime):
         current (bool):
         mfa_verified (bool):
-        ip (Union[None, Unset, str]):
-        user_agent (Union[None, Unset, str]):
+        ip (None | str | Unset):
+        user_agent (None | str | Unset):
     """
 
     id: UUID
@@ -37,8 +34,8 @@ class SessionInfo:
     expires_at: datetime.datetime
     current: bool
     mfa_verified: bool
-    ip: Union[None, Unset, str] = UNSET
-    user_agent: Union[None, Unset, str] = UNSET
+    ip: None | str | Unset = UNSET
+    user_agent: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -54,13 +51,13 @@ class SessionInfo:
 
         mfa_verified = self.mfa_verified
 
-        ip: Union[None, Unset, str]
+        ip: None | str | Unset
         if isinstance(self.ip, Unset):
             ip = UNSET
         else:
             ip = self.ip
 
-        user_agent: Union[None, Unset, str]
+        user_agent: None | str | Unset
         if isinstance(self.user_agent, Unset):
             user_agent = UNSET
         else:
@@ -100,21 +97,21 @@ class SessionInfo:
 
         mfa_verified = d.pop("mfa_verified")
 
-        def _parse_ip(data: object) -> Union[None, Unset, str]:
+        def _parse_ip(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         ip = _parse_ip(d.pop("ip", UNSET))
 
-        def _parse_user_agent(data: object) -> Union[None, Unset, str]:
+        def _parse_user_agent(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         user_agent = _parse_user_agent(d.pop("user_agent", UNSET))
 

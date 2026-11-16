@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { openSse, type EventSourceLike, type SseMessage } from "@/api/sse";
+import { openSse, type SseMessage } from "@/api/sse";
 import * as f from "@/test/fixtures";
 import { createMockEventSource } from "./mockEventSource";
 
@@ -20,7 +20,7 @@ describe("mock-mode EventSource", () => {
       events: ["progress", "metrics", "log", "telemetry", "heartbeat", "end"],
       onMessage: (m) => got.push(m),
       onStatus: (s) => statuses.push(s),
-      factory: (url) => new Mock(url) as unknown as EventSourceLike,
+      factory: (url) => new Mock(url),
       refresh: () => Promise.resolve(true),
     });
     vi.advanceTimersByTime(3100);

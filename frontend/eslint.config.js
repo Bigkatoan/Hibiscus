@@ -38,6 +38,8 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       // Pages co-locate small helpers with components; HMR then full-reloads, which is fine.
       "react-refresh/only-export-components": "off",
+      // Form values and API decimals are converted defensively; the declared type can be narrower than runtime.
+      "@typescript-eslint/no-unnecessary-type-conversion": "off",
       "jsx-a11y/label-has-associated-control": ["error", { depth: 3 }],
       "jsx-a11y/no-noninteractive-tabindex": ["error", { tags: [], roles: ["tabpanel", "region"] }],
       "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true }],

@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -37,16 +33,16 @@ class UploadSession:
             (format tar).
         part_size (int):
         part_count (int):
-        parts (list['UploadPart']): Received parts, ascending part_number
+        parts (list[UploadPart]): Received parts, ascending part_number
         status (UploadStatus):
         expires_at (datetime.datetime):
         created_at (datetime.datetime):
-        dataset_id (Union[None, UUID, Unset]):
-        new_dataset_name (Union[None, Unset, str]):
-        bytes_received (Union[Unset, int]):
-        error_code (Union[None, Unset, str]):
-        completed_at (Union[None, Unset, datetime.datetime]):
-        dataset_version_id (Union[None, UUID, Unset]):
+        dataset_id (None | Unset | UUID):
+        new_dataset_name (None | str | Unset):
+        bytes_received (int | Unset):
+        error_code (None | str | Unset):
+        completed_at (datetime.datetime | None | Unset):
+        dataset_version_id (None | Unset | UUID):
     """
 
     id: UUID
@@ -57,16 +53,16 @@ class UploadSession:
     archive_format: ArchiveFormat
     part_size: int
     part_count: int
-    parts: list["UploadPart"]
+    parts: list[UploadPart]
     status: UploadStatus
     expires_at: datetime.datetime
     created_at: datetime.datetime
-    dataset_id: Union[None, UUID, Unset] = UNSET
-    new_dataset_name: Union[None, Unset, str] = UNSET
-    bytes_received: Union[Unset, int] = UNSET
-    error_code: Union[None, Unset, str] = UNSET
-    completed_at: Union[None, Unset, datetime.datetime] = UNSET
-    dataset_version_id: Union[None, UUID, Unset] = UNSET
+    dataset_id: None | Unset | UUID = UNSET
+    new_dataset_name: None | str | Unset = UNSET
+    bytes_received: int | Unset = UNSET
+    error_code: None | str | Unset = UNSET
+    completed_at: datetime.datetime | None | Unset = UNSET
+    dataset_version_id: None | Unset | UUID = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -97,7 +93,7 @@ class UploadSession:
 
         created_at = self.created_at.isoformat()
 
-        dataset_id: Union[None, Unset, str]
+        dataset_id: None | str | Unset
         if isinstance(self.dataset_id, Unset):
             dataset_id = UNSET
         elif isinstance(self.dataset_id, UUID):
@@ -105,7 +101,7 @@ class UploadSession:
         else:
             dataset_id = self.dataset_id
 
-        new_dataset_name: Union[None, Unset, str]
+        new_dataset_name: None | str | Unset
         if isinstance(self.new_dataset_name, Unset):
             new_dataset_name = UNSET
         else:
@@ -113,13 +109,13 @@ class UploadSession:
 
         bytes_received = self.bytes_received
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         else:
             error_code = self.error_code
 
-        completed_at: Union[None, Unset, str]
+        completed_at: None | str | Unset
         if isinstance(self.completed_at, Unset):
             completed_at = UNSET
         elif isinstance(self.completed_at, datetime.datetime):
@@ -127,7 +123,7 @@ class UploadSession:
         else:
             completed_at = self.completed_at
 
-        dataset_version_id: Union[None, Unset, str]
+        dataset_version_id: None | str | Unset
         if isinstance(self.dataset_version_id, Unset):
             dataset_version_id = UNSET
         elif isinstance(self.dataset_version_id, UUID):
@@ -202,7 +198,7 @@ class UploadSession:
 
         created_at = isoparse(d.pop("created_at"))
 
-        def _parse_dataset_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_dataset_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -213,33 +209,33 @@ class UploadSession:
                 dataset_id_type_0 = UUID(data)
 
                 return dataset_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         dataset_id = _parse_dataset_id(d.pop("dataset_id", UNSET))
 
-        def _parse_new_dataset_name(data: object) -> Union[None, Unset, str]:
+        def _parse_new_dataset_name(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         new_dataset_name = _parse_new_dataset_name(d.pop("new_dataset_name", UNSET))
 
         bytes_received = d.pop("bytes_received", UNSET)
 
-        def _parse_error_code(data: object) -> Union[None, Unset, str]:
+        def _parse_error_code(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 
-        def _parse_completed_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_completed_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -250,13 +246,13 @@ class UploadSession:
                 completed_at_type_0 = isoparse(data)
 
                 return completed_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         completed_at = _parse_completed_at(d.pop("completed_at", UNSET))
 
-        def _parse_dataset_version_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_dataset_version_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -267,9 +263,9 @@ class UploadSession:
                 dataset_version_id_type_0 = UUID(data)
 
                 return dataset_version_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         dataset_version_id = _parse_dataset_version_id(
             d.pop("dataset_version_id", UNSET)

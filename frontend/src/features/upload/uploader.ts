@@ -27,15 +27,7 @@ import { prefs } from "@/lib/utils";
 type S = Schemas;
 
 export type UploadPhase =
-  | "idle"
-  | "hashing"
-  | "initializing"
-  | "uploading"
-  | "paused"
-  | "completing"
-  | "done"
-  | "error"
-  | "aborted";
+  "idle" | "hashing" | "initializing" | "uploading" | "paused" | "completing" | "done" | "error" | "aborted";
 
 export interface UploadState {
   phase: UploadPhase;

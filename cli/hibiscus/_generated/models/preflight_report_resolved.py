@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,7 +19,7 @@ T = TypeVar("T", bound="PreflightReportResolved")
 class PreflightReportResolved:
     """
     Attributes:
-        gpu_id (Union[None, str]): null when auto and decided at dispatch
+        gpu_id (None | str): null when auto and decided at dispatch
         mixed_precision (MixedPrecision):
         config (RunConfig):
         heldout_episodes (list[int]):
@@ -31,16 +27,16 @@ class PreflightReportResolved:
         lerobot_args (list[str]): argv preview (paths shown as placeholders)
     """
 
-    gpu_id: Union[None, str]
+    gpu_id: None | str
     mixed_precision: MixedPrecision
-    config: "RunConfig"
+    config: RunConfig
     heldout_episodes: list[int]
     train_episodes: list[int]
     lerobot_args: list[str]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        gpu_id: Union[None, str]
+        gpu_id: None | str
         gpu_id = self.gpu_id
 
         mixed_precision = self.mixed_precision.value
@@ -74,10 +70,10 @@ class PreflightReportResolved:
 
         d = dict(src_dict)
 
-        def _parse_gpu_id(data: object) -> Union[None, str]:
+        def _parse_gpu_id(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         gpu_id = _parse_gpu_id(d.pop("gpu_id"))
 

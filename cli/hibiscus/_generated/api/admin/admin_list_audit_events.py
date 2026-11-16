@@ -1,6 +1,6 @@
 import datetime
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 
 import httpx
@@ -15,38 +15,38 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    workspace_id: Union[Unset, UUID] = UNSET,
-    actor_user_id: Union[Unset, UUID] = UNSET,
-    action: Union[Unset, AuditAction] = UNSET,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    until: Union[Unset, datetime.datetime] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    workspace_id: UUID | Unset = UNSET,
+    actor_user_id: UUID | Unset = UNSET,
+    action: AuditAction | Unset = UNSET,
+    since: datetime.datetime | Unset = UNSET,
+    until: datetime.datetime | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
-    json_workspace_id: Union[Unset, str] = UNSET
+    json_workspace_id: str | Unset = UNSET
     if not isinstance(workspace_id, Unset):
         json_workspace_id = str(workspace_id)
     params["workspace_id"] = json_workspace_id
 
-    json_actor_user_id: Union[Unset, str] = UNSET
+    json_actor_user_id: str | Unset = UNSET
     if not isinstance(actor_user_id, Unset):
         json_actor_user_id = str(actor_user_id)
     params["actor_user_id"] = json_actor_user_id
 
-    json_action: Union[Unset, str] = UNSET
+    json_action: str | Unset = UNSET
     if not isinstance(action, Unset):
         json_action = action.value
 
     params["action"] = json_action
 
-    json_since: Union[Unset, str] = UNSET
+    json_since: str | Unset = UNSET
     if not isinstance(since, Unset):
         json_since = since.isoformat()
     params["since"] = json_since
 
-    json_until: Union[Unset, str] = UNSET
+    json_until: str | Unset = UNSET
     if not isinstance(until, Unset):
         json_until = until.isoformat()
     params["until"] = json_until
@@ -67,8 +67,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[AuditEventPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> AuditEventPage | Problem | None:
     if response.status_code == 200:
         response_200 = AuditEventPage.from_dict(response.json())
 
@@ -91,8 +91,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[AuditEventPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[AuditEventPage | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -103,32 +103,32 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
-    workspace_id: Union[Unset, UUID] = UNSET,
-    actor_user_id: Union[Unset, UUID] = UNSET,
-    action: Union[Unset, AuditAction] = UNSET,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    until: Union[Unset, datetime.datetime] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[AuditEventPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    workspace_id: UUID | Unset = UNSET,
+    actor_user_id: UUID | Unset = UNSET,
+    action: AuditAction | Unset = UNSET,
+    since: datetime.datetime | Unset = UNSET,
+    until: datetime.datetime | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[AuditEventPage | Problem]:
     """Audit log, newest first
 
     Args:
-        workspace_id (Union[Unset, UUID]):
-        actor_user_id (Union[Unset, UUID]):
-        action (Union[Unset, AuditAction]): Catalogue in docs/db-schema.md §Audit
-        since (Union[Unset, datetime.datetime]):
-        until (Union[Unset, datetime.datetime]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        workspace_id (UUID | Unset):
+        actor_user_id (UUID | Unset):
+        action (AuditAction | Unset): Catalogue in docs/db-schema.md §Audit
+        since (datetime.datetime | Unset):
+        until (datetime.datetime | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AuditEventPage, Problem]]
+        Response[AuditEventPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -150,32 +150,32 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
-    workspace_id: Union[Unset, UUID] = UNSET,
-    actor_user_id: Union[Unset, UUID] = UNSET,
-    action: Union[Unset, AuditAction] = UNSET,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    until: Union[Unset, datetime.datetime] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[AuditEventPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    workspace_id: UUID | Unset = UNSET,
+    actor_user_id: UUID | Unset = UNSET,
+    action: AuditAction | Unset = UNSET,
+    since: datetime.datetime | Unset = UNSET,
+    until: datetime.datetime | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> AuditEventPage | Problem | None:
     """Audit log, newest first
 
     Args:
-        workspace_id (Union[Unset, UUID]):
-        actor_user_id (Union[Unset, UUID]):
-        action (Union[Unset, AuditAction]): Catalogue in docs/db-schema.md §Audit
-        since (Union[Unset, datetime.datetime]):
-        until (Union[Unset, datetime.datetime]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        workspace_id (UUID | Unset):
+        actor_user_id (UUID | Unset):
+        action (AuditAction | Unset): Catalogue in docs/db-schema.md §Audit
+        since (datetime.datetime | Unset):
+        until (datetime.datetime | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AuditEventPage, Problem]
+        AuditEventPage | Problem
     """
 
     return sync_detailed(
@@ -192,32 +192,32 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
-    workspace_id: Union[Unset, UUID] = UNSET,
-    actor_user_id: Union[Unset, UUID] = UNSET,
-    action: Union[Unset, AuditAction] = UNSET,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    until: Union[Unset, datetime.datetime] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[AuditEventPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    workspace_id: UUID | Unset = UNSET,
+    actor_user_id: UUID | Unset = UNSET,
+    action: AuditAction | Unset = UNSET,
+    since: datetime.datetime | Unset = UNSET,
+    until: datetime.datetime | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[AuditEventPage | Problem]:
     """Audit log, newest first
 
     Args:
-        workspace_id (Union[Unset, UUID]):
-        actor_user_id (Union[Unset, UUID]):
-        action (Union[Unset, AuditAction]): Catalogue in docs/db-schema.md §Audit
-        since (Union[Unset, datetime.datetime]):
-        until (Union[Unset, datetime.datetime]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        workspace_id (UUID | Unset):
+        actor_user_id (UUID | Unset):
+        action (AuditAction | Unset): Catalogue in docs/db-schema.md §Audit
+        since (datetime.datetime | Unset):
+        until (datetime.datetime | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AuditEventPage, Problem]]
+        Response[AuditEventPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -237,32 +237,32 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
-    workspace_id: Union[Unset, UUID] = UNSET,
-    actor_user_id: Union[Unset, UUID] = UNSET,
-    action: Union[Unset, AuditAction] = UNSET,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    until: Union[Unset, datetime.datetime] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[AuditEventPage, Problem]]:
+    client: AuthenticatedClient | Client,
+    workspace_id: UUID | Unset = UNSET,
+    actor_user_id: UUID | Unset = UNSET,
+    action: AuditAction | Unset = UNSET,
+    since: datetime.datetime | Unset = UNSET,
+    until: datetime.datetime | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> AuditEventPage | Problem | None:
     """Audit log, newest first
 
     Args:
-        workspace_id (Union[Unset, UUID]):
-        actor_user_id (Union[Unset, UUID]):
-        action (Union[Unset, AuditAction]): Catalogue in docs/db-schema.md §Audit
-        since (Union[Unset, datetime.datetime]):
-        until (Union[Unset, datetime.datetime]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        workspace_id (UUID | Unset):
+        actor_user_id (UUID | Unset):
+        action (AuditAction | Unset): Catalogue in docs/db-schema.md §Audit
+        since (datetime.datetime | Unset):
+        until (datetime.datetime | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AuditEventPage, Problem]
+        AuditEventPage | Problem
     """
 
     return (

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
@@ -32,7 +34,7 @@ class MetricsEvent:
 
     kind: Literal["metrics"]
     step: int
-    values: "MetricsEventValues"
+    values: MetricsEventValues
     ts: datetime.datetime
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 

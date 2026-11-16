@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -21,7 +21,6 @@ def _get_kwargs(
         "url": "/auth/login/2fa",
     }
 
-    _kwargs["json"]: Any
     _kwargs["json"] = body
 
     headers["Content-Type"] = "application/json"
@@ -31,8 +30,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[LoginResult, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> LoginResult | Problem | None:
     if response.status_code == 200:
         response_200 = LoginResult.from_dict(response.json())
 
@@ -60,8 +59,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[LoginResult, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[LoginResult | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -72,9 +71,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: Any,
-) -> Response[Union[LoginResult, Problem]]:
+) -> Response[LoginResult | Problem]:
     """Complete login with a TOTP code or a recovery code (step 2)
 
     Args:
@@ -85,7 +84,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[LoginResult, Problem]]
+        Response[LoginResult | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -101,9 +100,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: Any,
-) -> Optional[Union[LoginResult, Problem]]:
+) -> LoginResult | Problem | None:
     """Complete login with a TOTP code or a recovery code (step 2)
 
     Args:
@@ -114,7 +113,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[LoginResult, Problem]
+        LoginResult | Problem
     """
 
     return sync_detailed(
@@ -125,9 +124,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: Any,
-) -> Response[Union[LoginResult, Problem]]:
+) -> Response[LoginResult | Problem]:
     """Complete login with a TOTP code or a recovery code (step 2)
 
     Args:
@@ -138,7 +137,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[LoginResult, Problem]]
+        Response[LoginResult | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -152,9 +151,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: Any,
-) -> Optional[Union[LoginResult, Problem]]:
+) -> LoginResult | Problem | None:
     """Complete login with a TOTP code or a recovery code (step 2)
 
     Args:
@@ -165,7 +164,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[LoginResult, Problem]
+        LoginResult | Problem
     """
 
     return (

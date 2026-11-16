@@ -101,10 +101,7 @@ describe("CSP-safe JSON Schema validator", () => {
       throw new EvalError("Refused to evaluate a string as JavaScript (unsafe-eval)");
     };
     vi.stubGlobal("eval", blocked);
-    vi.stubGlobal(
-      "Function",
-      new Proxy(Function, { construct: blocked, apply: blocked }) as unknown as FunctionConstructor,
-    );
+    vi.stubGlobal("Function", new Proxy(Function, { construct: blocked, apply: blocked }));
     // Also block the Function constructor reachable through any function's prototype.
     const proto = Object.getPrototypeOf(() => undefined) as { constructor: unknown };
     const original = proto.constructor;

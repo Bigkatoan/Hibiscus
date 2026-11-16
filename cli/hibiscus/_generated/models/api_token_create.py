@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -22,13 +19,13 @@ class ApiTokenCreate:
         name (str):
         workspace_id (UUID):
         scopes (list[PatScope]):
-        expires_in_days (Union[None, Unset, int]): null = never expires (UI shows a warning) Default: 90.
+        expires_in_days (int | None | Unset): null = never expires (UI shows a warning) Default: 90.
     """
 
     name: str
     workspace_id: UUID
     scopes: list[PatScope]
-    expires_in_days: Union[None, Unset, int] = 90
+    expires_in_days: int | None | Unset = 90
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
@@ -40,7 +37,7 @@ class ApiTokenCreate:
             scopes_item = scopes_item_data.value
             scopes.append(scopes_item)
 
-        expires_in_days: Union[None, Unset, int]
+        expires_in_days: int | None | Unset
         if isinstance(self.expires_in_days, Unset):
             expires_in_days = UNSET
         else:
@@ -74,12 +71,12 @@ class ApiTokenCreate:
 
             scopes.append(scopes_item)
 
-        def _parse_expires_in_days(data: object) -> Union[None, Unset, int]:
+        def _parse_expires_in_days(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         expires_in_days = _parse_expires_in_days(d.pop("expires_in_days", UNSET))
 

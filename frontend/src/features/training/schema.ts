@@ -39,7 +39,7 @@ export interface JsonSchema {
 }
 
 export function asSchema(value: unknown): JsonSchema {
-  return isRecord(value) ? (value as JsonSchema) : {};
+  return isRecord(value) ? value : {};
 }
 
 export function deepClone<T extends Json>(v: T): T {
@@ -52,7 +52,7 @@ export function deepMerge(base: JsonObject, over: Record<string, unknown>): Json
   for (const [k, v] of Object.entries(over)) {
     if (v === undefined) continue;
     const prev = out[k];
-    if (isRecord(v) && isRecord(prev)) out[k] = deepMerge(prev as JsonObject, v);
+    if (isRecord(v) && isRecord(prev)) out[k] = deepMerge(prev, v);
     else out[k] = v as Json;
   }
   return out;

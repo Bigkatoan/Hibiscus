@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -18,16 +16,16 @@ class VerificationParityType0:
     """Summary of onnx/parity_report.json
 
     Attributes:
-        max_abs_diff (Union[Unset, float]):
-        atol (Union[Unset, float]):
-        rtol (Union[Unset, float]):
-        n_samples (Union[Unset, int]):
+        max_abs_diff (float | Unset):
+        atol (float | Unset):
+        rtol (float | Unset):
+        n_samples (int | Unset):
     """
 
-    max_abs_diff: Union[Unset, float] = UNSET
-    atol: Union[Unset, float] = UNSET
-    rtol: Union[Unset, float] = UNSET
-    n_samples: Union[Unset, int] = UNSET
+    max_abs_diff: float | Unset = UNSET
+    atol: float | Unset = UNSET
+    rtol: float | Unset = UNSET
+    n_samples: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

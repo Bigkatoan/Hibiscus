@@ -90,6 +90,8 @@ export function LineChart({
         ...(syncKey ? { sync: { key: syncKey } } : {}),
         drag: { x: true, y: false },
       },
+      // distr 3 = logarithmic (uPlot.Scale.Distr is a const enum, not importable as a value here).
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-assignment
       scales: { x: { time: false }, y: logY ? { distr: 3 } : { auto: true } },
       axes: [
         {
@@ -150,7 +152,7 @@ export function LineChart({
     };
     let u: uPlot;
     try {
-      u = new uPlot(opts, data as uPlot.AlignedData, el);
+      u = new uPlot(opts, data, el);
     } catch {
       return undefined; // canvas unavailable (non-browser env)
     }
@@ -169,7 +171,7 @@ export function LineChart({
   }, [labels, height, logY, resolved, syncKey, xLabel, i18n.language]);
 
   useEffect(() => {
-    plot.current?.setData(data as uPlot.AlignedData);
+    plot.current?.setData(data);
   }, [data]);
 
   useEffect(() => {

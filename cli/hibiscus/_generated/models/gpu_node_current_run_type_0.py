@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -20,22 +17,22 @@ class GpuNodeCurrentRunType0:
     """Null when idle; `id`/`name` null when the run is in another workspace
 
     Attributes:
-        id (Union[None, UUID, Unset]):
-        name (Union[None, Unset, str]):
-        workspace_id (Union[None, UUID, Unset]):
-        step (Union[Unset, int]):
-        total_steps (Union[Unset, int]):
+        id (None | Unset | UUID):
+        name (None | str | Unset):
+        workspace_id (None | Unset | UUID):
+        step (int | Unset):
+        total_steps (int | Unset):
     """
 
-    id: Union[None, UUID, Unset] = UNSET
-    name: Union[None, Unset, str] = UNSET
-    workspace_id: Union[None, UUID, Unset] = UNSET
-    step: Union[Unset, int] = UNSET
-    total_steps: Union[Unset, int] = UNSET
+    id: None | Unset | UUID = UNSET
+    name: None | str | Unset = UNSET
+    workspace_id: None | Unset | UUID = UNSET
+    step: int | Unset = UNSET
+    total_steps: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id: Union[None, Unset, str]
+        id: None | str | Unset
         if isinstance(self.id, Unset):
             id = UNSET
         elif isinstance(self.id, UUID):
@@ -43,13 +40,13 @@ class GpuNodeCurrentRunType0:
         else:
             id = self.id
 
-        name: Union[None, Unset, str]
+        name: None | str | Unset
         if isinstance(self.name, Unset):
             name = UNSET
         else:
             name = self.name
 
-        workspace_id: Union[None, Unset, str]
+        workspace_id: None | str | Unset
         if isinstance(self.workspace_id, Unset):
             workspace_id = UNSET
         elif isinstance(self.workspace_id, UUID):
@@ -81,7 +78,7 @@ class GpuNodeCurrentRunType0:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
 
-        def _parse_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -92,22 +89,22 @@ class GpuNodeCurrentRunType0:
                 id_type_0 = UUID(data)
 
                 return id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         id = _parse_id(d.pop("id", UNSET))
 
-        def _parse_name(data: object) -> Union[None, Unset, str]:
+        def _parse_name(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         name = _parse_name(d.pop("name", UNSET))
 
-        def _parse_workspace_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_workspace_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -118,9 +115,9 @@ class GpuNodeCurrentRunType0:
                 workspace_id_type_0 = UUID(data)
 
                 return workspace_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         workspace_id = _parse_workspace_id(d.pop("workspace_id", UNSET))
 

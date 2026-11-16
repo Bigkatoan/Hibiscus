@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,14 +25,14 @@ class PreflightCheck:
         severity (ValidationSeverity):
         code (str): ErrorCode for errors; warning code otherwise (e.g. `mixed_precision_forced_no`)
         message (str):
-        params (Union[Unset, PreflightCheckParams]):
+        params (PreflightCheckParams | Unset):
     """
 
     id: PreflightCheckId
     severity: ValidationSeverity
     code: str
     message: str
-    params: Union[Unset, "PreflightCheckParams"] = UNSET
+    params: PreflightCheckParams | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,7 +44,7 @@ class PreflightCheck:
 
         message = self.message
 
-        params: Union[Unset, dict[str, Any]] = UNSET
+        params: dict[str, Any] | Unset = UNSET
         if not isinstance(self.params, Unset):
             params = self.params.to_dict()
 
@@ -80,7 +77,7 @@ class PreflightCheck:
         message = d.pop("message")
 
         _params = d.pop("params", UNSET)
-        params: Union[Unset, PreflightCheckParams]
+        params: PreflightCheckParams | Unset
         if isinstance(_params, Unset):
             params = UNSET
         else:

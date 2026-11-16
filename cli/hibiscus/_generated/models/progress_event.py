@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -25,16 +26,16 @@ class ProgressEvent:
         step (int): initial_step + tqdm n
         total_steps (int):
         ts (datetime.datetime):
-        steps_per_s (Union[None, Unset, float]):
-        eta_s (Union[None, Unset, float]):
+        steps_per_s (float | None | Unset):
+        eta_s (float | None | Unset):
     """
 
     kind: Literal["progress"]
     step: int
     total_steps: int
     ts: datetime.datetime
-    steps_per_s: Union[None, Unset, float] = UNSET
-    eta_s: Union[None, Unset, float] = UNSET
+    steps_per_s: float | None | Unset = UNSET
+    eta_s: float | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -46,13 +47,13 @@ class ProgressEvent:
 
         ts = self.ts.isoformat()
 
-        steps_per_s: Union[None, Unset, float]
+        steps_per_s: float | None | Unset
         if isinstance(self.steps_per_s, Unset):
             steps_per_s = UNSET
         else:
             steps_per_s = self.steps_per_s
 
-        eta_s: Union[None, Unset, float]
+        eta_s: float | None | Unset
         if isinstance(self.eta_s, Unset):
             eta_s = UNSET
         else:
@@ -88,21 +89,21 @@ class ProgressEvent:
 
         ts = isoparse(d.pop("ts"))
 
-        def _parse_steps_per_s(data: object) -> Union[None, Unset, float]:
+        def _parse_steps_per_s(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         steps_per_s = _parse_steps_per_s(d.pop("steps_per_s", UNSET))
 
-        def _parse_eta_s(data: object) -> Union[None, Unset, float]:
+        def _parse_eta_s(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         eta_s = _parse_eta_s(d.pop("eta_s", UNSET))
 

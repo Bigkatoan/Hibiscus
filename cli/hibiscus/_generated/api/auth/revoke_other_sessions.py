@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, cast
 
 import httpx
 
@@ -11,7 +11,7 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -27,8 +27,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Any | Problem | None:
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -45,8 +45,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Any | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,19 +58,19 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Any | Problem]:
     """Revoke every session except the current one
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -87,19 +87,19 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Any | Problem | None:
     """Revoke every session except the current one
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return sync_detailed(
@@ -111,19 +111,19 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Any | Problem]:
     """Revoke every session except the current one
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -138,19 +138,19 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Any | Problem | None:
     """Revoke every session except the current one
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return (

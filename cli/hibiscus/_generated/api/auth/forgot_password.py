@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, cast
 
 import httpx
 
@@ -30,8 +30,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Any | Problem | None:
     if response.status_code == 202:
         response_202 = cast(Any, None)
         return response_202
@@ -53,8 +53,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Any | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -65,9 +65,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: ForgotPasswordRequest,
-) -> Response[Union[Any, Problem]]:
+) -> Response[Any | Problem]:
     """Request a password-reset email
 
      Always 202 (no account enumeration). Token valid 30 minutes, single use.
@@ -80,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -96,9 +96,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: ForgotPasswordRequest,
-) -> Optional[Union[Any, Problem]]:
+) -> Any | Problem | None:
     """Request a password-reset email
 
      Always 202 (no account enumeration). Token valid 30 minutes, single use.
@@ -111,7 +111,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return sync_detailed(
@@ -122,9 +122,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: ForgotPasswordRequest,
-) -> Response[Union[Any, Problem]]:
+) -> Response[Any | Problem]:
     """Request a password-reset email
 
      Always 202 (no account enumeration). Token valid 30 minutes, single use.
@@ -137,7 +137,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -151,9 +151,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: ForgotPasswordRequest,
-) -> Optional[Union[Any, Problem]]:
+) -> Any | Problem | None:
     """Request a password-reset email
 
      Always 202 (no account enumeration). Token valid 30 minutes, single use.
@@ -166,7 +166,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return (

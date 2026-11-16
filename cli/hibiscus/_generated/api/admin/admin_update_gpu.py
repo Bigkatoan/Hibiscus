@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 
 import httpx
 
@@ -15,7 +16,7 @@ def _get_kwargs(
     gpu_id: str,
     *,
     body: AdminUpdateGpuBody,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -24,7 +25,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "patch",
         "url": "/admin/gpus/{gpu_id}".format(
-            gpu_id=gpu_id,
+            gpu_id=quote(str(gpu_id), safe=""),
         ),
     }
 
@@ -37,8 +38,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[GpuNode, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> GpuNode | Problem | None:
     if response.status_code == 200:
         response_200 = GpuNode.from_dict(response.json())
 
@@ -66,8 +67,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[GpuNode, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[GpuNode | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,15 +80,15 @@ def _build_response(
 def sync_detailed(
     gpu_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUpdateGpuBody,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[GpuNode, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[GpuNode | Problem]:
     """Drain (finish current run, take no new ones), disable or re-enable a GPU
 
     Args:
         gpu_id (str):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUpdateGpuBody):
 
     Raises:
@@ -95,7 +96,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GpuNode, Problem]]
+        Response[GpuNode | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -114,15 +115,15 @@ def sync_detailed(
 def sync(
     gpu_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUpdateGpuBody,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[GpuNode, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> GpuNode | Problem | None:
     """Drain (finish current run, take no new ones), disable or re-enable a GPU
 
     Args:
         gpu_id (str):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUpdateGpuBody):
 
     Raises:
@@ -130,7 +131,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GpuNode, Problem]
+        GpuNode | Problem
     """
 
     return sync_detailed(
@@ -144,15 +145,15 @@ def sync(
 async def asyncio_detailed(
     gpu_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUpdateGpuBody,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[GpuNode, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[GpuNode | Problem]:
     """Drain (finish current run, take no new ones), disable or re-enable a GPU
 
     Args:
         gpu_id (str):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUpdateGpuBody):
 
     Raises:
@@ -160,7 +161,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GpuNode, Problem]]
+        Response[GpuNode | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -177,15 +178,15 @@ async def asyncio_detailed(
 async def asyncio(
     gpu_id: str,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUpdateGpuBody,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[GpuNode, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> GpuNode | Problem | None:
     """Drain (finish current run, take no new ones), disable or re-enable a GPU
 
     Args:
         gpu_id (str):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUpdateGpuBody):
 
     Raises:
@@ -193,7 +194,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GpuNode, Problem]
+        GpuNode | Problem
     """
 
     return (

@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,13 +17,13 @@ T = TypeVar("T", bound="NotificationPage")
 class NotificationPage:
     """
     Attributes:
-        items (list['Notification']):
-        next_cursor (Union[None, str]): Null on the last page
+        items (list[Notification]):
+        next_cursor (None | str): Null on the last page
         unread_count (int):
     """
 
-    items: list["Notification"]
-    next_cursor: Union[None, str]
+    items: list[Notification]
+    next_cursor: None | str
     unread_count: int
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
@@ -37,7 +33,7 @@ class NotificationPage:
             items_item = items_item_data.to_dict()
             items.append(items_item)
 
-        next_cursor: Union[None, str]
+        next_cursor: None | str
         next_cursor = self.next_cursor
 
         unread_count = self.unread_count
@@ -66,10 +62,10 @@ class NotificationPage:
 
             items.append(items_item)
 
-        def _parse_next_cursor(data: object) -> Union[None, str]:
+        def _parse_next_cursor(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         next_cursor = _parse_next_cursor(d.pop("next_cursor"))
 

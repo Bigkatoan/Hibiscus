@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     user_id: UUID,
     *,
     body: AdminUserUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -25,7 +26,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "patch",
         "url": "/admin/users/{user_id}".format(
-            user_id=user_id,
+            user_id=quote(str(user_id), safe=""),
         ),
     }
 
@@ -38,8 +39,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[AdminUser, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> AdminUser | Problem | None:
     if response.status_code == 200:
         response_200 = AdminUser.from_dict(response.json())
 
@@ -72,8 +73,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[AdminUser, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[AdminUser | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -85,15 +86,15 @@ def _build_response(
 def sync_detailed(
     user_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUserUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[AdminUser, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[AdminUser | Problem]:
     """Enable/disable, grant/revoke platform admin, force 2FA, unlock
 
     Args:
         user_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUserUpdate):
 
     Raises:
@@ -101,7 +102,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AdminUser, Problem]]
+        Response[AdminUser | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -120,15 +121,15 @@ def sync_detailed(
 def sync(
     user_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUserUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[AdminUser, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> AdminUser | Problem | None:
     """Enable/disable, grant/revoke platform admin, force 2FA, unlock
 
     Args:
         user_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUserUpdate):
 
     Raises:
@@ -136,7 +137,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AdminUser, Problem]
+        AdminUser | Problem
     """
 
     return sync_detailed(
@@ -150,15 +151,15 @@ def sync(
 async def asyncio_detailed(
     user_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUserUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[AdminUser, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[AdminUser | Problem]:
     """Enable/disable, grant/revoke platform admin, force 2FA, unlock
 
     Args:
         user_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUserUpdate):
 
     Raises:
@@ -166,7 +167,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[AdminUser, Problem]]
+        Response[AdminUser | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -183,15 +184,15 @@ async def asyncio_detailed(
 async def asyncio(
     user_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: AdminUserUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[AdminUser, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> AdminUser | Problem | None:
     """Enable/disable, grant/revoke platform admin, force 2FA, unlock
 
     Args:
         user_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (AdminUserUpdate):
 
     Raises:
@@ -199,7 +200,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[AdminUser, Problem]
+        AdminUser | Problem
     """
 
     return (

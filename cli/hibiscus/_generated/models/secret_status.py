@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,25 +18,25 @@ class SecretStatus:
     """
     Attributes:
         present (bool):
-        hint (Union[None, Unset, str]): Last 4 chars, e.g. `…x9Qa`
-        updated_at (Union[None, Unset, datetime.datetime]):
+        hint (None | str | Unset): Last 4 chars, e.g. `…x9Qa`
+        updated_at (datetime.datetime | None | Unset):
     """
 
     present: bool
-    hint: Union[None, Unset, str] = UNSET
-    updated_at: Union[None, Unset, datetime.datetime] = UNSET
+    hint: None | str | Unset = UNSET
+    updated_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         present = self.present
 
-        hint: Union[None, Unset, str]
+        hint: None | str | Unset
         if isinstance(self.hint, Unset):
             hint = UNSET
         else:
             hint = self.hint
 
-        updated_at: Union[None, Unset, str]
+        updated_at: None | str | Unset
         if isinstance(self.updated_at, Unset):
             updated_at = UNSET
         elif isinstance(self.updated_at, datetime.datetime):
@@ -66,16 +63,16 @@ class SecretStatus:
         d = dict(src_dict)
         present = d.pop("present")
 
-        def _parse_hint(data: object) -> Union[None, Unset, str]:
+        def _parse_hint(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         hint = _parse_hint(d.pop("hint", UNSET))
 
-        def _parse_updated_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_updated_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -86,9 +83,9 @@ class SecretStatus:
                 updated_at_type_0 = isoparse(data)
 
                 return updated_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         updated_at = _parse_updated_at(d.pop("updated_at", UNSET))
 

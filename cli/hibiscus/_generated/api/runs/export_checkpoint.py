@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,8 +17,8 @@ def _get_kwargs(
     run_id: UUID,
     step: int,
     *,
-    body: ExportOptions,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    body: ExportOptions | Unset = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -26,12 +27,13 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/runs/{run_id}/checkpoints/{step}/export".format(
-            run_id=run_id,
-            step=step,
+            run_id=quote(str(run_id), safe=""),
+            step=quote(str(step), safe=""),
         ),
     }
 
-    _kwargs["json"] = body.to_dict()
+    if not isinstance(body, Unset):
+        _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -40,8 +42,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Model, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Model | Problem | None:
     if response.status_code == 200:
         response_200 = Model.from_dict(response.json())
 
@@ -79,8 +81,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Model, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Model | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -94,9 +96,9 @@ def sync_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-    body: ExportOptions,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Model, Problem]]:
+    body: ExportOptions | Unset = UNSET,
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Model | Problem]:
     """Build a model bundle from a specific checkpoint (the final one is exported automatically)
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -107,15 +109,15 @@ def sync_detailed(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
-        body (ExportOptions):
+        x_csrf_token (str | Unset):
+        body (ExportOptions | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Model, Problem]]
+        Response[Model | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -137,9 +139,9 @@ def sync(
     step: int,
     *,
     client: AuthenticatedClient,
-    body: ExportOptions,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Model, Problem]]:
+    body: ExportOptions | Unset = UNSET,
+    x_csrf_token: str | Unset = UNSET,
+) -> Model | Problem | None:
     """Build a model bundle from a specific checkpoint (the final one is exported automatically)
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -150,15 +152,15 @@ def sync(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
-        body (ExportOptions):
+        x_csrf_token (str | Unset):
+        body (ExportOptions | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Model, Problem]
+        Model | Problem
     """
 
     return sync_detailed(
@@ -175,9 +177,9 @@ async def asyncio_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-    body: ExportOptions,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Model, Problem]]:
+    body: ExportOptions | Unset = UNSET,
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Model | Problem]:
     """Build a model bundle from a specific checkpoint (the final one is exported automatically)
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -188,15 +190,15 @@ async def asyncio_detailed(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
-        body (ExportOptions):
+        x_csrf_token (str | Unset):
+        body (ExportOptions | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Model, Problem]]
+        Response[Model | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -216,9 +218,9 @@ async def asyncio(
     step: int,
     *,
     client: AuthenticatedClient,
-    body: ExportOptions,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Model, Problem]]:
+    body: ExportOptions | Unset = UNSET,
+    x_csrf_token: str | Unset = UNSET,
+) -> Model | Problem | None:
     """Build a model bundle from a specific checkpoint (the final one is exported automatically)
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -229,15 +231,15 @@ async def asyncio(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
-        body (ExportOptions):
+        x_csrf_token (str | Unset):
+        body (ExportOptions | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Model, Problem]
+        Model | Problem
     """
 
     return (

@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -19,20 +20,20 @@ T = TypeVar("T", bound="AuthConfig")
 class AuthConfig:
     """
     Attributes:
-        turnstile_site_key (Union[None, str]):
+        turnstile_site_key (None | str):
         email_delivery_enabled (bool):
         password_min_length (Literal[12]):
         supported_locales (list[Locale]):
     """
 
-    turnstile_site_key: Union[None, str]
+    turnstile_site_key: None | str
     email_delivery_enabled: bool
     password_min_length: Literal[12]
     supported_locales: list[Locale]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        turnstile_site_key: Union[None, str]
+        turnstile_site_key: None | str
         turnstile_site_key = self.turnstile_site_key
 
         email_delivery_enabled = self.email_delivery_enabled
@@ -61,10 +62,10 @@ class AuthConfig:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
 
-        def _parse_turnstile_site_key(data: object) -> Union[None, str]:
+        def _parse_turnstile_site_key(data: object) -> None | str:
             if data is None:
                 return data
-            return cast(Union[None, str], data)
+            return cast(None | str, data)
 
         turnstile_site_key = _parse_turnstile_site_key(d.pop("turnstile_site_key"))
 

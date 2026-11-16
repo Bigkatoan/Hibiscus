@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 from uuid import UUID
@@ -26,14 +27,14 @@ class CheckpointEvent:
         step (int):
         checkpoint_id (UUID):
         ts (datetime.datetime):
-        size_bytes (Union[Unset, int]):
+        size_bytes (int | Unset):
     """
 
     kind: Literal["checkpoint"]
     step: int
     checkpoint_id: UUID
     ts: datetime.datetime
-    size_bytes: Union[Unset, int] = UNSET
+    size_bytes: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

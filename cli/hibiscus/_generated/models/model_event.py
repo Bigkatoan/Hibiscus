@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 from uuid import UUID
@@ -28,16 +29,16 @@ class ModelEvent:
         model_id (UUID):
         status (ModelStatus):
         ts (datetime.datetime):
-        verified (Union[Unset, bool]):
-        onnx_status (Union[Unset, OnnxStatus]):
+        verified (bool | Unset):
+        onnx_status (OnnxStatus | Unset):
     """
 
     kind: Literal["model"]
     model_id: UUID
     status: ModelStatus
     ts: datetime.datetime
-    verified: Union[Unset, bool] = UNSET
-    onnx_status: Union[Unset, OnnxStatus] = UNSET
+    verified: bool | Unset = UNSET
+    onnx_status: OnnxStatus | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,7 +52,7 @@ class ModelEvent:
 
         verified = self.verified
 
-        onnx_status: Union[Unset, str] = UNSET
+        onnx_status: str | Unset = UNSET
         if not isinstance(self.onnx_status, Unset):
             onnx_status = self.onnx_status.value
 
@@ -88,7 +89,7 @@ class ModelEvent:
         verified = d.pop("verified", UNSET)
 
         _onnx_status = d.pop("onnx_status", UNSET)
-        onnx_status: Union[Unset, OnnxStatus]
+        onnx_status: OnnxStatus | Unset
         if isinstance(_onnx_status, Unset):
             onnx_status = UNSET
         else:

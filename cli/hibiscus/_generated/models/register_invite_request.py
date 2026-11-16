@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -21,16 +19,16 @@ class RegisterInviteRequest:
         display_name (str):
         password (str): argon2id; >= 12 chars; rejected if in the offline breached-password list (422
             `password_breached`)
-        locale (Union[Unset, Locale]):
-        turnstile_token (Union[Unset, str]): Cloudflare Turnstile response token (required when
-            AuthConfig.turnstile_site_key is set)
+        locale (Locale | Unset):
+        turnstile_token (str | Unset): Cloudflare Turnstile response token (required when AuthConfig.turnstile_site_key
+            is set)
     """
 
     invite_token: str
     display_name: str
     password: str
-    locale: Union[Unset, Locale] = UNSET
-    turnstile_token: Union[Unset, str] = UNSET
+    locale: Locale | Unset = UNSET
+    turnstile_token: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         invite_token = self.invite_token
@@ -39,7 +37,7 @@ class RegisterInviteRequest:
 
         password = self.password
 
-        locale: Union[Unset, str] = UNSET
+        locale: str | Unset = UNSET
         if not isinstance(self.locale, Unset):
             locale = self.locale.value
 
@@ -71,7 +69,7 @@ class RegisterInviteRequest:
         password = d.pop("password")
 
         _locale = d.pop("locale", UNSET)
-        locale: Union[Unset, Locale]
+        locale: Locale | Unset
         if isinstance(_locale, Unset):
             locale = UNSET
         else:

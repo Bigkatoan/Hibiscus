@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -26,14 +23,14 @@ class ResourceStatusEvent:
         id (UUID):
         status (str):
         ts (datetime.datetime):
-        error_code (Union[None, Unset, str]):
+        error_code (None | str | Unset):
     """
 
     resource: ResourceStatusEventResource
     id: UUID
     status: str
     ts: datetime.datetime
-    error_code: Union[None, Unset, str] = UNSET
+    error_code: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -45,7 +42,7 @@ class ResourceStatusEvent:
 
         ts = self.ts.isoformat()
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         else:
@@ -77,12 +74,12 @@ class ResourceStatusEvent:
 
         ts = isoparse(d.pop("ts"))
 
-        def _parse_error_code(data: object) -> Union[None, Unset, str]:
+        def _parse_error_code(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 

@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -13,8 +14,8 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     model_id: UUID,
     *,
-    range_: Union[Unset, str] = UNSET,
-    if_range: Union[Unset, str] = UNSET,
+    range_: str | Unset = UNSET,
+    if_range: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(range_, Unset):
@@ -26,7 +27,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/models/{model_id}/download".format(
-            model_id=model_id,
+            model_id=quote(str(model_id), safe=""),
         ),
     }
 
@@ -35,8 +36,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Problem]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | None:
     if response.status_code == 401:
         response_401 = Problem.from_dict(response.json())
 
@@ -64,7 +65,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -78,8 +79,8 @@ def sync_detailed(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-    if_range: Union[Unset, str] = UNSET,
+    range_: str | Unset = UNSET,
+    if_range: str | Unset = UNSET,
 ) -> Response[Problem]:
     """Download the bundle zip (Range supported for resume; ETag = bundle sha256)
 
@@ -87,8 +88,8 @@ def sync_detailed(
 
     Args:
         model_id (UUID):
-        range_ (Union[Unset, str]):
-        if_range (Union[Unset, str]):
+        range_ (str | Unset):
+        if_range (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,17 +116,17 @@ def sync(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-    if_range: Union[Unset, str] = UNSET,
-) -> Optional[Problem]:
+    range_: str | Unset = UNSET,
+    if_range: str | Unset = UNSET,
+) -> Problem | None:
     """Download the bundle zip (Range supported for resume; ETag = bundle sha256)
 
      Audited (`model.download`). 409 `model_not_ready` unless status=ready.
 
     Args:
         model_id (UUID):
-        range_ (Union[Unset, str]):
-        if_range (Union[Unset, str]):
+        range_ (str | Unset):
+        if_range (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -147,8 +148,8 @@ async def asyncio_detailed(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-    if_range: Union[Unset, str] = UNSET,
+    range_: str | Unset = UNSET,
+    if_range: str | Unset = UNSET,
 ) -> Response[Problem]:
     """Download the bundle zip (Range supported for resume; ETag = bundle sha256)
 
@@ -156,8 +157,8 @@ async def asyncio_detailed(
 
     Args:
         model_id (UUID):
-        range_ (Union[Unset, str]):
-        if_range (Union[Unset, str]):
+        range_ (str | Unset):
+        if_range (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -182,17 +183,17 @@ async def asyncio(
     model_id: UUID,
     *,
     client: AuthenticatedClient,
-    range_: Union[Unset, str] = UNSET,
-    if_range: Union[Unset, str] = UNSET,
-) -> Optional[Problem]:
+    range_: str | Unset = UNSET,
+    if_range: str | Unset = UNSET,
+) -> Problem | None:
     """Download the bundle zip (Range supported for resume; ETag = bundle sha256)
 
      Audited (`model.download`). 409 `model_not_ready` unless status=ready.
 
     Args:
         model_id (UUID):
-        range_ (Union[Unset, str]):
-        if_range (Union[Unset, str]):
+        range_ (str | Unset):
+        if_range (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

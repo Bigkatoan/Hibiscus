@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -16,12 +14,12 @@ T = TypeVar("T", bound="DatasetUpdate")
 class DatasetUpdate:
     """
     Attributes:
-        name (Union[Unset, str]):
-        description (Union[Unset, str]):
+        name (str | Unset):
+        description (str | Unset):
     """
 
-    name: Union[Unset, str] = UNSET
-    description: Union[Unset, str] = UNSET
+    name: str | Unset = UNSET
+    description: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name

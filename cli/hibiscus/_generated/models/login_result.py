@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -24,23 +21,23 @@ class LoginResult:
     """
     Attributes:
         status (LoginResultStatus):
-        user (Union[Unset, User]):
-        mfa_token (Union[Unset, str]): Present when status=mfa_required; valid 5 minutes, single use
-        mfa_enrollment_required (Union[Unset, bool]):
-        recovery_codes_remaining (Union[Unset, int]):
+        user (User | Unset):
+        mfa_token (str | Unset): Present when status=mfa_required; valid 5 minutes, single use
+        mfa_enrollment_required (bool | Unset):
+        recovery_codes_remaining (int | Unset):
     """
 
     status: LoginResultStatus
-    user: Union[Unset, "User"] = UNSET
-    mfa_token: Union[Unset, str] = UNSET
-    mfa_enrollment_required: Union[Unset, bool] = UNSET
-    recovery_codes_remaining: Union[Unset, int] = UNSET
+    user: User | Unset = UNSET
+    mfa_token: str | Unset = UNSET
+    mfa_enrollment_required: bool | Unset = UNSET
+    recovery_codes_remaining: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         status = self.status.value
 
-        user: Union[Unset, dict[str, Any]] = UNSET
+        user: dict[str, Any] | Unset = UNSET
         if not isinstance(self.user, Unset):
             user = self.user.to_dict()
 
@@ -76,7 +73,7 @@ class LoginResult:
         status = LoginResultStatus(d.pop("status"))
 
         _user = d.pop("user", UNSET)
-        user: Union[Unset, User]
+        user: User | Unset
         if isinstance(_user, Unset):
             user = UNSET
         else:

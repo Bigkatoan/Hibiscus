@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -16,12 +14,12 @@ T = TypeVar("T", bound="RunResumeRequest")
 class RunResumeRequest:
     """
     Attributes:
-        gpu (Union[Unset, str]): Override GPU for the next attempt
-        total_steps (Union[Unset, int]): Extend training (must be > current_step)
+        gpu (str | Unset): Override GPU for the next attempt
+        total_steps (int | Unset): Extend training (must be > current_step)
     """
 
-    gpu: Union[Unset, str] = UNSET
-    total_steps: Union[Unset, int] = UNSET
+    gpu: str | Unset = UNSET
+    total_steps: int | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         gpu = self.gpu

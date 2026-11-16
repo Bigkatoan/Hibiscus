@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -16,16 +14,16 @@ T = TypeVar("T", bound="AdminUserUpdate")
 class AdminUserUpdate:
     """
     Attributes:
-        is_active (Union[Unset, bool]):
-        is_platform_admin (Union[Unset, bool]): Requires target to have 2FA enabled
-        unlock (Union[Unset, bool]):
-        reset_mfa (Union[Unset, bool]): Disables TOTP and deletes recovery codes (account recovery)
+        is_active (bool | Unset):
+        is_platform_admin (bool | Unset): Requires target to have 2FA enabled
+        unlock (bool | Unset):
+        reset_mfa (bool | Unset): Disables TOTP and deletes recovery codes (account recovery)
     """
 
-    is_active: Union[Unset, bool] = UNSET
-    is_platform_admin: Union[Unset, bool] = UNSET
-    unlock: Union[Unset, bool] = UNSET
-    reset_mfa: Union[Unset, bool] = UNSET
+    is_active: bool | Unset = UNSET
+    is_platform_admin: bool | Unset = UNSET
+    unlock: bool | Unset = UNSET
+    reset_mfa: bool | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         is_active = self.is_active

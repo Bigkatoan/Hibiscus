@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -24,15 +25,15 @@ class EvalEvent:
         kind (Literal['eval']):
         step (int):
         ts (datetime.datetime):
-        action_mae (Union[Unset, float]):
-        action_mse (Union[Unset, float]):
+        action_mae (float | Unset):
+        action_mse (float | Unset):
     """
 
     kind: Literal["eval"]
     step: int
     ts: datetime.datetime
-    action_mae: Union[Unset, float] = UNSET
-    action_mse: Union[Unset, float] = UNSET
+    action_mae: float | Unset = UNSET
+    action_mse: float | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

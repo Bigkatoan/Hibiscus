@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -33,30 +29,30 @@ class AuditEvent:
         created_at (datetime.datetime):
         action (AuditAction): Catalogue in docs/db-schema.md §Audit
         outcome (AuditEventOutcome):
-        workspace_id (Union[None, UUID, Unset]):
-        actor (Union['UserRef', None, Unset]):
-        actor_token_id (Union[None, UUID, Unset]):
-        target_type (Union[None, Unset, str]):
-        target_id (Union[None, Unset, str]):
-        ip (Union[None, Unset, str]):
-        user_agent (Union[None, Unset, str]):
-        request_id (Union[None, Unset, str]):
-        details (Union[Unset, AuditEventDetails]):
+        workspace_id (None | Unset | UUID):
+        actor (None | Unset | UserRef):
+        actor_token_id (None | Unset | UUID):
+        target_type (None | str | Unset):
+        target_id (None | str | Unset):
+        ip (None | str | Unset):
+        user_agent (None | str | Unset):
+        request_id (None | str | Unset):
+        details (AuditEventDetails | Unset):
     """
 
     id: int
     created_at: datetime.datetime
     action: AuditAction
     outcome: AuditEventOutcome
-    workspace_id: Union[None, UUID, Unset] = UNSET
-    actor: Union["UserRef", None, Unset] = UNSET
-    actor_token_id: Union[None, UUID, Unset] = UNSET
-    target_type: Union[None, Unset, str] = UNSET
-    target_id: Union[None, Unset, str] = UNSET
-    ip: Union[None, Unset, str] = UNSET
-    user_agent: Union[None, Unset, str] = UNSET
-    request_id: Union[None, Unset, str] = UNSET
-    details: Union[Unset, "AuditEventDetails"] = UNSET
+    workspace_id: None | Unset | UUID = UNSET
+    actor: None | Unset | UserRef = UNSET
+    actor_token_id: None | Unset | UUID = UNSET
+    target_type: None | str | Unset = UNSET
+    target_id: None | str | Unset = UNSET
+    ip: None | str | Unset = UNSET
+    user_agent: None | str | Unset = UNSET
+    request_id: None | str | Unset = UNSET
+    details: AuditEventDetails | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -70,7 +66,7 @@ class AuditEvent:
 
         outcome = self.outcome.value
 
-        workspace_id: Union[None, Unset, str]
+        workspace_id: None | str | Unset
         if isinstance(self.workspace_id, Unset):
             workspace_id = UNSET
         elif isinstance(self.workspace_id, UUID):
@@ -78,7 +74,7 @@ class AuditEvent:
         else:
             workspace_id = self.workspace_id
 
-        actor: Union[None, Unset, dict[str, Any]]
+        actor: dict[str, Any] | None | Unset
         if isinstance(self.actor, Unset):
             actor = UNSET
         elif isinstance(self.actor, UserRef):
@@ -86,7 +82,7 @@ class AuditEvent:
         else:
             actor = self.actor
 
-        actor_token_id: Union[None, Unset, str]
+        actor_token_id: None | str | Unset
         if isinstance(self.actor_token_id, Unset):
             actor_token_id = UNSET
         elif isinstance(self.actor_token_id, UUID):
@@ -94,37 +90,37 @@ class AuditEvent:
         else:
             actor_token_id = self.actor_token_id
 
-        target_type: Union[None, Unset, str]
+        target_type: None | str | Unset
         if isinstance(self.target_type, Unset):
             target_type = UNSET
         else:
             target_type = self.target_type
 
-        target_id: Union[None, Unset, str]
+        target_id: None | str | Unset
         if isinstance(self.target_id, Unset):
             target_id = UNSET
         else:
             target_id = self.target_id
 
-        ip: Union[None, Unset, str]
+        ip: None | str | Unset
         if isinstance(self.ip, Unset):
             ip = UNSET
         else:
             ip = self.ip
 
-        user_agent: Union[None, Unset, str]
+        user_agent: None | str | Unset
         if isinstance(self.user_agent, Unset):
             user_agent = UNSET
         else:
             user_agent = self.user_agent
 
-        request_id: Union[None, Unset, str]
+        request_id: None | str | Unset
         if isinstance(self.request_id, Unset):
             request_id = UNSET
         else:
             request_id = self.request_id
 
-        details: Union[Unset, dict[str, Any]] = UNSET
+        details: dict[str, Any] | Unset = UNSET
         if not isinstance(self.details, Unset):
             details = self.details.to_dict()
 
@@ -173,7 +169,7 @@ class AuditEvent:
 
         outcome = AuditEventOutcome(d.pop("outcome"))
 
-        def _parse_workspace_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_workspace_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -184,13 +180,13 @@ class AuditEvent:
                 workspace_id_type_0 = UUID(data)
 
                 return workspace_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         workspace_id = _parse_workspace_id(d.pop("workspace_id", UNSET))
 
-        def _parse_actor(data: object) -> Union["UserRef", None, Unset]:
+        def _parse_actor(data: object) -> None | Unset | UserRef:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -201,13 +197,13 @@ class AuditEvent:
                 actor_type_0 = UserRef.from_dict(data)
 
                 return actor_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["UserRef", None, Unset], data)
+            return cast(None | Unset | UserRef, data)
 
         actor = _parse_actor(d.pop("actor", UNSET))
 
-        def _parse_actor_token_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_actor_token_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -218,59 +214,59 @@ class AuditEvent:
                 actor_token_id_type_0 = UUID(data)
 
                 return actor_token_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         actor_token_id = _parse_actor_token_id(d.pop("actor_token_id", UNSET))
 
-        def _parse_target_type(data: object) -> Union[None, Unset, str]:
+        def _parse_target_type(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         target_type = _parse_target_type(d.pop("target_type", UNSET))
 
-        def _parse_target_id(data: object) -> Union[None, Unset, str]:
+        def _parse_target_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         target_id = _parse_target_id(d.pop("target_id", UNSET))
 
-        def _parse_ip(data: object) -> Union[None, Unset, str]:
+        def _parse_ip(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         ip = _parse_ip(d.pop("ip", UNSET))
 
-        def _parse_user_agent(data: object) -> Union[None, Unset, str]:
+        def _parse_user_agent(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         user_agent = _parse_user_agent(d.pop("user_agent", UNSET))
 
-        def _parse_request_id(data: object) -> Union[None, Unset, str]:
+        def _parse_request_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         request_id = _parse_request_id(d.pop("request_id", UNSET))
 
         _details = d.pop("details", UNSET)
-        details: Union[Unset, AuditEventDetails]
+        details: AuditEventDetails | Unset
         if isinstance(_details, Unset):
             details = UNSET
         else:

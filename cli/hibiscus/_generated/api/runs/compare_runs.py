@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 
 import httpx
@@ -14,8 +14,8 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     ids: list[UUID],
-    keys: Union[Unset, list[str]] = UNSET,
-    max_points: Union[Unset, int] = 1000,
+    keys: list[str] | Unset = UNSET,
+    max_points: int | Unset = 1000,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -26,7 +26,7 @@ def _get_kwargs(
 
     params["ids"] = json_ids
 
-    json_keys: Union[Unset, list[str]] = UNSET
+    json_keys: list[str] | Unset = UNSET
     if not isinstance(keys, Unset):
         json_keys = keys
 
@@ -46,8 +46,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, RunComparison]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | RunComparison | None:
     if response.status_code == 200:
         response_200 = RunComparison.from_dict(response.json())
 
@@ -75,8 +75,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, RunComparison]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | RunComparison]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -89,22 +89,22 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     ids: list[UUID],
-    keys: Union[Unset, list[str]] = UNSET,
-    max_points: Union[Unset, int] = 1000,
-) -> Response[Union[Problem, RunComparison]]:
+    keys: list[str] | Unset = UNSET,
+    max_points: int | Unset = 1000,
+) -> Response[Problem | RunComparison]:
     """Overlay metric series and diff configs of 2..8 runs (same workspace)
 
     Args:
         ids (list[UUID]):
-        keys (Union[Unset, list[str]]):
-        max_points (Union[Unset, int]):  Default: 1000.
+        keys (list[str] | Unset):
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunComparison]]
+        Response[Problem | RunComparison]
     """
 
     kwargs = _get_kwargs(
@@ -124,22 +124,22 @@ def sync(
     *,
     client: AuthenticatedClient,
     ids: list[UUID],
-    keys: Union[Unset, list[str]] = UNSET,
-    max_points: Union[Unset, int] = 1000,
-) -> Optional[Union[Problem, RunComparison]]:
+    keys: list[str] | Unset = UNSET,
+    max_points: int | Unset = 1000,
+) -> Problem | RunComparison | None:
     """Overlay metric series and diff configs of 2..8 runs (same workspace)
 
     Args:
         ids (list[UUID]):
-        keys (Union[Unset, list[str]]):
-        max_points (Union[Unset, int]):  Default: 1000.
+        keys (list[str] | Unset):
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunComparison]
+        Problem | RunComparison
     """
 
     return sync_detailed(
@@ -154,22 +154,22 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     ids: list[UUID],
-    keys: Union[Unset, list[str]] = UNSET,
-    max_points: Union[Unset, int] = 1000,
-) -> Response[Union[Problem, RunComparison]]:
+    keys: list[str] | Unset = UNSET,
+    max_points: int | Unset = 1000,
+) -> Response[Problem | RunComparison]:
     """Overlay metric series and diff configs of 2..8 runs (same workspace)
 
     Args:
         ids (list[UUID]):
-        keys (Union[Unset, list[str]]):
-        max_points (Union[Unset, int]):  Default: 1000.
+        keys (list[str] | Unset):
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunComparison]]
+        Response[Problem | RunComparison]
     """
 
     kwargs = _get_kwargs(
@@ -187,22 +187,22 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     ids: list[UUID],
-    keys: Union[Unset, list[str]] = UNSET,
-    max_points: Union[Unset, int] = 1000,
-) -> Optional[Union[Problem, RunComparison]]:
+    keys: list[str] | Unset = UNSET,
+    max_points: int | Unset = 1000,
+) -> Problem | RunComparison | None:
     """Overlay metric series and diff configs of 2..8 runs (same workspace)
 
     Args:
         ids (list[UUID]):
-        keys (Union[Unset, list[str]]):
-        max_points (Union[Unset, int]):  Default: 1000.
+        keys (list[str] | Unset):
+        max_points (int | Unset):  Default: 1000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunComparison]
+        Problem | RunComparison
     """
 
     return (

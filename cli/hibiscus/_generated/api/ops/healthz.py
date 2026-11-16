@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -19,8 +19,8 @@ def _get_kwargs() -> dict[str, Any]:
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[HealthzResponse200]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> HealthzResponse200 | None:
     if response.status_code == 200:
         response_200 = HealthzResponse200.from_dict(response.json())
 
@@ -33,7 +33,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[HealthzResponse200]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -45,7 +45,7 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
 ) -> Response[HealthzResponse200]:
     """Liveness (process up). Public.
 
@@ -68,8 +68,8 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[HealthzResponse200]:
+    client: AuthenticatedClient | Client,
+) -> HealthzResponse200 | None:
     """Liveness (process up). Public.
 
     Raises:
@@ -87,7 +87,7 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
 ) -> Response[HealthzResponse200]:
     """Liveness (process up). Public.
 
@@ -108,8 +108,8 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[HealthzResponse200]:
+    client: AuthenticatedClient | Client,
+) -> HealthzResponse200 | None:
     """Liveness (process up). Public.
 
     Raises:

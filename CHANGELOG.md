@@ -8,6 +8,13 @@ may contain breaking changes; they are always called out under **Changed** or **
 
 ## [Unreleased]
 
+### Changed
+- Dependencies: SQLAlchemy 2.1, Grafana 13.3.1, react-i18next 15.7, 27 minor/patch frontend updates
+  (Radix UI, TanStack Query, react-hook-form, openapi-fetch 0.17, typescript-eslint 8.72, prettier 3.10),
+  openapi-python-client 0.28.4 (CLI client regenerated, still runs on Python 3.10), setuptools 84,
+  GitHub Actions (docker/* v4-v7, Pages v5, attest-build-provenance v4).
+- Dependabot no longer proposes major Postgres or Redis upgrades; those need a dump/restore by hand.
+
 ## [0.1.0] - 2026-11-16
 
 The first public release: **Hibiscus Trainer**.

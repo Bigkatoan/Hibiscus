@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,7 +16,7 @@ def _get_kwargs(
     workspace_id: UUID,
     invite_id: UUID,
     *,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -24,8 +25,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/workspaces/{workspace_id}/invites/{invite_id}/resend".format(
-            workspace_id=workspace_id,
-            invite_id=invite_id,
+            workspace_id=quote(str(workspace_id), safe=""),
+            invite_id=quote(str(invite_id), safe=""),
         ),
     }
 
@@ -34,8 +35,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[InviteCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> InviteCreated | Problem | None:
     if response.status_code == 200:
         response_200 = InviteCreated.from_dict(response.json())
 
@@ -68,8 +69,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[InviteCreated, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[InviteCreated | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -83,21 +84,21 @@ def sync_detailed(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[InviteCreated | Problem]:
     """Re-issue the token (new 72 h window, old link invalid) and re-send
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InviteCreated, Problem]]
+        Response[InviteCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -118,21 +119,21 @@ def sync(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> InviteCreated | Problem | None:
     """Re-issue the token (new 72 h window, old link invalid) and re-send
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InviteCreated, Problem]
+        InviteCreated | Problem
     """
 
     return sync_detailed(
@@ -148,21 +149,21 @@ async def asyncio_detailed(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[InviteCreated | Problem]:
     """Re-issue the token (new 72 h window, old link invalid) and re-send
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InviteCreated, Problem]]
+        Response[InviteCreated | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -181,21 +182,21 @@ async def asyncio(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[InviteCreated, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> InviteCreated | Problem | None:
     """Re-issue the token (new 72 h window, old link invalid) and re-send
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InviteCreated, Problem]
+        InviteCreated | Problem
     """
 
     return (

@@ -62,7 +62,7 @@ class ResizeObserverStub {
     /* no-op */
   }
 }
-globalThis.ResizeObserver = ResizeObserverStub as unknown as typeof ResizeObserver;
+globalThis.ResizeObserver = ResizeObserverStub;
 if (typeof window.matchMedia !== "function") {
   window.matchMedia = (query: string) =>
     ({
@@ -71,7 +71,10 @@ if (typeof window.matchMedia !== "function") {
       onchange: null,
       addEventListener: () => undefined,
       removeEventListener: () => undefined,
+      // Legacy MediaQueryList API, still called by some libraries.
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
       addListener: () => undefined,
+      // eslint-disable-next-line @typescript-eslint/no-deprecated
       removeListener: () => undefined,
       dispatchEvent: () => false,
     }) as MediaQueryList;

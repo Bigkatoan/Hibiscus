@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,13 +16,13 @@ class EpisodeDetailSeriesItem:
         feature (str):
         dim (int):
         name (str):
-        values (list[Union[None, float]]):
+        values (list[float | None]):
     """
 
     feature: str
     dim: int
     name: str
-    values: list[Union[None, float]]
+    values: list[float | None]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -37,7 +34,7 @@ class EpisodeDetailSeriesItem:
 
         values = []
         for values_item_data in self.values:
-            values_item: Union[None, float]
+            values_item: float | None
             values_item = values_item_data
             values.append(values_item)
 
@@ -67,10 +64,10 @@ class EpisodeDetailSeriesItem:
         _values = d.pop("values")
         for values_item_data in _values:
 
-            def _parse_values_item(data: object) -> Union[None, float]:
+            def _parse_values_item(data: object) -> float | None:
                 if data is None:
                     return data
-                return cast(Union[None, float], data)
+                return cast(float | None, data)
 
             values_item = _parse_values_item(values_item_data)
 

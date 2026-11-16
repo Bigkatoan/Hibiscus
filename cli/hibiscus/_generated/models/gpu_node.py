@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -33,11 +29,11 @@ class GpuNode:
         compute_capability (str):
         supports_bf16 (bool):
         status (GpuNodeStatus):
-        supports_fast_fp16 (Union[Unset, bool]):
-        last_heartbeat_at (Union[None, Unset, datetime.datetime]):
-        current_run (Union['GpuNodeCurrentRunType0', None, Unset]): Null when idle; `id`/`name` null when the run is in
-            another workspace
-        telemetry (Union['GpuSample', None, Unset]):
+        supports_fast_fp16 (bool | Unset):
+        last_heartbeat_at (datetime.datetime | None | Unset):
+        current_run (GpuNodeCurrentRunType0 | None | Unset): Null when idle; `id`/`name` null when the run is in another
+            workspace
+        telemetry (GpuSample | None | Unset):
     """
 
     id: str
@@ -46,10 +42,10 @@ class GpuNode:
     compute_capability: str
     supports_bf16: bool
     status: GpuNodeStatus
-    supports_fast_fp16: Union[Unset, bool] = UNSET
-    last_heartbeat_at: Union[None, Unset, datetime.datetime] = UNSET
-    current_run: Union["GpuNodeCurrentRunType0", None, Unset] = UNSET
-    telemetry: Union["GpuSample", None, Unset] = UNSET
+    supports_fast_fp16: bool | Unset = UNSET
+    last_heartbeat_at: datetime.datetime | None | Unset = UNSET
+    current_run: GpuNodeCurrentRunType0 | None | Unset = UNSET
+    telemetry: GpuSample | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -70,7 +66,7 @@ class GpuNode:
 
         supports_fast_fp16 = self.supports_fast_fp16
 
-        last_heartbeat_at: Union[None, Unset, str]
+        last_heartbeat_at: None | str | Unset
         if isinstance(self.last_heartbeat_at, Unset):
             last_heartbeat_at = UNSET
         elif isinstance(self.last_heartbeat_at, datetime.datetime):
@@ -78,7 +74,7 @@ class GpuNode:
         else:
             last_heartbeat_at = self.last_heartbeat_at
 
-        current_run: Union[None, Unset, dict[str, Any]]
+        current_run: dict[str, Any] | None | Unset
         if isinstance(self.current_run, Unset):
             current_run = UNSET
         elif isinstance(self.current_run, GpuNodeCurrentRunType0):
@@ -86,7 +82,7 @@ class GpuNode:
         else:
             current_run = self.current_run
 
-        telemetry: Union[None, Unset, dict[str, Any]]
+        telemetry: dict[str, Any] | None | Unset
         if isinstance(self.telemetry, Unset):
             telemetry = UNSET
         elif isinstance(self.telemetry, GpuSample):
@@ -137,9 +133,7 @@ class GpuNode:
 
         supports_fast_fp16 = d.pop("supports_fast_fp16", UNSET)
 
-        def _parse_last_heartbeat_at(
-            data: object,
-        ) -> Union[None, Unset, datetime.datetime]:
+        def _parse_last_heartbeat_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -150,15 +144,13 @@ class GpuNode:
                 last_heartbeat_at_type_0 = isoparse(data)
 
                 return last_heartbeat_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         last_heartbeat_at = _parse_last_heartbeat_at(d.pop("last_heartbeat_at", UNSET))
 
-        def _parse_current_run(
-            data: object,
-        ) -> Union["GpuNodeCurrentRunType0", None, Unset]:
+        def _parse_current_run(data: object) -> GpuNodeCurrentRunType0 | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -169,13 +161,13 @@ class GpuNode:
                 current_run_type_0 = GpuNodeCurrentRunType0.from_dict(data)
 
                 return current_run_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["GpuNodeCurrentRunType0", None, Unset], data)
+            return cast(GpuNodeCurrentRunType0 | None | Unset, data)
 
         current_run = _parse_current_run(d.pop("current_run", UNSET))
 
-        def _parse_telemetry(data: object) -> Union["GpuSample", None, Unset]:
+        def _parse_telemetry(data: object) -> GpuSample | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -186,9 +178,9 @@ class GpuNode:
                 telemetry_type_0 = GpuSample.from_dict(data)
 
                 return telemetry_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["GpuSample", None, Unset], data)
+            return cast(GpuSample | None | Unset, data)
 
         telemetry = _parse_telemetry(d.pop("telemetry", UNSET))
 

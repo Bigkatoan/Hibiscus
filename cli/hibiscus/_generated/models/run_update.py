@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -16,14 +14,14 @@ T = TypeVar("T", bound="RunUpdate")
 class RunUpdate:
     """
     Attributes:
-        name (Union[Unset, str]):
-        priority (Union[Unset, int]):
-        gpu (Union[Unset, str]):
+        name (str | Unset):
+        priority (int | Unset):
+        gpu (str | Unset):
     """
 
-    name: Union[Unset, str] = UNSET
-    priority: Union[Unset, int] = UNSET
-    gpu: Union[Unset, str] = UNSET
+    name: str | Unset = UNSET
+    priority: int | Unset = UNSET
+    gpu: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name

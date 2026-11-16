@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
@@ -24,12 +26,12 @@ class BundleManifest:
     Attributes:
         schema_version (Literal['1']):
         bundle_name (str):
-        files (list['BundleManifestFilesItem']):
+        files (list[BundleManifestFilesItem]):
     """
 
     schema_version: Literal["1"]
     bundle_name: str
-    files: list["BundleManifestFilesItem"]
+    files: list[BundleManifestFilesItem]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

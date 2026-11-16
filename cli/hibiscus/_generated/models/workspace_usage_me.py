@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -26,7 +24,7 @@ class WorkspaceUsageMe:
         fair_share_gpu_hours_7d (float): Decayed usage used by the scheduler
     """
 
-    limits: "QuotaLimits"
+    limits: QuotaLimits
     gpu_hours_this_month: float
     active_runs: int
     queued_runs: int

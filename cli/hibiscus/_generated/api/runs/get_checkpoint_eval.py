@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -18,8 +19,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/runs/{run_id}/checkpoints/{step}/eval-result".format(
-            run_id=run_id,
-            step=step,
+            run_id=quote(str(run_id), safe=""),
+            step=quote(str(step), safe=""),
         ),
     }
 
@@ -27,8 +28,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[EvalMetrics, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> EvalMetrics | Problem | None:
     if response.status_code == 200:
         response_200 = EvalMetrics.from_dict(response.json())
 
@@ -51,8 +52,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[EvalMetrics, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[EvalMetrics | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,7 +67,7 @@ def sync_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[EvalMetrics, Problem]]:
+) -> Response[EvalMetrics | Problem]:
     """Offline eval result (404 until an eval succeeded)
 
     Args:
@@ -78,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[EvalMetrics, Problem]]
+        Response[EvalMetrics | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -98,7 +99,7 @@ def sync(
     step: int,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[EvalMetrics, Problem]]:
+) -> EvalMetrics | Problem | None:
     """Offline eval result (404 until an eval succeeded)
 
     Args:
@@ -110,7 +111,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[EvalMetrics, Problem]
+        EvalMetrics | Problem
     """
 
     return sync_detailed(
@@ -125,7 +126,7 @@ async def asyncio_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[EvalMetrics, Problem]]:
+) -> Response[EvalMetrics | Problem]:
     """Offline eval result (404 until an eval succeeded)
 
     Args:
@@ -137,7 +138,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[EvalMetrics, Problem]]
+        Response[EvalMetrics | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -155,7 +156,7 @@ async def asyncio(
     step: int,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[EvalMetrics, Problem]]:
+) -> EvalMetrics | Problem | None:
     """Offline eval result (404 until an eval succeeded)
 
     Args:
@@ -167,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[EvalMetrics, Problem]
+        EvalMetrics | Problem
     """
 
     return (

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -31,8 +31,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[InvitePreview, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> InvitePreview | Problem | None:
     if response.status_code == 200:
         response_200 = InvitePreview.from_dict(response.json())
 
@@ -65,8 +65,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[InvitePreview, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[InvitePreview | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -77,9 +77,9 @@ def _build_response(
 
 def sync_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: TokenRequest,
-) -> Response[Union[InvitePreview, Problem]]:
+) -> Response[InvitePreview | Problem]:
     """Inspect an invite link before registering / accepting (token in the body)
 
      The invite token is sent in the body so it never appears in a URL path (access logs,
@@ -93,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InvitePreview, Problem]]
+        Response[InvitePreview | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -109,9 +109,9 @@ def sync_detailed(
 
 def sync(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: TokenRequest,
-) -> Optional[Union[InvitePreview, Problem]]:
+) -> InvitePreview | Problem | None:
     """Inspect an invite link before registering / accepting (token in the body)
 
      The invite token is sent in the body so it never appears in a URL path (access logs,
@@ -125,7 +125,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InvitePreview, Problem]
+        InvitePreview | Problem
     """
 
     return sync_detailed(
@@ -136,9 +136,9 @@ def sync(
 
 async def asyncio_detailed(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: TokenRequest,
-) -> Response[Union[InvitePreview, Problem]]:
+) -> Response[InvitePreview | Problem]:
     """Inspect an invite link before registering / accepting (token in the body)
 
      The invite token is sent in the body so it never appears in a URL path (access logs,
@@ -152,7 +152,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[InvitePreview, Problem]]
+        Response[InvitePreview | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -166,9 +166,9 @@ async def asyncio_detailed(
 
 async def asyncio(
     *,
-    client: Union[AuthenticatedClient, Client],
+    client: AuthenticatedClient | Client,
     body: TokenRequest,
-) -> Optional[Union[InvitePreview, Problem]]:
+) -> InvitePreview | Problem | None:
     """Inspect an invite link before registering / accepting (token in the body)
 
      The invite token is sent in the body so it never appears in a URL path (access logs,
@@ -182,7 +182,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[InvitePreview, Problem]
+        InvitePreview | Problem
     """
 
     return (

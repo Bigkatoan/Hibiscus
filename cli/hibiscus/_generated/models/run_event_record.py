@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -36,25 +33,25 @@ class RunEventRecord:
         type_ (RunEventType): Persisted (have SSE id) event types
         ts (datetime.datetime):
         attempt (int):
-        data (Union['CheckpointEvent', 'EvalEvent', 'MetricsEvent', 'ModelEvent', 'RunErrorEvent', 'RunStatusEvent',
-            'RunWarningEvent']):
-        level (Union[Unset, RunEventRecordLevel]):
+        data (CheckpointEvent | EvalEvent | MetricsEvent | ModelEvent | RunErrorEvent | RunStatusEvent |
+            RunWarningEvent):
+        level (RunEventRecordLevel | Unset):
     """
 
     seq: int
     type_: RunEventType
     ts: datetime.datetime
     attempt: int
-    data: Union[
-        "CheckpointEvent",
-        "EvalEvent",
-        "MetricsEvent",
-        "ModelEvent",
-        "RunErrorEvent",
-        "RunStatusEvent",
-        "RunWarningEvent",
-    ]
-    level: Union[Unset, RunEventRecordLevel] = UNSET
+    data: (
+        CheckpointEvent
+        | EvalEvent
+        | MetricsEvent
+        | ModelEvent
+        | RunErrorEvent
+        | RunStatusEvent
+        | RunWarningEvent
+    )
+    level: RunEventRecordLevel | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -89,7 +86,7 @@ class RunEventRecord:
         else:
             data = self.data.to_dict()
 
-        level: Union[Unset, str] = UNSET
+        level: str | Unset = UNSET
         if not isinstance(self.level, Unset):
             level = self.level.value
 
@@ -130,22 +127,22 @@ class RunEventRecord:
 
         def _parse_data(
             data: object,
-        ) -> Union[
-            "CheckpointEvent",
-            "EvalEvent",
-            "MetricsEvent",
-            "ModelEvent",
-            "RunErrorEvent",
-            "RunStatusEvent",
-            "RunWarningEvent",
-        ]:
+        ) -> (
+            CheckpointEvent
+            | EvalEvent
+            | MetricsEvent
+            | ModelEvent
+            | RunErrorEvent
+            | RunStatusEvent
+            | RunWarningEvent
+        ):
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 data_type_0 = RunStatusEvent.from_dict(data)
 
                 return data_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -153,7 +150,7 @@ class RunEventRecord:
                 data_type_1 = MetricsEvent.from_dict(data)
 
                 return data_type_1
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -161,7 +158,7 @@ class RunEventRecord:
                 data_type_2 = CheckpointEvent.from_dict(data)
 
                 return data_type_2
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -169,7 +166,7 @@ class RunEventRecord:
                 data_type_3 = RunWarningEvent.from_dict(data)
 
                 return data_type_3
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -177,7 +174,7 @@ class RunEventRecord:
                 data_type_4 = RunErrorEvent.from_dict(data)
 
                 return data_type_4
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -185,7 +182,7 @@ class RunEventRecord:
                 data_type_5 = ModelEvent.from_dict(data)
 
                 return data_type_5
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()
@@ -196,7 +193,7 @@ class RunEventRecord:
         data = _parse_data(d.pop("data"))
 
         _level = d.pop("level", UNSET)
-        level: Union[Unset, RunEventRecordLevel]
+        level: RunEventRecordLevel | Unset
         if isinstance(_level, Unset):
             level = UNSET
         else:

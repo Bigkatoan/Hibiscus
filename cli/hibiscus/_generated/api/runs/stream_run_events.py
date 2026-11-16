@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,9 +16,9 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     run_id: UUID,
     *,
-    after_seq: Union[Unset, int] = UNSET,
-    include: Union[Unset, list[StreamRunEventsIncludeItem]] = UNSET,
-    last_event_id: Union[Unset, str] = UNSET,
+    after_seq: int | Unset = UNSET,
+    include: list[StreamRunEventsIncludeItem] | Unset = UNSET,
+    last_event_id: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(last_event_id, Unset):
@@ -27,7 +28,7 @@ def _get_kwargs(
 
     params["after_seq"] = after_seq
 
-    json_include: Union[Unset, list[str]] = UNSET
+    json_include: list[str] | Unset = UNSET
     if not isinstance(include, Unset):
         json_include = []
         for include_item_data in include:
@@ -41,7 +42,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/runs/{run_id}/events".format(
-            run_id=run_id,
+            run_id=quote(str(run_id), safe=""),
         ),
         "params": params,
     }
@@ -51,8 +52,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, RunStreamEvent]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | RunStreamEvent | None:
     if response.status_code == 200:
         response_200 = RunStreamEvent.from_dict(response.text)
 
@@ -75,8 +76,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, RunStreamEvent]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | RunStreamEvent]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -89,10 +90,10 @@ def sync_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    after_seq: Union[Unset, int] = UNSET,
-    include: Union[Unset, list[StreamRunEventsIncludeItem]] = UNSET,
-    last_event_id: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, RunStreamEvent]]:
+    after_seq: int | Unset = UNSET,
+    include: list[StreamRunEventsIncludeItem] | Unset = UNSET,
+    last_event_id: str | Unset = UNSET,
+) -> Response[Problem | RunStreamEvent]:
     """Live run stream (SSE). See RunStreamEvent for framing.
 
      Framing (one SSE message per event):
@@ -114,16 +115,16 @@ def sync_detailed(
 
     Args:
         run_id (UUID):
-        after_seq (Union[Unset, int]):
-        include (Union[Unset, list[StreamRunEventsIncludeItem]]):
-        last_event_id (Union[Unset, str]):
+        after_seq (int | Unset):
+        include (list[StreamRunEventsIncludeItem] | Unset):
+        last_event_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunStreamEvent]]
+        Response[Problem | RunStreamEvent]
     """
 
     kwargs = _get_kwargs(
@@ -144,10 +145,10 @@ def sync(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    after_seq: Union[Unset, int] = UNSET,
-    include: Union[Unset, list[StreamRunEventsIncludeItem]] = UNSET,
-    last_event_id: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, RunStreamEvent]]:
+    after_seq: int | Unset = UNSET,
+    include: list[StreamRunEventsIncludeItem] | Unset = UNSET,
+    last_event_id: str | Unset = UNSET,
+) -> Problem | RunStreamEvent | None:
     """Live run stream (SSE). See RunStreamEvent for framing.
 
      Framing (one SSE message per event):
@@ -169,16 +170,16 @@ def sync(
 
     Args:
         run_id (UUID):
-        after_seq (Union[Unset, int]):
-        include (Union[Unset, list[StreamRunEventsIncludeItem]]):
-        last_event_id (Union[Unset, str]):
+        after_seq (int | Unset):
+        include (list[StreamRunEventsIncludeItem] | Unset):
+        last_event_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunStreamEvent]
+        Problem | RunStreamEvent
     """
 
     return sync_detailed(
@@ -194,10 +195,10 @@ async def asyncio_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    after_seq: Union[Unset, int] = UNSET,
-    include: Union[Unset, list[StreamRunEventsIncludeItem]] = UNSET,
-    last_event_id: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, RunStreamEvent]]:
+    after_seq: int | Unset = UNSET,
+    include: list[StreamRunEventsIncludeItem] | Unset = UNSET,
+    last_event_id: str | Unset = UNSET,
+) -> Response[Problem | RunStreamEvent]:
     """Live run stream (SSE). See RunStreamEvent for framing.
 
      Framing (one SSE message per event):
@@ -219,16 +220,16 @@ async def asyncio_detailed(
 
     Args:
         run_id (UUID):
-        after_seq (Union[Unset, int]):
-        include (Union[Unset, list[StreamRunEventsIncludeItem]]):
-        last_event_id (Union[Unset, str]):
+        after_seq (int | Unset):
+        include (list[StreamRunEventsIncludeItem] | Unset):
+        last_event_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunStreamEvent]]
+        Response[Problem | RunStreamEvent]
     """
 
     kwargs = _get_kwargs(
@@ -247,10 +248,10 @@ async def asyncio(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    after_seq: Union[Unset, int] = UNSET,
-    include: Union[Unset, list[StreamRunEventsIncludeItem]] = UNSET,
-    last_event_id: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, RunStreamEvent]]:
+    after_seq: int | Unset = UNSET,
+    include: list[StreamRunEventsIncludeItem] | Unset = UNSET,
+    last_event_id: str | Unset = UNSET,
+) -> Problem | RunStreamEvent | None:
     """Live run stream (SSE). See RunStreamEvent for framing.
 
      Framing (one SSE message per event):
@@ -272,16 +273,16 @@ async def asyncio(
 
     Args:
         run_id (UUID):
-        after_seq (Union[Unset, int]):
-        include (Union[Unset, list[StreamRunEventsIncludeItem]]):
-        last_event_id (Union[Unset, str]):
+        after_seq (int | Unset):
+        include (list[StreamRunEventsIncludeItem] | Unset):
+        last_event_id (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunStreamEvent]
+        Problem | RunStreamEvent
     """
 
     return (

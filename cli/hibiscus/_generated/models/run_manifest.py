@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 from uuid import UUID
@@ -44,9 +45,9 @@ class RunManifest:
         train_episodes (list[int]):
         lerobot_args (list[str]):
         config (RunConfig):
-        attempts (Union[Unset, list['RunManifestAttemptsItem']]):
-        hibiscus_version (Union[Unset, str]):
-        mixed_precision (Union[Unset, MixedPrecision]):
+        attempts (list[RunManifestAttemptsItem] | Unset):
+        hibiscus_version (str | Unset):
+        mixed_precision (MixedPrecision | Unset):
     """
 
     schema_version: Literal["1"]
@@ -56,16 +57,16 @@ class RunManifest:
     cuda_version: str
     python_version: str
     image_digest: str
-    gpu: "RunManifestGpu"
-    dataset: "RunManifestDataset"
+    gpu: RunManifestGpu
+    dataset: RunManifestDataset
     seed: int
     heldout_episodes: list[int]
     train_episodes: list[int]
     lerobot_args: list[str]
-    config: "RunConfig"
-    attempts: Union[Unset, list["RunManifestAttemptsItem"]] = UNSET
-    hibiscus_version: Union[Unset, str] = UNSET
-    mixed_precision: Union[Unset, MixedPrecision] = UNSET
+    config: RunConfig
+    attempts: list[RunManifestAttemptsItem] | Unset = UNSET
+    hibiscus_version: str | Unset = UNSET
+    mixed_precision: MixedPrecision | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -97,7 +98,7 @@ class RunManifest:
 
         config = self.config.to_dict()
 
-        attempts: Union[Unset, list[dict[str, Any]]] = UNSET
+        attempts: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.attempts, Unset):
             attempts = []
             for attempts_item_data in self.attempts:
@@ -106,7 +107,7 @@ class RunManifest:
 
         hibiscus_version = self.hibiscus_version
 
-        mixed_precision: Union[Unset, str] = UNSET
+        mixed_precision: str | Unset = UNSET
         if not isinstance(self.mixed_precision, Unset):
             mixed_precision = self.mixed_precision.value
 
@@ -179,17 +180,19 @@ class RunManifest:
 
         config = RunConfig.from_dict(d.pop("config"))
 
-        attempts = []
         _attempts = d.pop("attempts", UNSET)
-        for attempts_item_data in _attempts or []:
-            attempts_item = RunManifestAttemptsItem.from_dict(attempts_item_data)
+        attempts: list[RunManifestAttemptsItem] | Unset = UNSET
+        if _attempts is not UNSET:
+            attempts = []
+            for attempts_item_data in _attempts:
+                attempts_item = RunManifestAttemptsItem.from_dict(attempts_item_data)
 
-            attempts.append(attempts_item)
+                attempts.append(attempts_item)
 
         hibiscus_version = d.pop("hibiscus_version", UNSET)
 
         _mixed_precision = d.pop("mixed_precision", UNSET)
-        mixed_precision: Union[Unset, MixedPrecision]
+        mixed_precision: MixedPrecision | Unset
         if isinstance(_mixed_precision, Unset):
             mixed_precision = UNSET
         else:

@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -19,12 +17,12 @@ class DatasetCreate:
     Attributes:
         workspace_id (UUID):
         name (str):
-        description (Union[Unset, str]):
+        description (str | Unset):
     """
 
     workspace_id: UUID
     name: str
-    description: Union[Unset, str] = UNSET
+    description: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         workspace_id = str(self.workspace_id)

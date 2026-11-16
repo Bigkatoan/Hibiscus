@@ -20,8 +20,8 @@ function entries(tree: Tree, prefix = ""): [string, string][] {
   );
 }
 
-const enMap = new Map(entries(en as Tree));
-const viMap = new Map(entries(vi as Tree));
+const enMap = new Map(entries(en));
+const viMap = new Map(entries(vi));
 const enKeys = new Set(enMap.keys());
 const viKeys = new Set(viMap.keys());
 

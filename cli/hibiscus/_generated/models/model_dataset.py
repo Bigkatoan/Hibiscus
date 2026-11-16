@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -18,18 +16,18 @@ T = TypeVar("T", bound="ModelDataset")
 class ModelDataset:
     """
     Attributes:
-        id (Union[Unset, UUID]):
-        name (Union[Unset, str]):
-        version (Union[Unset, int]):
+        id (UUID | Unset):
+        name (str | Unset):
+        version (int | Unset):
     """
 
-    id: Union[Unset, UUID] = UNSET
-    name: Union[Unset, str] = UNSET
-    version: Union[Unset, int] = UNSET
+    id: UUID | Unset = UNSET
+    name: str | Unset = UNSET
+    version: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        id: Union[Unset, str] = UNSET
+        id: str | Unset = UNSET
         if not isinstance(self.id, Unset):
             id = str(self.id)
 
@@ -53,7 +51,7 @@ class ModelDataset:
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
         _id = d.pop("id", UNSET)
-        id: Union[Unset, UUID]
+        id: UUID | Unset
         if isinstance(_id, Unset):
             id = UNSET
         else:

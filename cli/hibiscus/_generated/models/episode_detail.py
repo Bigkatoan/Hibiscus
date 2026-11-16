@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -25,16 +22,16 @@ class EpisodeDetail:
         length (int):
         fps (float):
         timestamps (list[float]): Seconds from episode start, downsampled (shared x-axis)
-        series (list['EpisodeDetailSeriesItem']): One per feature dimension (observation.state[i], action[i])
-        videos (list['EpisodeDetailVideosItem']):
+        series (list[EpisodeDetailSeriesItem]): One per feature dimension (observation.state[i], action[i])
+        videos (list[EpisodeDetailVideosItem]):
     """
 
     index: int
     length: int
     fps: float
     timestamps: list[float]
-    series: list["EpisodeDetailSeriesItem"]
-    videos: list["EpisodeDetailVideosItem"]
+    series: list[EpisodeDetailSeriesItem]
+    videos: list[EpisodeDetailVideosItem]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

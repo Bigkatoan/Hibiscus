@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -43,17 +39,17 @@ class Model:
         verified (bool):
         onnx_status (OnnxStatus):
         created_at (datetime.datetime):
-        checkpoint_id (Union[Unset, UUID]):
-        error_message (Union[None, Unset, str]):
-        verification (Union['Verification', None, Unset]):
-        onnx_detail (Union[None, Unset, str]):
-        bundle_size_bytes (Union[None, Unset, int]):
-        bundle_sha256 (Union[None, Unset, str]):
-        dataset (Union[Unset, ModelDataset]):
-        eval_summary (Union['ModelEvalSummaryType0', None, Unset]):
-        hub_repo_id (Union[None, Unset, str]):
-        hub_pushed_at (Union[None, Unset, datetime.datetime]):
-        created_by (Union[Unset, UserRef]):
+        checkpoint_id (UUID | Unset):
+        error_message (None | str | Unset):
+        verification (None | Unset | Verification):
+        onnx_detail (None | str | Unset):
+        bundle_size_bytes (int | None | Unset):
+        bundle_sha256 (None | str | Unset):
+        dataset (ModelDataset | Unset):
+        eval_summary (ModelEvalSummaryType0 | None | Unset):
+        hub_repo_id (None | str | Unset):
+        hub_pushed_at (datetime.datetime | None | Unset):
+        created_by (UserRef | Unset):
     """
 
     id: UUID
@@ -67,17 +63,17 @@ class Model:
     verified: bool
     onnx_status: OnnxStatus
     created_at: datetime.datetime
-    checkpoint_id: Union[Unset, UUID] = UNSET
-    error_message: Union[None, Unset, str] = UNSET
-    verification: Union["Verification", None, Unset] = UNSET
-    onnx_detail: Union[None, Unset, str] = UNSET
-    bundle_size_bytes: Union[None, Unset, int] = UNSET
-    bundle_sha256: Union[None, Unset, str] = UNSET
-    dataset: Union[Unset, "ModelDataset"] = UNSET
-    eval_summary: Union["ModelEvalSummaryType0", None, Unset] = UNSET
-    hub_repo_id: Union[None, Unset, str] = UNSET
-    hub_pushed_at: Union[None, Unset, datetime.datetime] = UNSET
-    created_by: Union[Unset, "UserRef"] = UNSET
+    checkpoint_id: UUID | Unset = UNSET
+    error_message: None | str | Unset = UNSET
+    verification: None | Unset | Verification = UNSET
+    onnx_detail: None | str | Unset = UNSET
+    bundle_size_bytes: int | None | Unset = UNSET
+    bundle_sha256: None | str | Unset = UNSET
+    dataset: ModelDataset | Unset = UNSET
+    eval_summary: ModelEvalSummaryType0 | None | Unset = UNSET
+    hub_repo_id: None | str | Unset = UNSET
+    hub_pushed_at: datetime.datetime | None | Unset = UNSET
+    created_by: UserRef | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -106,17 +102,17 @@ class Model:
 
         created_at = self.created_at.isoformat()
 
-        checkpoint_id: Union[Unset, str] = UNSET
+        checkpoint_id: str | Unset = UNSET
         if not isinstance(self.checkpoint_id, Unset):
             checkpoint_id = str(self.checkpoint_id)
 
-        error_message: Union[None, Unset, str]
+        error_message: None | str | Unset
         if isinstance(self.error_message, Unset):
             error_message = UNSET
         else:
             error_message = self.error_message
 
-        verification: Union[None, Unset, dict[str, Any]]
+        verification: dict[str, Any] | None | Unset
         if isinstance(self.verification, Unset):
             verification = UNSET
         elif isinstance(self.verification, Verification):
@@ -124,29 +120,29 @@ class Model:
         else:
             verification = self.verification
 
-        onnx_detail: Union[None, Unset, str]
+        onnx_detail: None | str | Unset
         if isinstance(self.onnx_detail, Unset):
             onnx_detail = UNSET
         else:
             onnx_detail = self.onnx_detail
 
-        bundle_size_bytes: Union[None, Unset, int]
+        bundle_size_bytes: int | None | Unset
         if isinstance(self.bundle_size_bytes, Unset):
             bundle_size_bytes = UNSET
         else:
             bundle_size_bytes = self.bundle_size_bytes
 
-        bundle_sha256: Union[None, Unset, str]
+        bundle_sha256: None | str | Unset
         if isinstance(self.bundle_sha256, Unset):
             bundle_sha256 = UNSET
         else:
             bundle_sha256 = self.bundle_sha256
 
-        dataset: Union[Unset, dict[str, Any]] = UNSET
+        dataset: dict[str, Any] | Unset = UNSET
         if not isinstance(self.dataset, Unset):
             dataset = self.dataset.to_dict()
 
-        eval_summary: Union[None, Unset, dict[str, Any]]
+        eval_summary: dict[str, Any] | None | Unset
         if isinstance(self.eval_summary, Unset):
             eval_summary = UNSET
         elif isinstance(self.eval_summary, ModelEvalSummaryType0):
@@ -154,13 +150,13 @@ class Model:
         else:
             eval_summary = self.eval_summary
 
-        hub_repo_id: Union[None, Unset, str]
+        hub_repo_id: None | str | Unset
         if isinstance(self.hub_repo_id, Unset):
             hub_repo_id = UNSET
         else:
             hub_repo_id = self.hub_repo_id
 
-        hub_pushed_at: Union[None, Unset, str]
+        hub_pushed_at: None | str | Unset
         if isinstance(self.hub_pushed_at, Unset):
             hub_pushed_at = UNSET
         elif isinstance(self.hub_pushed_at, datetime.datetime):
@@ -168,7 +164,7 @@ class Model:
         else:
             hub_pushed_at = self.hub_pushed_at
 
-        created_by: Union[Unset, dict[str, Any]] = UNSET
+        created_by: dict[str, Any] | Unset = UNSET
         if not isinstance(self.created_by, Unset):
             created_by = self.created_by.to_dict()
 
@@ -245,22 +241,22 @@ class Model:
         created_at = isoparse(d.pop("created_at"))
 
         _checkpoint_id = d.pop("checkpoint_id", UNSET)
-        checkpoint_id: Union[Unset, UUID]
+        checkpoint_id: UUID | Unset
         if isinstance(_checkpoint_id, Unset):
             checkpoint_id = UNSET
         else:
             checkpoint_id = UUID(_checkpoint_id)
 
-        def _parse_error_message(data: object) -> Union[None, Unset, str]:
+        def _parse_error_message(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_message = _parse_error_message(d.pop("error_message", UNSET))
 
-        def _parse_verification(data: object) -> Union["Verification", None, Unset]:
+        def _parse_verification(data: object) -> None | Unset | Verification:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -271,49 +267,47 @@ class Model:
                 verification_type_0 = Verification.from_dict(data)
 
                 return verification_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["Verification", None, Unset], data)
+            return cast(None | Unset | Verification, data)
 
         verification = _parse_verification(d.pop("verification", UNSET))
 
-        def _parse_onnx_detail(data: object) -> Union[None, Unset, str]:
+        def _parse_onnx_detail(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         onnx_detail = _parse_onnx_detail(d.pop("onnx_detail", UNSET))
 
-        def _parse_bundle_size_bytes(data: object) -> Union[None, Unset, int]:
+        def _parse_bundle_size_bytes(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         bundle_size_bytes = _parse_bundle_size_bytes(d.pop("bundle_size_bytes", UNSET))
 
-        def _parse_bundle_sha256(data: object) -> Union[None, Unset, str]:
+        def _parse_bundle_sha256(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         bundle_sha256 = _parse_bundle_sha256(d.pop("bundle_sha256", UNSET))
 
         _dataset = d.pop("dataset", UNSET)
-        dataset: Union[Unset, ModelDataset]
+        dataset: ModelDataset | Unset
         if isinstance(_dataset, Unset):
             dataset = UNSET
         else:
             dataset = ModelDataset.from_dict(_dataset)
 
-        def _parse_eval_summary(
-            data: object,
-        ) -> Union["ModelEvalSummaryType0", None, Unset]:
+        def _parse_eval_summary(data: object) -> ModelEvalSummaryType0 | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -324,22 +318,22 @@ class Model:
                 eval_summary_type_0 = ModelEvalSummaryType0.from_dict(data)
 
                 return eval_summary_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["ModelEvalSummaryType0", None, Unset], data)
+            return cast(ModelEvalSummaryType0 | None | Unset, data)
 
         eval_summary = _parse_eval_summary(d.pop("eval_summary", UNSET))
 
-        def _parse_hub_repo_id(data: object) -> Union[None, Unset, str]:
+        def _parse_hub_repo_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         hub_repo_id = _parse_hub_repo_id(d.pop("hub_repo_id", UNSET))
 
-        def _parse_hub_pushed_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_hub_pushed_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -350,14 +344,14 @@ class Model:
                 hub_pushed_at_type_0 = isoparse(data)
 
                 return hub_pushed_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         hub_pushed_at = _parse_hub_pushed_at(d.pop("hub_pushed_at", UNSET))
 
         _created_by = d.pop("created_by", UNSET)
-        created_by: Union[Unset, UserRef]
+        created_by: UserRef | Unset
         if isinstance(_created_by, Unset):
             created_by = UNSET
         else:

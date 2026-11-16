@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -17,17 +15,17 @@ T = TypeVar("T", bound="UserUpdate")
 class UserUpdate:
     """
     Attributes:
-        display_name (Union[Unset, str]):
-        locale (Union[Unset, Locale]):
+        display_name (str | Unset):
+        locale (Locale | Unset):
     """
 
-    display_name: Union[Unset, str] = UNSET
-    locale: Union[Unset, Locale] = UNSET
+    display_name: str | Unset = UNSET
+    locale: Locale | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         display_name = self.display_name
 
-        locale: Union[Unset, str] = UNSET
+        locale: str | Unset = UNSET
         if not isinstance(self.locale, Unset):
             locale = self.locale.value
 
@@ -47,7 +45,7 @@ class UserUpdate:
         display_name = d.pop("display_name", UNSET)
 
         _locale = d.pop("locale", UNSET)
-        locale: Union[Unset, Locale]
+        locale: Locale | Unset
         if isinstance(_locale, Unset):
             locale = UNSET
         else:

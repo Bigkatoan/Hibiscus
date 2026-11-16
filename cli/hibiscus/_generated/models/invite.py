@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -36,7 +33,7 @@ class Invite:
         status (InviteStatus):
         expires_at (datetime.datetime):
         created_at (datetime.datetime):
-        invited_by (Union[Unset, UserRef]):
+        invited_by (UserRef | Unset):
     """
 
     id: UUID
@@ -45,7 +42,7 @@ class Invite:
     status: InviteStatus
     expires_at: datetime.datetime
     created_at: datetime.datetime
-    invited_by: Union[Unset, "UserRef"] = UNSET
+    invited_by: UserRef | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -61,7 +58,7 @@ class Invite:
 
         created_at = self.created_at.isoformat()
 
-        invited_by: Union[Unset, dict[str, Any]] = UNSET
+        invited_by: dict[str, Any] | Unset = UNSET
         if not isinstance(self.invited_by, Unset):
             invited_by = self.invited_by.to_dict()
 
@@ -100,7 +97,7 @@ class Invite:
         created_at = isoparse(d.pop("created_at"))
 
         _invited_by = d.pop("invited_by", UNSET)
-        invited_by: Union[Unset, UserRef]
+        invited_by: UserRef | Unset
         if isinstance(_invited_by, Unset):
             invited_by = UNSET
         else:

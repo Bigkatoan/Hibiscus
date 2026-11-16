@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { PALETTE } from "@/hibiscus/sprites.gen";
 import { contrastRatio } from "@/lib/pixelTheme";
-import type { JointsMsg, Status, TelemetryMsg } from "./api/types";
+import type { JointsMsg, TelemetryMsg } from "./api/types";
 import {
   DEFAULT_THRESHOLDS,
   LEVEL_STYLE,
@@ -190,7 +190,7 @@ describe("live store", () => {
     const status = new MockStation({ connected: true }).status();
     store.handle({ type: "hello", v: 1, status });
     expect(store.getSnapshot().status?.state).toBe("idle");
-    store.handle({ type: "state", ...status, state: "teleop" } as { type: "state" } & Status);
+    store.handle({ type: "state", ...status, state: "teleop" });
     expect(store.getSnapshot().status?.state).toBe("teleop");
   });
 });

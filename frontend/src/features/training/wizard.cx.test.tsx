@@ -49,7 +49,7 @@ describe("wizard copy and behaviour (CX-04, CX-10, QC-e2e-11)", () => {
             ["en", en],
           ] as const) {
             const key = `${prefix}.${fld.name}.${part}`;
-            if (!lookup(tree as Tree, key)) missing.push(`${lng}:${key}`);
+            if (!lookup(tree, key)) missing.push(`${lng}:${key}`);
           }
     };
     check("train", "train.json");

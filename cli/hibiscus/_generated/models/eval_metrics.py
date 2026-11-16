@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 from uuid import UUID
@@ -35,9 +36,9 @@ class EvalMetrics:
         n_frames (int):
         action_names (list[str]):
         overall (EvalMetricsOverall):
-        per_joint (list['EvalMetricsPerJointItem']):
+        per_joint (list[EvalMetricsPerJointItem]):
         disclaimer_key (Literal['eval.offline_not_success_rate']):
-        plots (Union[Unset, list['EvalMetricsPlotsItem']]):
+        plots (list[EvalMetricsPlotsItem] | Unset):
     """
 
     schema_version: Literal["1"]
@@ -46,10 +47,10 @@ class EvalMetrics:
     heldout_episodes: list[int]
     n_frames: int
     action_names: list[str]
-    overall: "EvalMetricsOverall"
-    per_joint: list["EvalMetricsPerJointItem"]
+    overall: EvalMetricsOverall
+    per_joint: list[EvalMetricsPerJointItem]
     disclaimer_key: Literal["eval.offline_not_success_rate"]
-    plots: Union[Unset, list["EvalMetricsPlotsItem"]] = UNSET
+    plots: list[EvalMetricsPlotsItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -74,7 +75,7 @@ class EvalMetrics:
 
         disclaimer_key = self.disclaimer_key
 
-        plots: Union[Unset, list[dict[str, Any]]] = UNSET
+        plots: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.plots, Unset):
             plots = []
             for plots_item_data in self.plots:
@@ -141,12 +142,14 @@ class EvalMetrics:
                 f"disclaimer_key must match const 'eval.offline_not_success_rate', got '{disclaimer_key}'"
             )
 
-        plots = []
         _plots = d.pop("plots", UNSET)
-        for plots_item_data in _plots or []:
-            plots_item = EvalMetricsPlotsItem.from_dict(plots_item_data)
+        plots: list[EvalMetricsPlotsItem] | Unset = UNSET
+        if _plots is not UNSET:
+            plots = []
+            for plots_item_data in _plots:
+                plots_item = EvalMetricsPlotsItem.from_dict(plots_item_data)
 
-            plots.append(plots_item)
+                plots.append(plots_item)
 
         eval_metrics = cls(
             schema_version=schema_version,

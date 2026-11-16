@@ -134,7 +134,7 @@ function walk(schema: Schema, v: unknown, path: string, errors: SchemaError[]): 
       if (i < v.length) walk(ps, v[i], `${path}/${i}`, errors);
     });
     if (s.items !== undefined && (typeof s.items === "boolean" || isObj(s.items))) {
-      for (let i = prefix.length; i < v.length; i++) walk(s.items as Schema, v[i], `${path}/${i}`, errors);
+      for (let i = prefix.length; i < v.length; i++) walk(s.items, v[i], `${path}/${i}`, errors);
     }
     if (s.uniqueItems === true) {
       outer: for (let i = 0; i < v.length; i++)
@@ -182,7 +182,7 @@ function walk(schema: Schema, v: unknown, path: string, errors: SchemaError[]): 
     if (passing !== 1) err("oneOf", { passingSchemas: passing });
   }
   if (s.not !== undefined && (typeof s.not === "boolean" || isObj(s.not))) {
-    if (validate(s.not as Schema, v).length === 0) err("not");
+    if (validate(s.not, v).length === 0) err("not");
   }
 }
 

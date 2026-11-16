@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -26,22 +23,22 @@ class QueueEntry:
         policy_type (PolicyType):
         requested_gpu (str):
         queued_at (datetime.datetime):
-        run_id (Union[None, UUID, Unset]): null for other workspaces
-        run_name (Union[None, Unset, str]):
-        workspace_id (Union[None, UUID, Unset]):
-        required_vram_mb (Union[None, Unset, int]):
-        estimated_start_at (Union[None, Unset, datetime.datetime]):
+        run_id (None | Unset | UUID): null for other workspaces
+        run_name (None | str | Unset):
+        workspace_id (None | Unset | UUID):
+        required_vram_mb (int | None | Unset):
+        estimated_start_at (datetime.datetime | None | Unset):
     """
 
     position: int
     policy_type: PolicyType
     requested_gpu: str
     queued_at: datetime.datetime
-    run_id: Union[None, UUID, Unset] = UNSET
-    run_name: Union[None, Unset, str] = UNSET
-    workspace_id: Union[None, UUID, Unset] = UNSET
-    required_vram_mb: Union[None, Unset, int] = UNSET
-    estimated_start_at: Union[None, Unset, datetime.datetime] = UNSET
+    run_id: None | Unset | UUID = UNSET
+    run_name: None | str | Unset = UNSET
+    workspace_id: None | Unset | UUID = UNSET
+    required_vram_mb: int | None | Unset = UNSET
+    estimated_start_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -53,7 +50,7 @@ class QueueEntry:
 
         queued_at = self.queued_at.isoformat()
 
-        run_id: Union[None, Unset, str]
+        run_id: None | str | Unset
         if isinstance(self.run_id, Unset):
             run_id = UNSET
         elif isinstance(self.run_id, UUID):
@@ -61,13 +58,13 @@ class QueueEntry:
         else:
             run_id = self.run_id
 
-        run_name: Union[None, Unset, str]
+        run_name: None | str | Unset
         if isinstance(self.run_name, Unset):
             run_name = UNSET
         else:
             run_name = self.run_name
 
-        workspace_id: Union[None, Unset, str]
+        workspace_id: None | str | Unset
         if isinstance(self.workspace_id, Unset):
             workspace_id = UNSET
         elif isinstance(self.workspace_id, UUID):
@@ -75,13 +72,13 @@ class QueueEntry:
         else:
             workspace_id = self.workspace_id
 
-        required_vram_mb: Union[None, Unset, int]
+        required_vram_mb: int | None | Unset
         if isinstance(self.required_vram_mb, Unset):
             required_vram_mb = UNSET
         else:
             required_vram_mb = self.required_vram_mb
 
-        estimated_start_at: Union[None, Unset, str]
+        estimated_start_at: None | str | Unset
         if isinstance(self.estimated_start_at, Unset):
             estimated_start_at = UNSET
         elif isinstance(self.estimated_start_at, datetime.datetime):
@@ -123,7 +120,7 @@ class QueueEntry:
 
         queued_at = isoparse(d.pop("queued_at"))
 
-        def _parse_run_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_run_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -134,22 +131,22 @@ class QueueEntry:
                 run_id_type_0 = UUID(data)
 
                 return run_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         run_id = _parse_run_id(d.pop("run_id", UNSET))
 
-        def _parse_run_name(data: object) -> Union[None, Unset, str]:
+        def _parse_run_name(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         run_name = _parse_run_name(d.pop("run_name", UNSET))
 
-        def _parse_workspace_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_workspace_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -160,24 +157,22 @@ class QueueEntry:
                 workspace_id_type_0 = UUID(data)
 
                 return workspace_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         workspace_id = _parse_workspace_id(d.pop("workspace_id", UNSET))
 
-        def _parse_required_vram_mb(data: object) -> Union[None, Unset, int]:
+        def _parse_required_vram_mb(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         required_vram_mb = _parse_required_vram_mb(d.pop("required_vram_mb", UNSET))
 
-        def _parse_estimated_start_at(
-            data: object,
-        ) -> Union[None, Unset, datetime.datetime]:
+        def _parse_estimated_start_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -188,9 +183,9 @@ class QueueEntry:
                 estimated_start_at_type_0 = isoparse(data)
 
                 return estimated_start_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         estimated_start_at = _parse_estimated_start_at(
             d.pop("estimated_start_at", UNSET)

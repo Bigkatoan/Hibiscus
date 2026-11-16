@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -24,8 +22,8 @@ class RunConfig:
         train (RunConfigTrain): Validated against api/policy-schemas/train.json
     """
 
-    policy: "RunConfigPolicy"
-    train: "RunConfigTrain"
+    policy: RunConfigPolicy
+    train: RunConfigTrain
 
     def to_dict(self) -> dict[str, Any]:
         policy = self.policy.to_dict()

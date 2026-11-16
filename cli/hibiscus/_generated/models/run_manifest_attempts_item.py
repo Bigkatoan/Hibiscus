@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -23,19 +20,19 @@ class RunManifestAttemptsItem:
         attempt (int):
         started_at (datetime.datetime):
         gpu_id (str):
-        finished_at (Union[None, Unset, datetime.datetime]):
-        resumed_from_step (Union[None, Unset, int]):
-        exit_code (Union[None, Unset, int]):
-        error_code (Union[None, Unset, str]):
+        finished_at (datetime.datetime | None | Unset):
+        resumed_from_step (int | None | Unset):
+        exit_code (int | None | Unset):
+        error_code (None | str | Unset):
     """
 
     attempt: int
     started_at: datetime.datetime
     gpu_id: str
-    finished_at: Union[None, Unset, datetime.datetime] = UNSET
-    resumed_from_step: Union[None, Unset, int] = UNSET
-    exit_code: Union[None, Unset, int] = UNSET
-    error_code: Union[None, Unset, str] = UNSET
+    finished_at: datetime.datetime | None | Unset = UNSET
+    resumed_from_step: int | None | Unset = UNSET
+    exit_code: int | None | Unset = UNSET
+    error_code: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -45,7 +42,7 @@ class RunManifestAttemptsItem:
 
         gpu_id = self.gpu_id
 
-        finished_at: Union[None, Unset, str]
+        finished_at: None | str | Unset
         if isinstance(self.finished_at, Unset):
             finished_at = UNSET
         elif isinstance(self.finished_at, datetime.datetime):
@@ -53,19 +50,19 @@ class RunManifestAttemptsItem:
         else:
             finished_at = self.finished_at
 
-        resumed_from_step: Union[None, Unset, int]
+        resumed_from_step: int | None | Unset
         if isinstance(self.resumed_from_step, Unset):
             resumed_from_step = UNSET
         else:
             resumed_from_step = self.resumed_from_step
 
-        exit_code: Union[None, Unset, int]
+        exit_code: int | None | Unset
         if isinstance(self.exit_code, Unset):
             exit_code = UNSET
         else:
             exit_code = self.exit_code
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         else:
@@ -100,7 +97,7 @@ class RunManifestAttemptsItem:
 
         gpu_id = d.pop("gpu_id")
 
-        def _parse_finished_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_finished_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -111,36 +108,36 @@ class RunManifestAttemptsItem:
                 finished_at_type_0 = isoparse(data)
 
                 return finished_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         finished_at = _parse_finished_at(d.pop("finished_at", UNSET))
 
-        def _parse_resumed_from_step(data: object) -> Union[None, Unset, int]:
+        def _parse_resumed_from_step(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         resumed_from_step = _parse_resumed_from_step(d.pop("resumed_from_step", UNSET))
 
-        def _parse_exit_code(data: object) -> Union[None, Unset, int]:
+        def _parse_exit_code(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         exit_code = _parse_exit_code(d.pop("exit_code", UNSET))
 
-        def _parse_error_code(data: object) -> Union[None, Unset, str]:
+        def _parse_error_code(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 

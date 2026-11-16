@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -27,11 +24,11 @@ class WorkspaceStreamEvent:
 
     Attributes:
         event (WorkspaceStreamEventEvent):
-        data (Union['Heartbeat', 'Notification', 'ResourceStatusEvent', 'RunStatusEvent']):
+        data (Heartbeat | Notification | ResourceStatusEvent | RunStatusEvent):
     """
 
     event: WorkspaceStreamEventEvent
-    data: Union["Heartbeat", "Notification", "ResourceStatusEvent", "RunStatusEvent"]
+    data: Heartbeat | Notification | ResourceStatusEvent | RunStatusEvent
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -74,16 +71,14 @@ class WorkspaceStreamEvent:
 
         def _parse_data(
             data: object,
-        ) -> Union[
-            "Heartbeat", "Notification", "ResourceStatusEvent", "RunStatusEvent"
-        ]:
+        ) -> Heartbeat | Notification | ResourceStatusEvent | RunStatusEvent:
             try:
                 if not isinstance(data, dict):
                     raise TypeError()
                 data_type_0 = Heartbeat.from_dict(data)
 
                 return data_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -91,7 +86,7 @@ class WorkspaceStreamEvent:
                 data_type_1 = RunStatusEvent.from_dict(data)
 
                 return data_type_1
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             try:
                 if not isinstance(data, dict):
@@ -99,7 +94,7 @@ class WorkspaceStreamEvent:
                 data_type_2 = ResourceStatusEvent.from_dict(data)
 
                 return data_type_2
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
             if not isinstance(data, dict):
                 raise TypeError()

@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,49 +19,49 @@ class ResourceEstimate:
     """
     Attributes:
         source (ResourceEstimateSource):
-        gpu_id (Union[None, Unset, str]):
-        peak_vram_mb (Union[None, Unset, int]):
-        sec_per_step (Union[None, Unset, float]):
-        total_duration_s (Union[None, Unset, float]):
-        measured_at (Union[None, Unset, datetime.datetime]):
+        gpu_id (None | str | Unset):
+        peak_vram_mb (int | None | Unset):
+        sec_per_step (float | None | Unset):
+        total_duration_s (float | None | Unset):
+        measured_at (datetime.datetime | None | Unset):
     """
 
     source: ResourceEstimateSource
-    gpu_id: Union[None, Unset, str] = UNSET
-    peak_vram_mb: Union[None, Unset, int] = UNSET
-    sec_per_step: Union[None, Unset, float] = UNSET
-    total_duration_s: Union[None, Unset, float] = UNSET
-    measured_at: Union[None, Unset, datetime.datetime] = UNSET
+    gpu_id: None | str | Unset = UNSET
+    peak_vram_mb: int | None | Unset = UNSET
+    sec_per_step: float | None | Unset = UNSET
+    total_duration_s: float | None | Unset = UNSET
+    measured_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         source = self.source.value
 
-        gpu_id: Union[None, Unset, str]
+        gpu_id: None | str | Unset
         if isinstance(self.gpu_id, Unset):
             gpu_id = UNSET
         else:
             gpu_id = self.gpu_id
 
-        peak_vram_mb: Union[None, Unset, int]
+        peak_vram_mb: int | None | Unset
         if isinstance(self.peak_vram_mb, Unset):
             peak_vram_mb = UNSET
         else:
             peak_vram_mb = self.peak_vram_mb
 
-        sec_per_step: Union[None, Unset, float]
+        sec_per_step: float | None | Unset
         if isinstance(self.sec_per_step, Unset):
             sec_per_step = UNSET
         else:
             sec_per_step = self.sec_per_step
 
-        total_duration_s: Union[None, Unset, float]
+        total_duration_s: float | None | Unset
         if isinstance(self.total_duration_s, Unset):
             total_duration_s = UNSET
         else:
             total_duration_s = self.total_duration_s
 
-        measured_at: Union[None, Unset, str]
+        measured_at: None | str | Unset
         if isinstance(self.measured_at, Unset):
             measured_at = UNSET
         elif isinstance(self.measured_at, datetime.datetime):
@@ -97,43 +94,43 @@ class ResourceEstimate:
         d = dict(src_dict)
         source = ResourceEstimateSource(d.pop("source"))
 
-        def _parse_gpu_id(data: object) -> Union[None, Unset, str]:
+        def _parse_gpu_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         gpu_id = _parse_gpu_id(d.pop("gpu_id", UNSET))
 
-        def _parse_peak_vram_mb(data: object) -> Union[None, Unset, int]:
+        def _parse_peak_vram_mb(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         peak_vram_mb = _parse_peak_vram_mb(d.pop("peak_vram_mb", UNSET))
 
-        def _parse_sec_per_step(data: object) -> Union[None, Unset, float]:
+        def _parse_sec_per_step(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         sec_per_step = _parse_sec_per_step(d.pop("sec_per_step", UNSET))
 
-        def _parse_total_duration_s(data: object) -> Union[None, Unset, float]:
+        def _parse_total_duration_s(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         total_duration_s = _parse_total_duration_s(d.pop("total_duration_s", UNSET))
 
-        def _parse_measured_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_measured_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -144,9 +141,9 @@ class ResourceEstimate:
                 measured_at_type_0 = isoparse(data)
 
                 return measured_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         measured_at = _parse_measured_at(d.pop("measured_at", UNSET))
 

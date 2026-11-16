@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,12 +16,12 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     run_id: UUID,
     *,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    max_points: Union[Unset, int] = 2000,
+    since: datetime.datetime | Unset = UNSET,
+    max_points: int | Unset = 2000,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
-    json_since: Union[Unset, str] = UNSET
+    json_since: str | Unset = UNSET
     if not isinstance(since, Unset):
         json_since = since.isoformat()
     params["since"] = json_since
@@ -32,7 +33,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/runs/{run_id}/telemetry".format(
-            run_id=run_id,
+            run_id=quote(str(run_id), safe=""),
         ),
         "params": params,
     }
@@ -41,8 +42,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[GetRunTelemetryResponse200, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> GetRunTelemetryResponse200 | Problem | None:
     if response.status_code == 200:
         response_200 = GetRunTelemetryResponse200.from_dict(response.json())
 
@@ -65,8 +66,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[GetRunTelemetryResponse200, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[GetRunTelemetryResponse200 | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -79,22 +80,22 @@ def sync_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-) -> Response[Union[GetRunTelemetryResponse200, Problem]]:
+    since: datetime.datetime | Unset = UNSET,
+    max_points: int | Unset = 2000,
+) -> Response[GetRunTelemetryResponse200 | Problem]:
     """GPU telemetry samples recorded while this run held a GPU
 
     Args:
         run_id (UUID):
-        since (Union[Unset, datetime.datetime]):
-        max_points (Union[Unset, int]):  Default: 2000.
+        since (datetime.datetime | Unset):
+        max_points (int | Unset):  Default: 2000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GetRunTelemetryResponse200, Problem]]
+        Response[GetRunTelemetryResponse200 | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -114,22 +115,22 @@ def sync(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-) -> Optional[Union[GetRunTelemetryResponse200, Problem]]:
+    since: datetime.datetime | Unset = UNSET,
+    max_points: int | Unset = 2000,
+) -> GetRunTelemetryResponse200 | Problem | None:
     """GPU telemetry samples recorded while this run held a GPU
 
     Args:
         run_id (UUID):
-        since (Union[Unset, datetime.datetime]):
-        max_points (Union[Unset, int]):  Default: 2000.
+        since (datetime.datetime | Unset):
+        max_points (int | Unset):  Default: 2000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GetRunTelemetryResponse200, Problem]
+        GetRunTelemetryResponse200 | Problem
     """
 
     return sync_detailed(
@@ -144,22 +145,22 @@ async def asyncio_detailed(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-) -> Response[Union[GetRunTelemetryResponse200, Problem]]:
+    since: datetime.datetime | Unset = UNSET,
+    max_points: int | Unset = 2000,
+) -> Response[GetRunTelemetryResponse200 | Problem]:
     """GPU telemetry samples recorded while this run held a GPU
 
     Args:
         run_id (UUID):
-        since (Union[Unset, datetime.datetime]):
-        max_points (Union[Unset, int]):  Default: 2000.
+        since (datetime.datetime | Unset):
+        max_points (int | Unset):  Default: 2000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[GetRunTelemetryResponse200, Problem]]
+        Response[GetRunTelemetryResponse200 | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -177,22 +178,22 @@ async def asyncio(
     run_id: UUID,
     *,
     client: AuthenticatedClient,
-    since: Union[Unset, datetime.datetime] = UNSET,
-    max_points: Union[Unset, int] = 2000,
-) -> Optional[Union[GetRunTelemetryResponse200, Problem]]:
+    since: datetime.datetime | Unset = UNSET,
+    max_points: int | Unset = 2000,
+) -> GetRunTelemetryResponse200 | Problem | None:
     """GPU telemetry samples recorded while this run held a GPU
 
     Args:
         run_id (UUID):
-        since (Union[Unset, datetime.datetime]):
-        max_points (Union[Unset, int]):  Default: 2000.
+        since (datetime.datetime | Unset):
+        max_points (int | Unset):  Default: 2000.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[GetRunTelemetryResponse200, Problem]
+        GetRunTelemetryResponse200 | Problem
     """
 
     return (

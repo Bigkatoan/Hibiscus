@@ -1,11 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -29,10 +26,10 @@ class DatasetVersionSummary:
         status (DatasetVersionStatus):
         source (DatasetSource):
         created_at (datetime.datetime):
-        total_episodes (Union[None, Unset, int]):
-        total_frames (Union[None, Unset, int]):
-        fps (Union[None, Unset, float]):
-        size_bytes (Union[None, Unset, int]):
+        total_episodes (int | None | Unset):
+        total_frames (int | None | Unset):
+        fps (float | None | Unset):
+        size_bytes (int | None | Unset):
     """
 
     id: UUID
@@ -41,10 +38,10 @@ class DatasetVersionSummary:
     status: DatasetVersionStatus
     source: DatasetSource
     created_at: datetime.datetime
-    total_episodes: Union[None, Unset, int] = UNSET
-    total_frames: Union[None, Unset, int] = UNSET
-    fps: Union[None, Unset, float] = UNSET
-    size_bytes: Union[None, Unset, int] = UNSET
+    total_episodes: int | None | Unset = UNSET
+    total_frames: int | None | Unset = UNSET
+    fps: float | None | Unset = UNSET
+    size_bytes: int | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -60,25 +57,25 @@ class DatasetVersionSummary:
 
         created_at = self.created_at.isoformat()
 
-        total_episodes: Union[None, Unset, int]
+        total_episodes: int | None | Unset
         if isinstance(self.total_episodes, Unset):
             total_episodes = UNSET
         else:
             total_episodes = self.total_episodes
 
-        total_frames: Union[None, Unset, int]
+        total_frames: int | None | Unset
         if isinstance(self.total_frames, Unset):
             total_frames = UNSET
         else:
             total_frames = self.total_frames
 
-        fps: Union[None, Unset, float]
+        fps: float | None | Unset
         if isinstance(self.fps, Unset):
             fps = UNSET
         else:
             fps = self.fps
 
-        size_bytes: Union[None, Unset, int]
+        size_bytes: int | None | Unset
         if isinstance(self.size_bytes, Unset):
             size_bytes = UNSET
         else:
@@ -122,39 +119,39 @@ class DatasetVersionSummary:
 
         created_at = isoparse(d.pop("created_at"))
 
-        def _parse_total_episodes(data: object) -> Union[None, Unset, int]:
+        def _parse_total_episodes(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         total_episodes = _parse_total_episodes(d.pop("total_episodes", UNSET))
 
-        def _parse_total_frames(data: object) -> Union[None, Unset, int]:
+        def _parse_total_frames(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         total_frames = _parse_total_frames(d.pop("total_frames", UNSET))
 
-        def _parse_fps(data: object) -> Union[None, Unset, float]:
+        def _parse_fps(data: object) -> float | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, float], data)
+            return cast(float | None | Unset, data)
 
         fps = _parse_fps(d.pop("fps", UNSET))
 
-        def _parse_size_bytes(data: object) -> Union[None, Unset, int]:
+        def _parse_size_bytes(data: object) -> int | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, int], data)
+            return cast(int | None | Unset, data)
 
         size_bytes = _parse_size_bytes(d.pop("size_bytes", UNSET))
 

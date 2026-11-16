@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -24,34 +20,33 @@ T = TypeVar("T", bound="RunCloneRequest")
 class RunCloneRequest:
     """
     Attributes:
-        name (Union[Unset, str]):
-        dataset_version_id (Union[Unset, UUID]):
-        config (Union[Unset, RunCloneRequestConfig]): Deep-merged into the source config
-            ({"policy":{...},"train":{...}})
-        heldout_fraction (Union[Unset, float]):
-        gpu (Union[Unset, str]):
-        priority (Union[Unset, int]):
-        init_from (Union[Any, None, Unset]):
-        export (Union[Unset, ExportOptions]):
+        name (str | Unset):
+        dataset_version_id (UUID | Unset):
+        config (RunCloneRequestConfig | Unset): Deep-merged into the source config ({"policy":{...},"train":{...}})
+        heldout_fraction (float | Unset):
+        gpu (str | Unset):
+        priority (int | Unset):
+        init_from (Any | None | Unset):
+        export (ExportOptions | Unset):
     """
 
-    name: Union[Unset, str] = UNSET
-    dataset_version_id: Union[Unset, UUID] = UNSET
-    config: Union[Unset, "RunCloneRequestConfig"] = UNSET
-    heldout_fraction: Union[Unset, float] = UNSET
-    gpu: Union[Unset, str] = UNSET
-    priority: Union[Unset, int] = UNSET
-    init_from: Union[Any, None, Unset] = UNSET
-    export: Union[Unset, "ExportOptions"] = UNSET
+    name: str | Unset = UNSET
+    dataset_version_id: UUID | Unset = UNSET
+    config: RunCloneRequestConfig | Unset = UNSET
+    heldout_fraction: float | Unset = UNSET
+    gpu: str | Unset = UNSET
+    priority: int | Unset = UNSET
+    init_from: Any | None | Unset = UNSET
+    export: ExportOptions | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         name = self.name
 
-        dataset_version_id: Union[Unset, str] = UNSET
+        dataset_version_id: str | Unset = UNSET
         if not isinstance(self.dataset_version_id, Unset):
             dataset_version_id = str(self.dataset_version_id)
 
-        config: Union[Unset, dict[str, Any]] = UNSET
+        config: dict[str, Any] | Unset = UNSET
         if not isinstance(self.config, Unset):
             config = self.config.to_dict()
 
@@ -61,13 +56,13 @@ class RunCloneRequest:
 
         priority = self.priority
 
-        init_from: Union[Any, None, Unset]
+        init_from: Any | None | Unset
         if isinstance(self.init_from, Unset):
             init_from = UNSET
         else:
             init_from = self.init_from
 
-        export: Union[Unset, dict[str, Any]] = UNSET
+        export: dict[str, Any] | Unset = UNSET
         if not isinstance(self.export, Unset):
             export = self.export.to_dict()
 
@@ -102,14 +97,14 @@ class RunCloneRequest:
         name = d.pop("name", UNSET)
 
         _dataset_version_id = d.pop("dataset_version_id", UNSET)
-        dataset_version_id: Union[Unset, UUID]
+        dataset_version_id: UUID | Unset
         if isinstance(_dataset_version_id, Unset):
             dataset_version_id = UNSET
         else:
             dataset_version_id = UUID(_dataset_version_id)
 
         _config = d.pop("config", UNSET)
-        config: Union[Unset, RunCloneRequestConfig]
+        config: RunCloneRequestConfig | Unset
         if isinstance(_config, Unset):
             config = UNSET
         else:
@@ -121,17 +116,17 @@ class RunCloneRequest:
 
         priority = d.pop("priority", UNSET)
 
-        def _parse_init_from(data: object) -> Union[Any, None, Unset]:
+        def _parse_init_from(data: object) -> Any | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[Any, None, Unset], data)
+            return cast(Any | None | Unset, data)
 
         init_from = _parse_init_from(d.pop("init_from", UNSET))
 
         _export = d.pop("export", UNSET)
-        export: Union[Unset, ExportOptions]
+        export: ExportOptions | Unset
         if isinstance(_export, Unset):
             export = UNSET
         else:

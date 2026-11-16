@@ -1,10 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -33,7 +31,7 @@ class Member:
         joined_at (datetime.datetime):
     """
 
-    user: "UserRef"
+    user: UserRef
     email: str
     role: WorkspaceRole
     mfa_enabled: bool

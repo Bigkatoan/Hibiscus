@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
 from typing import (
     Any,
     Literal,
     TypeVar,
-    Union,
     cast,
 )
 from uuid import UUID
@@ -26,24 +27,24 @@ class RunStatusEvent:
     Attributes:
         kind (Literal['status']):
         run_id (UUID):
-        from_ (Union[None, RunStatus]):
+        from_ (None | RunStatus):
         to (RunStatus): State machine in docs/spec/run-lifecycle.md
         ts (datetime.datetime):
-        reason (Union[None, Unset, str]): e.g. user_cancel, user_pause, lease_expired, infra_retry, completed
-        error_code (Union[None, RunErrorCode, Unset]):
-        attempt (Union[Unset, int]):
-        gpu_id (Union[None, Unset, str]):
+        reason (None | str | Unset): e.g. user_cancel, user_pause, lease_expired, infra_retry, completed
+        error_code (None | RunErrorCode | Unset):
+        attempt (int | Unset):
+        gpu_id (None | str | Unset):
     """
 
     kind: Literal["status"]
     run_id: UUID
-    from_: Union[None, RunStatus]
+    from_: None | RunStatus
     to: RunStatus
     ts: datetime.datetime
-    reason: Union[None, Unset, str] = UNSET
-    error_code: Union[None, RunErrorCode, Unset] = UNSET
-    attempt: Union[Unset, int] = UNSET
-    gpu_id: Union[None, Unset, str] = UNSET
+    reason: None | str | Unset = UNSET
+    error_code: None | RunErrorCode | Unset = UNSET
+    attempt: int | Unset = UNSET
+    gpu_id: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,7 +52,7 @@ class RunStatusEvent:
 
         run_id = str(self.run_id)
 
-        from_: Union[None, str]
+        from_: None | str
         if isinstance(self.from_, RunStatus):
             from_ = self.from_.value
         else:
@@ -61,13 +62,13 @@ class RunStatusEvent:
 
         ts = self.ts.isoformat()
 
-        reason: Union[None, Unset, str]
+        reason: None | str | Unset
         if isinstance(self.reason, Unset):
             reason = UNSET
         else:
             reason = self.reason
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         elif isinstance(self.error_code, RunErrorCode):
@@ -77,7 +78,7 @@ class RunStatusEvent:
 
         attempt = self.attempt
 
-        gpu_id: Union[None, Unset, str]
+        gpu_id: None | str | Unset
         if isinstance(self.gpu_id, Unset):
             gpu_id = UNSET
         else:
@@ -114,7 +115,7 @@ class RunStatusEvent:
 
         run_id = UUID(d.pop("run_id"))
 
-        def _parse_from_(data: object) -> Union[None, RunStatus]:
+        def _parse_from_(data: object) -> None | RunStatus:
             if data is None:
                 return data
             try:
@@ -123,9 +124,9 @@ class RunStatusEvent:
                 from_type_0 = RunStatus(data)
 
                 return from_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, RunStatus], data)
+            return cast(None | RunStatus, data)
 
         from_ = _parse_from_(d.pop("from"))
 
@@ -133,16 +134,16 @@ class RunStatusEvent:
 
         ts = isoparse(d.pop("ts"))
 
-        def _parse_reason(data: object) -> Union[None, Unset, str]:
+        def _parse_reason(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         reason = _parse_reason(d.pop("reason", UNSET))
 
-        def _parse_error_code(data: object) -> Union[None, RunErrorCode, Unset]:
+        def _parse_error_code(data: object) -> None | RunErrorCode | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -153,20 +154,20 @@ class RunStatusEvent:
                 error_code_type_0 = RunErrorCode(data)
 
                 return error_code_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, RunErrorCode, Unset], data)
+            return cast(None | RunErrorCode | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 
         attempt = d.pop("attempt", UNSET)
 
-        def _parse_gpu_id(data: object) -> Union[None, Unset, str]:
+        def _parse_gpu_id(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         gpu_id = _parse_gpu_id(d.pop("gpu_id", UNSET))
 

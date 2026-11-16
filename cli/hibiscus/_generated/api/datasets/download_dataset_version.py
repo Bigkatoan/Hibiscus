@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/dataset-versions/{version_id}/archive".format(
-            version_id=version_id,
+            version_id=quote(str(version_id), safe=""),
         ),
     }
 
@@ -24,8 +25,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Problem]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | None:
     if response.status_code == 401:
         response_401 = Problem.from_dict(response.json())
 
@@ -48,7 +49,7 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
+    *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -91,7 +92,7 @@ def sync(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Problem]:
+) -> Problem | None:
     """Download the version as an uncompressed tar stream (`<slug>-v<version>.tar`)
 
     Args:
@@ -142,7 +143,7 @@ async def asyncio(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Problem]:
+) -> Problem | None:
     """Download the version as an uncompressed tar stream (`<slug>-v<version>.tar`)
 
     Args:

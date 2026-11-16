@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -35,9 +31,9 @@ class AdminUser:
         is_platform_admin (bool):
         created_at (datetime.datetime):
         is_active (bool):
-        locked_until (Union[None, datetime.datetime]):
-        last_login_at (Union[None, datetime.datetime]):
-        workspaces (list['Membership']):
+        locked_until (datetime.datetime | None):
+        last_login_at (datetime.datetime | None):
+        workspaces (list[Membership]):
     """
 
     id: UUID
@@ -49,9 +45,9 @@ class AdminUser:
     is_platform_admin: bool
     created_at: datetime.datetime
     is_active: bool
-    locked_until: Union[None, datetime.datetime]
-    last_login_at: Union[None, datetime.datetime]
-    workspaces: list["Membership"]
+    locked_until: datetime.datetime | None
+    last_login_at: datetime.datetime | None
+    workspaces: list[Membership]
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -73,13 +69,13 @@ class AdminUser:
 
         is_active = self.is_active
 
-        locked_until: Union[None, str]
+        locked_until: None | str
         if isinstance(self.locked_until, datetime.datetime):
             locked_until = self.locked_until.isoformat()
         else:
             locked_until = self.locked_until
 
-        last_login_at: Union[None, str]
+        last_login_at: None | str
         if isinstance(self.last_login_at, datetime.datetime):
             last_login_at = self.last_login_at.isoformat()
         else:
@@ -134,7 +130,7 @@ class AdminUser:
 
         is_active = d.pop("is_active")
 
-        def _parse_locked_until(data: object) -> Union[None, datetime.datetime]:
+        def _parse_locked_until(data: object) -> datetime.datetime | None:
             if data is None:
                 return data
             try:
@@ -143,13 +139,13 @@ class AdminUser:
                 locked_until_type_0 = isoparse(data)
 
                 return locked_until_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, datetime.datetime], data)
+            return cast(datetime.datetime | None, data)
 
         locked_until = _parse_locked_until(d.pop("locked_until"))
 
-        def _parse_last_login_at(data: object) -> Union[None, datetime.datetime]:
+        def _parse_last_login_at(data: object) -> datetime.datetime | None:
             if data is None:
                 return data
             try:
@@ -158,9 +154,9 @@ class AdminUser:
                 last_login_at_type_0 = isoparse(data)
 
                 return last_login_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, datetime.datetime], data)
+            return cast(datetime.datetime | None, data)
 
         last_login_at = _parse_last_login_at(d.pop("last_login_at"))
 

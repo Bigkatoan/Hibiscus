@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -13,8 +13,8 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-    idempotency_key: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -28,7 +28,6 @@ def _get_kwargs(
         "url": "/uploads",
     }
 
-    _kwargs["json"]: Any
     _kwargs["json"] = body
 
     headers["Content-Type"] = "application/json"
@@ -38,8 +37,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, UploadSession]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | UploadSession | None:
     if response.status_code == 200:
         response_200 = UploadSession.from_dict(response.json())
 
@@ -87,8 +86,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, UploadSession]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | UploadSession]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -101,9 +100,9 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-    idempotency_key: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadSession]]:
+    x_csrf_token: str | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+) -> Response[Problem | UploadSession]:
     """Start a chunked upload of one archive
 
      Server fixes `part_size` (requested value clamped to [5 MiB, 64 MiB], default 64 MiB) and
@@ -113,8 +112,8 @@ def sync_detailed(
     instead of 201 (natural resume).
 
     Args:
-        x_csrf_token (Union[Unset, str]):
-        idempotency_key (Union[Unset, str]):
+        x_csrf_token (str | Unset):
+        idempotency_key (str | Unset):
         body (Any): Exactly one of dataset_id (new version of an existing dataset) /
             new_dataset_name
 
@@ -123,7 +122,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadSession]]
+        Response[Problem | UploadSession]
     """
 
     kwargs = _get_kwargs(
@@ -143,9 +142,9 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-    idempotency_key: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadSession]]:
+    x_csrf_token: str | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+) -> Problem | UploadSession | None:
     """Start a chunked upload of one archive
 
      Server fixes `part_size` (requested value clamped to [5 MiB, 64 MiB], default 64 MiB) and
@@ -155,8 +154,8 @@ def sync(
     instead of 201 (natural resume).
 
     Args:
-        x_csrf_token (Union[Unset, str]):
-        idempotency_key (Union[Unset, str]):
+        x_csrf_token (str | Unset):
+        idempotency_key (str | Unset):
         body (Any): Exactly one of dataset_id (new version of an existing dataset) /
             new_dataset_name
 
@@ -165,7 +164,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadSession]
+        Problem | UploadSession
     """
 
     return sync_detailed(
@@ -180,9 +179,9 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-    idempotency_key: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadSession]]:
+    x_csrf_token: str | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+) -> Response[Problem | UploadSession]:
     """Start a chunked upload of one archive
 
      Server fixes `part_size` (requested value clamped to [5 MiB, 64 MiB], default 64 MiB) and
@@ -192,8 +191,8 @@ async def asyncio_detailed(
     instead of 201 (natural resume).
 
     Args:
-        x_csrf_token (Union[Unset, str]):
-        idempotency_key (Union[Unset, str]):
+        x_csrf_token (str | Unset):
+        idempotency_key (str | Unset):
         body (Any): Exactly one of dataset_id (new version of an existing dataset) /
             new_dataset_name
 
@@ -202,7 +201,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadSession]]
+        Response[Problem | UploadSession]
     """
 
     kwargs = _get_kwargs(
@@ -220,9 +219,9 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-    idempotency_key: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadSession]]:
+    x_csrf_token: str | Unset = UNSET,
+    idempotency_key: str | Unset = UNSET,
+) -> Problem | UploadSession | None:
     """Start a chunked upload of one archive
 
      Server fixes `part_size` (requested value clamped to [5 MiB, 64 MiB], default 64 MiB) and
@@ -232,8 +231,8 @@ async def asyncio(
     instead of 201 (natural resume).
 
     Args:
-        x_csrf_token (Union[Unset, str]):
-        idempotency_key (Union[Unset, str]):
+        x_csrf_token (str | Unset):
+        idempotency_key (str | Unset):
         body (Any): Exactly one of dataset_id (new version of an existing dataset) /
             new_dataset_name
 
@@ -242,7 +241,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadSession]
+        Problem | UploadSession
     """
 
     return (

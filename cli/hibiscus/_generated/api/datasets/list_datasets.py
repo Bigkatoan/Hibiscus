@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 
 import httpx
@@ -14,9 +14,9 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     workspace_id: UUID,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
@@ -41,8 +41,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[DatasetPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DatasetPage | Problem | None:
     if response.status_code == 200:
         response_200 = DatasetPage.from_dict(response.json())
 
@@ -70,8 +70,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[DatasetPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DatasetPage | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -84,24 +84,24 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetPage, Problem]]:
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[DatasetPage | Problem]:
     """Datasets in a workspace, most recently updated first
 
     Args:
         workspace_id (UUID):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetPage, Problem]]
+        Response[DatasetPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -122,24 +122,24 @@ def sync(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetPage, Problem]]:
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> DatasetPage | Problem | None:
     """Datasets in a workspace, most recently updated first
 
     Args:
         workspace_id (UUID):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetPage, Problem]
+        DatasetPage | Problem
     """
 
     return sync_detailed(
@@ -155,24 +155,24 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetPage, Problem]]:
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[DatasetPage | Problem]:
     """Datasets in a workspace, most recently updated first
 
     Args:
         workspace_id (UUID):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetPage, Problem]]
+        Response[DatasetPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -191,24 +191,24 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetPage, Problem]]:
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> DatasetPage | Problem | None:
     """Datasets in a workspace, most recently updated first
 
     Args:
         workspace_id (UUID):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetPage, Problem]
+        DatasetPage | Problem
     """
 
     return (

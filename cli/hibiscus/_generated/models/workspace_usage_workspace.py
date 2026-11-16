@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -26,7 +24,7 @@ class WorkspaceUsageWorkspace:
         queued_runs (int):
     """
 
-    limits: "QuotaLimits"
+    limits: QuotaLimits
     storage_bytes_used: int
     gpu_hours_this_month: float
     active_runs: int

@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -25,15 +22,15 @@ class DatasetPreview:
         dataset_version_id (UUID):
         fps (float):
         camera_keys (list[str]):
-        episodes (list['EpisodeSummary']):
+        episodes (list[EpisodeSummary]):
         length_histogram (DatasetPreviewLengthHistogram):
     """
 
     dataset_version_id: UUID
     fps: float
     camera_keys: list[str]
-    episodes: list["EpisodeSummary"]
-    length_histogram: "DatasetPreviewLengthHistogram"
+    episodes: list[EpisodeSummary]
+    length_histogram: DatasetPreviewLengthHistogram
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

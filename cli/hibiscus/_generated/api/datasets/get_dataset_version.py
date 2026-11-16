@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -17,7 +18,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/dataset-versions/{version_id}".format(
-            version_id=version_id,
+            version_id=quote(str(version_id), safe=""),
         ),
     }
 
@@ -25,8 +26,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[DatasetVersion, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DatasetVersion | Problem | None:
     if response.status_code == 200:
         response_200 = DatasetVersion.from_dict(response.json())
 
@@ -49,8 +50,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[DatasetVersion, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DatasetVersion | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -63,7 +64,7 @@ def sync_detailed(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[DatasetVersion, Problem]]:
+) -> Response[DatasetVersion | Problem]:
     """One version (schema, stats summary, status, validation summary)
 
     Args:
@@ -74,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersion, Problem]]
+        Response[DatasetVersion | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -92,7 +93,7 @@ def sync(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[DatasetVersion, Problem]]:
+) -> DatasetVersion | Problem | None:
     """One version (schema, stats summary, status, validation summary)
 
     Args:
@@ -103,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersion, Problem]
+        DatasetVersion | Problem
     """
 
     return sync_detailed(
@@ -116,7 +117,7 @@ async def asyncio_detailed(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Response[Union[DatasetVersion, Problem]]:
+) -> Response[DatasetVersion | Problem]:
     """One version (schema, stats summary, status, validation summary)
 
     Args:
@@ -127,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersion, Problem]]
+        Response[DatasetVersion | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -143,7 +144,7 @@ async def asyncio(
     version_id: UUID,
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[DatasetVersion, Problem]]:
+) -> DatasetVersion | Problem | None:
     """One version (schema, stats summary, status, validation summary)
 
     Args:
@@ -154,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersion, Problem]
+        DatasetVersion | Problem
     """
 
     return (

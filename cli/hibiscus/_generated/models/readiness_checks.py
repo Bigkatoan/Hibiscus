@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -21,8 +19,8 @@ T = TypeVar("T", bound="ReadinessChecks")
 class ReadinessChecks:
     """ """
 
-    additional_properties: dict[str, "ReadinessChecksAdditionalProperty"] = (
-        _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, ReadinessChecksAdditionalProperty] = _attrs_field(
+        init=False, factory=dict
     )
 
     def to_dict(self) -> dict[str, Any]:
@@ -54,10 +52,10 @@ class ReadinessChecks:
     def additional_keys(self) -> list[str]:
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> "ReadinessChecksAdditionalProperty":
+    def __getitem__(self, key: str) -> ReadinessChecksAdditionalProperty:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: "ReadinessChecksAdditionalProperty") -> None:
+    def __setitem__(self, key: str, value: ReadinessChecksAdditionalProperty) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 
 import httpx
@@ -16,20 +16,20 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     workspace_id: UUID,
-    status: Union[Unset, list[RunStatus]] = UNSET,
-    dataset_id: Union[Unset, UUID] = UNSET,
-    policy_type: Union[Unset, PolicyType] = UNSET,
-    created_by: Union[Unset, str] = UNSET,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    status: list[RunStatus] | Unset = UNSET,
+    dataset_id: UUID | Unset = UNSET,
+    policy_type: PolicyType | Unset = UNSET,
+    created_by: str | Unset = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
     json_workspace_id = str(workspace_id)
     params["workspace_id"] = json_workspace_id
 
-    json_status: Union[Unset, list[str]] = UNSET
+    json_status: list[str] | Unset = UNSET
     if not isinstance(status, Unset):
         json_status = []
         for status_item_data in status:
@@ -38,12 +38,12 @@ def _get_kwargs(
 
     params["status"] = json_status
 
-    json_dataset_id: Union[Unset, str] = UNSET
+    json_dataset_id: str | Unset = UNSET
     if not isinstance(dataset_id, Unset):
         json_dataset_id = str(dataset_id)
     params["dataset_id"] = json_dataset_id
 
-    json_policy_type: Union[Unset, str] = UNSET
+    json_policy_type: str | Unset = UNSET
     if not isinstance(policy_type, Unset):
         json_policy_type = policy_type.value
 
@@ -69,8 +69,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, RunPage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | RunPage | None:
     if response.status_code == 200:
         response_200 = RunPage.from_dict(response.json())
 
@@ -98,8 +98,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, RunPage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | RunPage]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -112,32 +112,32 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, list[RunStatus]] = UNSET,
-    dataset_id: Union[Unset, UUID] = UNSET,
-    policy_type: Union[Unset, PolicyType] = UNSET,
-    created_by: Union[Unset, str] = UNSET,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, RunPage]]:
+    status: list[RunStatus] | Unset = UNSET,
+    dataset_id: UUID | Unset = UNSET,
+    policy_type: PolicyType | Unset = UNSET,
+    created_by: str | Unset = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | RunPage]:
     """Runs in a workspace, newest first
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, list[RunStatus]]):
-        dataset_id (Union[Unset, UUID]):
-        policy_type (Union[Unset, PolicyType]):
-        created_by (Union[Unset, str]):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (list[RunStatus] | Unset):
+        dataset_id (UUID | Unset):
+        policy_type (PolicyType | Unset):
+        created_by (str | Unset):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunPage]]
+        Response[Problem | RunPage]
     """
 
     kwargs = _get_kwargs(
@@ -162,32 +162,32 @@ def sync(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, list[RunStatus]] = UNSET,
-    dataset_id: Union[Unset, UUID] = UNSET,
-    policy_type: Union[Unset, PolicyType] = UNSET,
-    created_by: Union[Unset, str] = UNSET,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, RunPage]]:
+    status: list[RunStatus] | Unset = UNSET,
+    dataset_id: UUID | Unset = UNSET,
+    policy_type: PolicyType | Unset = UNSET,
+    created_by: str | Unset = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | RunPage | None:
     """Runs in a workspace, newest first
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, list[RunStatus]]):
-        dataset_id (Union[Unset, UUID]):
-        policy_type (Union[Unset, PolicyType]):
-        created_by (Union[Unset, str]):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (list[RunStatus] | Unset):
+        dataset_id (UUID | Unset):
+        policy_type (PolicyType | Unset):
+        created_by (str | Unset):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunPage]
+        Problem | RunPage
     """
 
     return sync_detailed(
@@ -207,32 +207,32 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, list[RunStatus]] = UNSET,
-    dataset_id: Union[Unset, UUID] = UNSET,
-    policy_type: Union[Unset, PolicyType] = UNSET,
-    created_by: Union[Unset, str] = UNSET,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, RunPage]]:
+    status: list[RunStatus] | Unset = UNSET,
+    dataset_id: UUID | Unset = UNSET,
+    policy_type: PolicyType | Unset = UNSET,
+    created_by: str | Unset = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | RunPage]:
     """Runs in a workspace, newest first
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, list[RunStatus]]):
-        dataset_id (Union[Unset, UUID]):
-        policy_type (Union[Unset, PolicyType]):
-        created_by (Union[Unset, str]):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (list[RunStatus] | Unset):
+        dataset_id (UUID | Unset):
+        policy_type (PolicyType | Unset):
+        created_by (str | Unset):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, RunPage]]
+        Response[Problem | RunPage]
     """
 
     kwargs = _get_kwargs(
@@ -255,32 +255,32 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, list[RunStatus]] = UNSET,
-    dataset_id: Union[Unset, UUID] = UNSET,
-    policy_type: Union[Unset, PolicyType] = UNSET,
-    created_by: Union[Unset, str] = UNSET,
-    q: Union[Unset, str] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, RunPage]]:
+    status: list[RunStatus] | Unset = UNSET,
+    dataset_id: UUID | Unset = UNSET,
+    policy_type: PolicyType | Unset = UNSET,
+    created_by: str | Unset = UNSET,
+    q: str | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | RunPage | None:
     """Runs in a workspace, newest first
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, list[RunStatus]]):
-        dataset_id (Union[Unset, UUID]):
-        policy_type (Union[Unset, PolicyType]):
-        created_by (Union[Unset, str]):
-        q (Union[Unset, str]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (list[RunStatus] | Unset):
+        dataset_id (UUID | Unset):
+        policy_type (PolicyType | Unset):
+        created_by (str | Unset):
+        q (str | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, RunPage]
+        Problem | RunPage
     """
 
     return (

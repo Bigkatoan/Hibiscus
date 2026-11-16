@@ -165,7 +165,7 @@ def new_job(
     )
 
 
-def version_in_use_clause(version_ids: Select[tuple[uuid.UUID]]) -> Any:
+def version_in_use_clause(version_ids: Select[Any]) -> Any:
     return exists().where(
         Run.dataset_version_id.in_(version_ids), Run.status.not_in(list(RUN_TERMINAL_STATUSES))
     )

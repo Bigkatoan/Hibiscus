@@ -1,10 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,13 +20,13 @@ class UploadPart:
         part_number (int):
         size (int):
         sha256 (str):
-        received_at (Union[Unset, datetime.datetime]):
+        received_at (datetime.datetime | Unset):
     """
 
     part_number: int
     size: int
     sha256: str
-    received_at: Union[Unset, datetime.datetime] = UNSET
+    received_at: datetime.datetime | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -38,7 +36,7 @@ class UploadPart:
 
         sha256 = self.sha256
 
-        received_at: Union[Unset, str] = UNSET
+        received_at: str | Unset = UNSET
         if not isinstance(self.received_at, Unset):
             received_at = self.received_at.isoformat()
 
@@ -66,7 +64,7 @@ class UploadPart:
         sha256 = d.pop("sha256")
 
         _received_at = d.pop("received_at", UNSET)
-        received_at: Union[Unset, datetime.datetime]
+        received_at: datetime.datetime | Unset
         if isinstance(_received_at, Unset):
             received_at = UNSET
         else:

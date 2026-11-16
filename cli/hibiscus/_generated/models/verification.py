@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -26,24 +22,24 @@ class Verification:
     """
     Attributes:
         load_ok (bool): PreTrainedPolicy.from_pretrained + processors load and run one select_action
-        parity_ok (Union[None, bool]): null when onnx_status=not_supported (not required for verified)
+        parity_ok (bool | None): null when onnx_status=not_supported (not required for verified)
         manifest_ok (bool):
         checked_at (datetime.datetime):
-        lelab_compatible (Union[None, Unset, bool]): CR-A5-W1 (QC-ml-1). The same load check passes in the LeLab venv
+        lelab_compatible (bool | None | Unset): CR-A5-W1 (QC-ml-1). The same load check passes in the LeLab venv
             (LeRobot 0.7.1 without optional extras) with no extra packages. false = the user must install the packages
             listed in MANIFEST.checks.lelab_requirements first (e.g. diffusers for diffusion). null = not checked (bundles
             built before this field existed). Not part of `verified`.
-        parity (Union['VerificationParityType0', None, Unset]): Summary of onnx/parity_report.json
-        details (Union[None, Unset, str]):
+        parity (None | Unset | VerificationParityType0): Summary of onnx/parity_report.json
+        details (None | str | Unset):
     """
 
     load_ok: bool
-    parity_ok: Union[None, bool]
+    parity_ok: bool | None
     manifest_ok: bool
     checked_at: datetime.datetime
-    lelab_compatible: Union[None, Unset, bool] = UNSET
-    parity: Union["VerificationParityType0", None, Unset] = UNSET
-    details: Union[None, Unset, str] = UNSET
+    lelab_compatible: bool | None | Unset = UNSET
+    parity: None | Unset | VerificationParityType0 = UNSET
+    details: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -51,20 +47,20 @@ class Verification:
 
         load_ok = self.load_ok
 
-        parity_ok: Union[None, bool]
+        parity_ok: bool | None
         parity_ok = self.parity_ok
 
         manifest_ok = self.manifest_ok
 
         checked_at = self.checked_at.isoformat()
 
-        lelab_compatible: Union[None, Unset, bool]
+        lelab_compatible: bool | None | Unset
         if isinstance(self.lelab_compatible, Unset):
             lelab_compatible = UNSET
         else:
             lelab_compatible = self.lelab_compatible
 
-        parity: Union[None, Unset, dict[str, Any]]
+        parity: dict[str, Any] | None | Unset
         if isinstance(self.parity, Unset):
             parity = UNSET
         elif isinstance(self.parity, VerificationParityType0):
@@ -72,7 +68,7 @@ class Verification:
         else:
             parity = self.parity
 
-        details: Union[None, Unset, str]
+        details: None | str | Unset
         if isinstance(self.details, Unset):
             details = UNSET
         else:
@@ -104,10 +100,10 @@ class Verification:
         d = dict(src_dict)
         load_ok = d.pop("load_ok")
 
-        def _parse_parity_ok(data: object) -> Union[None, bool]:
+        def _parse_parity_ok(data: object) -> bool | None:
             if data is None:
                 return data
-            return cast(Union[None, bool], data)
+            return cast(bool | None, data)
 
         parity_ok = _parse_parity_ok(d.pop("parity_ok"))
 
@@ -115,18 +111,16 @@ class Verification:
 
         checked_at = isoparse(d.pop("checked_at"))
 
-        def _parse_lelab_compatible(data: object) -> Union[None, Unset, bool]:
+        def _parse_lelab_compatible(data: object) -> bool | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, bool], data)
+            return cast(bool | None | Unset, data)
 
         lelab_compatible = _parse_lelab_compatible(d.pop("lelab_compatible", UNSET))
 
-        def _parse_parity(
-            data: object,
-        ) -> Union["VerificationParityType0", None, Unset]:
+        def _parse_parity(data: object) -> None | Unset | VerificationParityType0:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -137,18 +131,18 @@ class Verification:
                 parity_type_0 = VerificationParityType0.from_dict(data)
 
                 return parity_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["VerificationParityType0", None, Unset], data)
+            return cast(None | Unset | VerificationParityType0, data)
 
         parity = _parse_parity(d.pop("parity", UNSET))
 
-        def _parse_details(data: object) -> Union[None, Unset, str]:
+        def _parse_details(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         details = _parse_details(d.pop("details", UNSET))
 

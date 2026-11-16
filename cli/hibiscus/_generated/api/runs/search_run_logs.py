@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,15 +17,15 @@ def _get_kwargs(
     run_id: UUID,
     *,
     q: str,
-    level: Union[Unset, SearchRunLogsLevel] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    level: SearchRunLogsLevel | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
     params["q"] = q
 
-    json_level: Union[Unset, str] = UNSET
+    json_level: str | Unset = UNSET
     if not isinstance(level, Unset):
         json_level = level.value
 
@@ -39,7 +40,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/runs/{run_id}/logs/search".format(
-            run_id=run_id,
+            run_id=quote(str(run_id), safe=""),
         ),
         "params": params,
     }
@@ -48,8 +49,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[LogSearchPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> LogSearchPage | Problem | None:
     if response.status_code == 200:
         response_200 = LogSearchPage.from_dict(response.json())
 
@@ -72,8 +73,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[LogSearchPage, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[LogSearchPage | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -87,25 +88,25 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     q: str,
-    level: Union[Unset, SearchRunLogsLevel] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[LogSearchPage, Problem]]:
+    level: SearchRunLogsLevel | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[LogSearchPage | Problem]:
     """Case-insensitive substring search over log lines
 
     Args:
         run_id (UUID):
         q (str):
-        level (Union[Unset, SearchRunLogsLevel]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        level (SearchRunLogsLevel | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[LogSearchPage, Problem]]
+        Response[LogSearchPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -128,25 +129,25 @@ def sync(
     *,
     client: AuthenticatedClient,
     q: str,
-    level: Union[Unset, SearchRunLogsLevel] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[LogSearchPage, Problem]]:
+    level: SearchRunLogsLevel | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> LogSearchPage | Problem | None:
     """Case-insensitive substring search over log lines
 
     Args:
         run_id (UUID):
         q (str):
-        level (Union[Unset, SearchRunLogsLevel]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        level (SearchRunLogsLevel | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[LogSearchPage, Problem]
+        LogSearchPage | Problem
     """
 
     return sync_detailed(
@@ -164,25 +165,25 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     q: str,
-    level: Union[Unset, SearchRunLogsLevel] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[LogSearchPage, Problem]]:
+    level: SearchRunLogsLevel | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[LogSearchPage | Problem]:
     """Case-insensitive substring search over log lines
 
     Args:
         run_id (UUID):
         q (str):
-        level (Union[Unset, SearchRunLogsLevel]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        level (SearchRunLogsLevel | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[LogSearchPage, Problem]]
+        Response[LogSearchPage | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -203,25 +204,25 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     q: str,
-    level: Union[Unset, SearchRunLogsLevel] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[LogSearchPage, Problem]]:
+    level: SearchRunLogsLevel | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> LogSearchPage | Problem | None:
     """Case-insensitive substring search over log lines
 
     Args:
         run_id (UUID):
         q (str):
-        level (Union[Unset, SearchRunLogsLevel]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        level (SearchRunLogsLevel | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[LogSearchPage, Problem]
+        LogSearchPage | Problem
     """
 
     return (

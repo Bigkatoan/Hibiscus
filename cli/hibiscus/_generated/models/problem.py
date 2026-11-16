@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -56,13 +52,12 @@ class Problem:
             checkpoint_not_found [404].
             Models/jobs: model_not_ready [409], hub_repo_invalid [422], job_not_cancellable [409].
         request_id (str):
-        detail (Union[Unset, str]): English
-        instance (Union[Unset, str]): Request path
-        errors (Union[Unset, list['FieldError']]): Field errors for `validation_failed` (and `preflight_failed`
-            blockers)
-        retry_after_s (Union[Unset, int]):
-        missing_parts (Union[Unset, list[int]]): For `upload_incomplete`
-        params (Union[Unset, ProblemParams]): Interpolation params for the localised message, e.g. {"limit_gb": 50}
+        detail (str | Unset): English
+        instance (str | Unset): Request path
+        errors (list[FieldError] | Unset): Field errors for `validation_failed` (and `preflight_failed` blockers)
+        retry_after_s (int | Unset):
+        missing_parts (list[int] | Unset): For `upload_incomplete`
+        params (ProblemParams | Unset): Interpolation params for the localised message, e.g. {"limit_gb": 50}
     """
 
     type_: str
@@ -70,12 +65,12 @@ class Problem:
     status: int
     code: ErrorCode
     request_id: str
-    detail: Union[Unset, str] = UNSET
-    instance: Union[Unset, str] = UNSET
-    errors: Union[Unset, list["FieldError"]] = UNSET
-    retry_after_s: Union[Unset, int] = UNSET
-    missing_parts: Union[Unset, list[int]] = UNSET
-    params: Union[Unset, "ProblemParams"] = UNSET
+    detail: str | Unset = UNSET
+    instance: str | Unset = UNSET
+    errors: list[FieldError] | Unset = UNSET
+    retry_after_s: int | Unset = UNSET
+    missing_parts: list[int] | Unset = UNSET
+    params: ProblemParams | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -93,7 +88,7 @@ class Problem:
 
         instance = self.instance
 
-        errors: Union[Unset, list[dict[str, Any]]] = UNSET
+        errors: list[dict[str, Any]] | Unset = UNSET
         if not isinstance(self.errors, Unset):
             errors = []
             for errors_item_data in self.errors:
@@ -102,11 +97,11 @@ class Problem:
 
         retry_after_s = self.retry_after_s
 
-        missing_parts: Union[Unset, list[int]] = UNSET
+        missing_parts: list[int] | Unset = UNSET
         if not isinstance(self.missing_parts, Unset):
             missing_parts = self.missing_parts
 
-        params: Union[Unset, dict[str, Any]] = UNSET
+        params: dict[str, Any] | Unset = UNSET
         if not isinstance(self.params, Unset):
             params = self.params.to_dict()
 
@@ -156,19 +151,21 @@ class Problem:
 
         instance = d.pop("instance", UNSET)
 
-        errors = []
         _errors = d.pop("errors", UNSET)
-        for errors_item_data in _errors or []:
-            errors_item = FieldError.from_dict(errors_item_data)
+        errors: list[FieldError] | Unset = UNSET
+        if _errors is not UNSET:
+            errors = []
+            for errors_item_data in _errors:
+                errors_item = FieldError.from_dict(errors_item_data)
 
-            errors.append(errors_item)
+                errors.append(errors_item)
 
         retry_after_s = d.pop("retry_after_s", UNSET)
 
         missing_parts = cast(list[int], d.pop("missing_parts", UNSET))
 
         _params = d.pop("params", UNSET)
-        params: Union[Unset, ProblemParams]
+        params: ProblemParams | Unset
         if isinstance(_params, Unset):
             params = UNSET
         else:

@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -22,16 +19,16 @@ T = TypeVar("T", bound="SystemStatusStorage")
 class SystemStatusStorage:
     """
     Attributes:
-        buckets (Union[Unset, SystemStatusStorageBuckets]):
-        disk_free_bytes (Union[Unset, int]):
+        buckets (SystemStatusStorageBuckets | Unset):
+        disk_free_bytes (int | Unset):
     """
 
-    buckets: Union[Unset, "SystemStatusStorageBuckets"] = UNSET
-    disk_free_bytes: Union[Unset, int] = UNSET
+    buckets: SystemStatusStorageBuckets | Unset = UNSET
+    disk_free_bytes: int | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        buckets: Union[Unset, dict[str, Any]] = UNSET
+        buckets: dict[str, Any] | Unset = UNSET
         if not isinstance(self.buckets, Unset):
             buckets = self.buckets.to_dict()
 
@@ -53,7 +50,7 @@ class SystemStatusStorage:
 
         d = dict(src_dict)
         _buckets = d.pop("buckets", UNSET)
-        buckets: Union[Unset, SystemStatusStorageBuckets]
+        buckets: SystemStatusStorageBuckets | Unset
         if isinstance(_buckets, Unset):
             buckets = UNSET
         else:

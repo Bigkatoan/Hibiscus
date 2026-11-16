@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -15,7 +16,7 @@ def _get_kwargs(
     run_id: UUID,
     step: int,
     *,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -24,8 +25,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/runs/{run_id}/checkpoints/{step}/eval".format(
-            run_id=run_id,
-            step=step,
+            run_id=quote(str(run_id), safe=""),
+            step=quote(str(step), safe=""),
         ),
     }
 
@@ -34,8 +35,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Job, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Job | Problem | None:
     if response.status_code == 202:
         response_202 = Job.from_dict(response.json())
 
@@ -68,8 +69,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Job, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Job | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -83,8 +84,8 @@ def sync_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Job | Problem]:
     """Run offline held-out evaluation for a checkpoint
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -95,14 +96,14 @@ def sync_detailed(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Job, Problem]]
+        Response[Job | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -123,8 +124,8 @@ def sync(
     step: int,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Job | Problem | None:
     """Run offline held-out evaluation for a checkpoint
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -135,14 +136,14 @@ def sync(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Job, Problem]
+        Job | Problem
     """
 
     return sync_detailed(
@@ -158,8 +159,8 @@ async def asyncio_detailed(
     step: int,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Job | Problem]:
     """Run offline held-out evaluation for a checkpoint
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -170,14 +171,14 @@ async def asyncio_detailed(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Job, Problem]]
+        Response[Job | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -196,8 +197,8 @@ async def asyncio(
     step: int,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Job, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Job | Problem | None:
     """Run offline held-out evaluation for a checkpoint
 
      GPU job: refused with 403 `quota_exceeded` when the requester's monthly GPU hours are used up
@@ -208,14 +209,14 @@ async def asyncio(
     Args:
         run_id (UUID):
         step (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Job, Problem]
+        Job | Problem
     """
 
     return (

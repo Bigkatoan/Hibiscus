@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -32,9 +28,9 @@ class Checkpoint:
         size_bytes (int):
         is_last (bool):
         created_at (datetime.datetime):
-        has_training_state (Union[Unset, bool]):
-        model_id (Union[None, UUID, Unset]):
-        eval_summary (Union['CheckpointEvalSummaryType0', None, Unset]):
+        has_training_state (bool | Unset):
+        model_id (None | Unset | UUID):
+        eval_summary (CheckpointEvalSummaryType0 | None | Unset):
     """
 
     id: UUID
@@ -43,9 +39,9 @@ class Checkpoint:
     size_bytes: int
     is_last: bool
     created_at: datetime.datetime
-    has_training_state: Union[Unset, bool] = UNSET
-    model_id: Union[None, UUID, Unset] = UNSET
-    eval_summary: Union["CheckpointEvalSummaryType0", None, Unset] = UNSET
+    has_training_state: bool | Unset = UNSET
+    model_id: None | Unset | UUID = UNSET
+    eval_summary: CheckpointEvalSummaryType0 | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -65,7 +61,7 @@ class Checkpoint:
 
         has_training_state = self.has_training_state
 
-        model_id: Union[None, Unset, str]
+        model_id: None | str | Unset
         if isinstance(self.model_id, Unset):
             model_id = UNSET
         elif isinstance(self.model_id, UUID):
@@ -73,7 +69,7 @@ class Checkpoint:
         else:
             model_id = self.model_id
 
-        eval_summary: Union[None, Unset, dict[str, Any]]
+        eval_summary: dict[str, Any] | None | Unset
         if isinstance(self.eval_summary, Unset):
             eval_summary = UNSET
         elif isinstance(self.eval_summary, CheckpointEvalSummaryType0):
@@ -121,7 +117,7 @@ class Checkpoint:
 
         has_training_state = d.pop("has_training_state", UNSET)
 
-        def _parse_model_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_model_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -132,15 +128,15 @@ class Checkpoint:
                 model_id_type_0 = UUID(data)
 
                 return model_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         model_id = _parse_model_id(d.pop("model_id", UNSET))
 
         def _parse_eval_summary(
             data: object,
-        ) -> Union["CheckpointEvalSummaryType0", None, Unset]:
+        ) -> CheckpointEvalSummaryType0 | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -151,9 +147,9 @@ class Checkpoint:
                 eval_summary_type_0 = CheckpointEvalSummaryType0.from_dict(data)
 
                 return eval_summary_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["CheckpointEvalSummaryType0", None, Unset], data)
+            return cast(CheckpointEvalSummaryType0 | None | Unset, data)
 
         eval_summary = _parse_eval_summary(d.pop("eval_summary", UNSET))
 

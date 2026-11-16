@@ -63,7 +63,7 @@ export class ControlSocket {
 
   /** Returns false when the socket is not open (the caller then falls back to REST). */
   send(msg: ClientMessage): boolean {
-    if (!this.sock || this.sock.readyState !== OPEN) return false;
+    if (this.sock?.readyState !== OPEN) return false;
     this.sock.send(JSON.stringify(msg));
     return true;
   }

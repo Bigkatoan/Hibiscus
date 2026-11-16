@@ -240,7 +240,7 @@ describe("auth flows", () => {
     let acceptBody: Record<string, unknown> = {};
     server.use(
       http.post("/auth/invites/preview", async ({ request }) => {
-        previewTokens.push(((await request.json()) as { token: string }).token);
+        previewTokens.push((await request.json()).token);
         return HttpResponse.json({ ...f.invitePreview, email: f.user.email, account_exists: true });
       }),
       http.post("/auth/login", () => {

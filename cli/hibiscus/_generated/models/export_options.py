@@ -1,9 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
 
@@ -16,16 +14,16 @@ T = TypeVar("T", bound="ExportOptions")
 class ExportOptions:
     """
     Attributes:
-        onnx (Union[Unset, bool]): Ignored (onnx_status=not_supported) for policies with onnx=none Default: True.
-        onnx_fp16 (Union[Unset, bool]):  Default: False.
-        eval_ (Union[Unset, bool]): Run held-out offline eval and include eval/ in bundle Default: True.
-        model_name (Union[Unset, str]): Default: dataset slug + policy type
+        onnx (bool | Unset): Ignored (onnx_status=not_supported) for policies with onnx=none Default: True.
+        onnx_fp16 (bool | Unset):  Default: False.
+        eval_ (bool | Unset): Run held-out offline eval and include eval/ in bundle Default: True.
+        model_name (str | Unset): Default: dataset slug + policy type
     """
 
-    onnx: Union[Unset, bool] = True
-    onnx_fp16: Union[Unset, bool] = False
-    eval_: Union[Unset, bool] = True
-    model_name: Union[Unset, str] = UNSET
+    onnx: bool | Unset = True
+    onnx_fp16: bool | Unset = False
+    eval_: bool | Unset = True
+    model_name: str | Unset = UNSET
 
     def to_dict(self) -> dict[str, Any]:
         onnx = self.onnx

@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -34,15 +30,15 @@ class Job:
         status (JobStatus):
         progress (float):
         created_at (datetime.datetime):
-        stage (Union[None, Unset, str]): Human stage label key, e.g. `validate.decode`
-        error_code (Union[None, Unset, str]):
-        error_message (Union[None, Unset, str]):
-        result (Union['JobResultType0', None, Unset]):
-        run_id (Union[None, UUID, Unset]):
-        dataset_version_id (Union[None, UUID, Unset]):
-        model_id (Union[None, UUID, Unset]):
-        started_at (Union[None, Unset, datetime.datetime]):
-        finished_at (Union[None, Unset, datetime.datetime]):
+        stage (None | str | Unset): Human stage label key, e.g. `validate.decode`
+        error_code (None | str | Unset):
+        error_message (None | str | Unset):
+        result (JobResultType0 | None | Unset):
+        run_id (None | Unset | UUID):
+        dataset_version_id (None | Unset | UUID):
+        model_id (None | Unset | UUID):
+        started_at (datetime.datetime | None | Unset):
+        finished_at (datetime.datetime | None | Unset):
     """
 
     id: UUID
@@ -51,15 +47,15 @@ class Job:
     status: JobStatus
     progress: float
     created_at: datetime.datetime
-    stage: Union[None, Unset, str] = UNSET
-    error_code: Union[None, Unset, str] = UNSET
-    error_message: Union[None, Unset, str] = UNSET
-    result: Union["JobResultType0", None, Unset] = UNSET
-    run_id: Union[None, UUID, Unset] = UNSET
-    dataset_version_id: Union[None, UUID, Unset] = UNSET
-    model_id: Union[None, UUID, Unset] = UNSET
-    started_at: Union[None, Unset, datetime.datetime] = UNSET
-    finished_at: Union[None, Unset, datetime.datetime] = UNSET
+    stage: None | str | Unset = UNSET
+    error_code: None | str | Unset = UNSET
+    error_message: None | str | Unset = UNSET
+    result: JobResultType0 | None | Unset = UNSET
+    run_id: None | Unset | UUID = UNSET
+    dataset_version_id: None | Unset | UUID = UNSET
+    model_id: None | Unset | UUID = UNSET
+    started_at: datetime.datetime | None | Unset = UNSET
+    finished_at: datetime.datetime | None | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -77,25 +73,25 @@ class Job:
 
         created_at = self.created_at.isoformat()
 
-        stage: Union[None, Unset, str]
+        stage: None | str | Unset
         if isinstance(self.stage, Unset):
             stage = UNSET
         else:
             stage = self.stage
 
-        error_code: Union[None, Unset, str]
+        error_code: None | str | Unset
         if isinstance(self.error_code, Unset):
             error_code = UNSET
         else:
             error_code = self.error_code
 
-        error_message: Union[None, Unset, str]
+        error_message: None | str | Unset
         if isinstance(self.error_message, Unset):
             error_message = UNSET
         else:
             error_message = self.error_message
 
-        result: Union[None, Unset, dict[str, Any]]
+        result: dict[str, Any] | None | Unset
         if isinstance(self.result, Unset):
             result = UNSET
         elif isinstance(self.result, JobResultType0):
@@ -103,7 +99,7 @@ class Job:
         else:
             result = self.result
 
-        run_id: Union[None, Unset, str]
+        run_id: None | str | Unset
         if isinstance(self.run_id, Unset):
             run_id = UNSET
         elif isinstance(self.run_id, UUID):
@@ -111,7 +107,7 @@ class Job:
         else:
             run_id = self.run_id
 
-        dataset_version_id: Union[None, Unset, str]
+        dataset_version_id: None | str | Unset
         if isinstance(self.dataset_version_id, Unset):
             dataset_version_id = UNSET
         elif isinstance(self.dataset_version_id, UUID):
@@ -119,7 +115,7 @@ class Job:
         else:
             dataset_version_id = self.dataset_version_id
 
-        model_id: Union[None, Unset, str]
+        model_id: None | str | Unset
         if isinstance(self.model_id, Unset):
             model_id = UNSET
         elif isinstance(self.model_id, UUID):
@@ -127,7 +123,7 @@ class Job:
         else:
             model_id = self.model_id
 
-        started_at: Union[None, Unset, str]
+        started_at: None | str | Unset
         if isinstance(self.started_at, Unset):
             started_at = UNSET
         elif isinstance(self.started_at, datetime.datetime):
@@ -135,7 +131,7 @@ class Job:
         else:
             started_at = self.started_at
 
-        finished_at: Union[None, Unset, str]
+        finished_at: None | str | Unset
         if isinstance(self.finished_at, Unset):
             finished_at = UNSET
         elif isinstance(self.finished_at, datetime.datetime):
@@ -193,34 +189,34 @@ class Job:
 
         created_at = isoparse(d.pop("created_at"))
 
-        def _parse_stage(data: object) -> Union[None, Unset, str]:
+        def _parse_stage(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         stage = _parse_stage(d.pop("stage", UNSET))
 
-        def _parse_error_code(data: object) -> Union[None, Unset, str]:
+        def _parse_error_code(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_code = _parse_error_code(d.pop("error_code", UNSET))
 
-        def _parse_error_message(data: object) -> Union[None, Unset, str]:
+        def _parse_error_message(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         error_message = _parse_error_message(d.pop("error_message", UNSET))
 
-        def _parse_result(data: object) -> Union["JobResultType0", None, Unset]:
+        def _parse_result(data: object) -> JobResultType0 | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -231,13 +227,13 @@ class Job:
                 result_type_0 = JobResultType0.from_dict(data)
 
                 return result_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union["JobResultType0", None, Unset], data)
+            return cast(JobResultType0 | None | Unset, data)
 
         result = _parse_result(d.pop("result", UNSET))
 
-        def _parse_run_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_run_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -248,13 +244,13 @@ class Job:
                 run_id_type_0 = UUID(data)
 
                 return run_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         run_id = _parse_run_id(d.pop("run_id", UNSET))
 
-        def _parse_dataset_version_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_dataset_version_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -265,15 +261,15 @@ class Job:
                 dataset_version_id_type_0 = UUID(data)
 
                 return dataset_version_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         dataset_version_id = _parse_dataset_version_id(
             d.pop("dataset_version_id", UNSET)
         )
 
-        def _parse_model_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_model_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -284,13 +280,13 @@ class Job:
                 model_id_type_0 = UUID(data)
 
                 return model_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         model_id = _parse_model_id(d.pop("model_id", UNSET))
 
-        def _parse_started_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_started_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -301,13 +297,13 @@ class Job:
                 started_at_type_0 = isoparse(data)
 
                 return started_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         started_at = _parse_started_at(d.pop("started_at", UNSET))
 
-        def _parse_finished_at(data: object) -> Union[None, Unset, datetime.datetime]:
+        def _parse_finished_at(data: object) -> datetime.datetime | None | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -318,9 +314,9 @@ class Job:
                 finished_at_type_0 = isoparse(data)
 
                 return finished_at_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, Unset, datetime.datetime], data)
+            return cast(datetime.datetime | None | Unset, data)
 
         finished_at = _parse_finished_at(d.pop("finished_at", UNSET))
 

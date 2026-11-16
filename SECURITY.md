@@ -68,5 +68,5 @@ These advisories are knowingly ignored by the CI audits, until the noted upgrade
 |---|---|---|---|
 | GHSA-5gmw-xhrv-c9v3, GHSA-85c8-ppgw-ccpr | tinypool 1.x (via vitest 3) | Test runner only, never shipped; needs attacker-controlled worker options | vitest 4 upgrade |
 | GHSA-mrhx-c7xc-m3w5 | zod 3 | Used only for client-side form validation in the browser; no server-side parsing | zod 4 upgrade |
-| PYSEC-2026-4245 | openapi-python-client 0.26 | Dev-only generator, run on our own `api/openapi.yaml` | dropping Python 3.10 in the CLI |
+| PYSEC-2026-4245 | openapi-python-client 0.28 | Dev-only generator, run on our own `api/openapi.yaml` | openapi-python-client 0.29.1+ |
 | CVE-2026-78661 | golang.org/x/net in caddy 2.11.9 | Caddy never parses untrusted HTML in our config | next caddy release (`.trivyignore`) |

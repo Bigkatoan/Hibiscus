@@ -80,7 +80,7 @@ describe("2FA enrolment", () => {
     );
     const { client } = renderApp("/account/security");
     // Prime the token list as if the Tokens tab had been opened before.
-    await client.fetchQuery({ queryKey: ["tokens"], queryFn: () => Promise.resolve([]) });
+    await client.query({ queryKey: ["tokens"], queryFn: () => Promise.resolve([]) });
     const user = userEvent.setup();
     const [pw] = await screen.findAllByLabelText(/Current password/);
     await user.type(pw!, "correct horse battery");

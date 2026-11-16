@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -17,7 +18,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "get",
         "url": "/workspaces/{workspace_id}/events".format(
-            workspace_id=workspace_id,
+            workspace_id=quote(str(workspace_id), safe=""),
         ),
     }
 
@@ -25,8 +26,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, WorkspaceStreamEvent]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | WorkspaceStreamEvent | None:
     if response.status_code == 200:
         response_200 = WorkspaceStreamEvent.from_dict(response.text)
 
@@ -49,8 +50,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, WorkspaceStreamEvent]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | WorkspaceStreamEvent]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -62,8 +63,8 @@ def _build_response(
 def sync_detailed(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Problem, WorkspaceStreamEvent]]:
+    client: AuthenticatedClient | Client,
+) -> Response[Problem | WorkspaceStreamEvent]:
     """SSE stream of workspace-level changes (run status, dataset status, model ready, notifications)
 
      Ephemeral stream (no replay); `event:` is one of `WorkspaceStreamEvent.event`. Heartbeat every 15 s.
@@ -79,7 +80,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, WorkspaceStreamEvent]]
+        Response[Problem | WorkspaceStreamEvent]
     """
 
     kwargs = _get_kwargs(
@@ -96,8 +97,8 @@ def sync_detailed(
 def sync(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Problem, WorkspaceStreamEvent]]:
+    client: AuthenticatedClient | Client,
+) -> Problem | WorkspaceStreamEvent | None:
     """SSE stream of workspace-level changes (run status, dataset status, model ready, notifications)
 
      Ephemeral stream (no replay); `event:` is one of `WorkspaceStreamEvent.event`. Heartbeat every 15 s.
@@ -113,7 +114,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, WorkspaceStreamEvent]
+        Problem | WorkspaceStreamEvent
     """
 
     return sync_detailed(
@@ -125,8 +126,8 @@ def sync(
 async def asyncio_detailed(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Response[Union[Problem, WorkspaceStreamEvent]]:
+    client: AuthenticatedClient | Client,
+) -> Response[Problem | WorkspaceStreamEvent]:
     """SSE stream of workspace-level changes (run status, dataset status, model ready, notifications)
 
      Ephemeral stream (no replay); `event:` is one of `WorkspaceStreamEvent.event`. Heartbeat every 15 s.
@@ -142,7 +143,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, WorkspaceStreamEvent]]
+        Response[Problem | WorkspaceStreamEvent]
     """
 
     kwargs = _get_kwargs(
@@ -157,8 +158,8 @@ async def asyncio_detailed(
 async def asyncio(
     workspace_id: UUID,
     *,
-    client: Union[AuthenticatedClient, Client],
-) -> Optional[Union[Problem, WorkspaceStreamEvent]]:
+    client: AuthenticatedClient | Client,
+) -> Problem | WorkspaceStreamEvent | None:
     """SSE stream of workspace-level changes (run status, dataset status, model ready, notifications)
 
      Ephemeral stream (no replay); `event:` is one of `WorkspaceStreamEvent.event`. Heartbeat every 15 s.
@@ -174,7 +175,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, WorkspaceStreamEvent]
+        Problem | WorkspaceStreamEvent
     """
 
     return (

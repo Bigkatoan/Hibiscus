@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -22,7 +19,7 @@ class QuotaUpsert:
         gpu_hours_per_month (float):
         storage_bytes (int):
         max_upload_bytes (int):
-        user_id (Union[None, UUID]):
+        user_id (None | UUID):
     """
 
     max_concurrent_runs: int
@@ -30,7 +27,7 @@ class QuotaUpsert:
     gpu_hours_per_month: float
     storage_bytes: int
     max_upload_bytes: int
-    user_id: Union[None, UUID]
+    user_id: None | UUID
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -44,7 +41,7 @@ class QuotaUpsert:
 
         max_upload_bytes = self.max_upload_bytes
 
-        user_id: Union[None, str]
+        user_id: None | str
         if isinstance(self.user_id, UUID):
             user_id = str(self.user_id)
         else:
@@ -78,7 +75,7 @@ class QuotaUpsert:
 
         max_upload_bytes = d.pop("max_upload_bytes")
 
-        def _parse_user_id(data: object) -> Union[None, UUID]:
+        def _parse_user_id(data: object) -> None | UUID:
             if data is None:
                 return data
             try:
@@ -87,9 +84,9 @@ class QuotaUpsert:
                 user_id_type_0 = UUID(data)
 
                 return user_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID], data)
+            return cast(None | UUID, data)
 
         user_id = _parse_user_id(d.pop("user_id"))
 

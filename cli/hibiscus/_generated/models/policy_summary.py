@@ -1,11 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -34,9 +30,9 @@ class PolicySummary:
         requires_reward (bool): tdmpc: dataset must contain next.reward
         gpu_support (PolicySummaryGpuSupport): gpu name -> support level
         schema_etag (str):
-        onnx_reason_key (Union[None, Unset, str]): i18n key explaining missing ONNX
-        requires_language (Union[Unset, bool]): smolvla/pi0/pi05 use the task string
-        experimental (Union[Unset, bool]):
+        onnx_reason_key (None | str | Unset): i18n key explaining missing ONNX
+        requires_language (bool | Unset): smolvla/pi0/pi05 use the task string
+        experimental (bool | Unset):
     """
 
     type_: PolicyType
@@ -45,11 +41,11 @@ class PolicySummary:
     onnx: OnnxSupport
     requires_peft: bool
     requires_reward: bool
-    gpu_support: "PolicySummaryGpuSupport"
+    gpu_support: PolicySummaryGpuSupport
     schema_etag: str
-    onnx_reason_key: Union[None, Unset, str] = UNSET
-    requires_language: Union[Unset, bool] = UNSET
-    experimental: Union[Unset, bool] = UNSET
+    onnx_reason_key: None | str | Unset = UNSET
+    requires_language: bool | Unset = UNSET
+    experimental: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -69,7 +65,7 @@ class PolicySummary:
 
         schema_etag = self.schema_etag
 
-        onnx_reason_key: Union[None, Unset, str]
+        onnx_reason_key: None | str | Unset
         if isinstance(self.onnx_reason_key, Unset):
             onnx_reason_key = UNSET
         else:
@@ -123,12 +119,12 @@ class PolicySummary:
 
         schema_etag = d.pop("schema_etag")
 
-        def _parse_onnx_reason_key(data: object) -> Union[None, Unset, str]:
+        def _parse_onnx_reason_key(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         onnx_reason_key = _parse_onnx_reason_key(d.pop("onnx_reason_key", UNSET))
 

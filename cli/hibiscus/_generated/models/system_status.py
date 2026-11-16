@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
 from typing import (
     TYPE_CHECKING,
@@ -27,7 +29,7 @@ class SystemStatus:
         lerobot_version (str):
         api_version (Literal['0.1.0']):
         queue_depth (int):
-        gpus (list['GpuNode']):
+        gpus (list[GpuNode]):
         storage (SystemStatusStorage):
         email (SystemStatusEmail):
     """
@@ -36,9 +38,9 @@ class SystemStatus:
     lerobot_version: str
     api_version: Literal["0.1.0"]
     queue_depth: int
-    gpus: list["GpuNode"]
-    storage: "SystemStatusStorage"
-    email: "SystemStatusEmail"
+    gpus: list[GpuNode]
+    storage: SystemStatusStorage
+    email: SystemStatusEmail
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

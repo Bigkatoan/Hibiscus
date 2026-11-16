@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union, cast
+from typing import Any, cast
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -14,7 +15,7 @@ def _get_kwargs(
     workspace_id: UUID,
     invite_id: UUID,
     *,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -23,8 +24,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "delete",
         "url": "/workspaces/{workspace_id}/invites/{invite_id}".format(
-            workspace_id=workspace_id,
-            invite_id=invite_id,
+            workspace_id=quote(str(workspace_id), safe=""),
+            invite_id=quote(str(invite_id), safe=""),
         ),
     }
 
@@ -33,8 +34,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Any | Problem | None:
     if response.status_code == 204:
         response_204 = cast(Any, None)
         return response_204
@@ -61,8 +62,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Any | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -76,21 +77,21 @@ def sync_detailed(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Any | Problem]:
     """Revoke a pending invite
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -111,21 +112,21 @@ def sync(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Any | Problem | None:
     """Revoke a pending invite
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return sync_detailed(
@@ -141,21 +142,21 @@ async def asyncio_detailed(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Any | Problem]:
     """Revoke a pending invite
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, Problem]]
+        Response[Any | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -174,21 +175,21 @@ async def asyncio(
     invite_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Any, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Any | Problem | None:
     """Revoke a pending invite
 
     Args:
         workspace_id (UUID):
         invite_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, Problem]
+        Any | Problem
     """
 
     return (

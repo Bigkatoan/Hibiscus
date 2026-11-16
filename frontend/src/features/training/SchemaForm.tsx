@@ -134,8 +134,8 @@ function TupleControl({ id, describedBy, invalid, schema, value, onChange }: Con
 function DictEnumControl({ id, describedBy, schema, value, onChange }: ControlProps) {
   const options =
     (isRecord(schema.additionalProperties) ? (schema.additionalProperties as JsonSchema).enum : []) ?? [];
-  const obj = isRecord(value) ? (value as JsonObject) : {};
-  const keys = Object.keys(isRecord(schema.default) ? (schema.default as JsonObject) : obj);
+  const obj = isRecord(value) ? value : {};
+  const keys = Object.keys(isRecord(schema.default) ? schema.default : obj);
   return (
     <div className="grid gap-2 sm:grid-cols-3" role="group" aria-describedby={describedBy} id={id}>
       {keys.map((k) => (
@@ -276,9 +276,11 @@ export function SchemaField({ field, value, baseValue, onChange, issue, labelPre
   const describedBy = [help ? helpId : null, issue ? errId : null].filter(Boolean).join(" ") || undefined;
   const nestedFields =
     w.kind === "nullable-object"
-      ? Object.entries(w.inner.properties ?? {}).map(
-          ([name, schema]): FieldSpec => ({ name, schema, group: "advanced" }),
-        )
+      ? Object.entries(w.inner.properties ?? {}).map(([name, schema]): FieldSpec => ({
+          name,
+          schema,
+          group: "advanced",
+        }))
       : [];
   return (
     <div
@@ -343,12 +345,10 @@ export function SchemaField({ field, value, baseValue, onChange, issue, labelPre
                   key={nf.name}
                   field={nf}
                   labelPrefix={`${labelPrefix}.${field.name}`}
-                  value={(value as JsonObject)[nf.name]}
+                  value={value[nf.name]}
                   baseValue={nf.schema.default}
                   onChange={(v) => {
-                    const rest = Object.fromEntries(
-                      Object.entries(value as JsonObject).filter(([k]) => k !== nf.name),
-                    );
+                    const rest = Object.fromEntries(Object.entries(value).filter(([k]) => k !== nf.name));
                     onChange(v === undefined ? rest : { ...rest, [nf.name]: v });
                   }}
                 />

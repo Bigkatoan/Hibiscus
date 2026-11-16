@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -14,7 +15,7 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     upload_id: UUID,
     *,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -23,7 +24,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "post",
         "url": "/uploads/{upload_id}/complete".format(
-            upload_id=upload_id,
+            upload_id=quote(str(upload_id), safe=""),
         ),
     }
 
@@ -32,8 +33,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, UploadCompleted]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | UploadCompleted | None:
     if response.status_code == 202:
         response_202 = UploadCompleted.from_dict(response.json())
 
@@ -61,8 +62,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, UploadCompleted]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | UploadCompleted]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -75,8 +76,8 @@ def sync_detailed(
     upload_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadCompleted]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Problem | UploadCompleted]:
     """Finish the multipart upload and queue unpack + validation
 
      Requires every part 1..part_count (409 `upload_incomplete` with `missing_parts`). Server
@@ -88,14 +89,14 @@ def sync_detailed(
 
     Args:
         upload_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadCompleted]]
+        Response[Problem | UploadCompleted]
     """
 
     kwargs = _get_kwargs(
@@ -114,8 +115,8 @@ def sync(
     upload_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadCompleted]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Problem | UploadCompleted | None:
     """Finish the multipart upload and queue unpack + validation
 
      Requires every part 1..part_count (409 `upload_incomplete` with `missing_parts`). Server
@@ -127,14 +128,14 @@ def sync(
 
     Args:
         upload_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadCompleted]
+        Problem | UploadCompleted
     """
 
     return sync_detailed(
@@ -148,8 +149,8 @@ async def asyncio_detailed(
     upload_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadCompleted]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Problem | UploadCompleted]:
     """Finish the multipart upload and queue unpack + validation
 
      Requires every part 1..part_count (409 `upload_incomplete` with `missing_parts`). Server
@@ -161,14 +162,14 @@ async def asyncio_detailed(
 
     Args:
         upload_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadCompleted]]
+        Response[Problem | UploadCompleted]
     """
 
     kwargs = _get_kwargs(
@@ -185,8 +186,8 @@ async def asyncio(
     upload_id: UUID,
     *,
     client: AuthenticatedClient,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadCompleted]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Problem | UploadCompleted | None:
     """Finish the multipart upload and queue unpack + validation
 
      Requires every part 1..part_count (409 `upload_incomplete` with `missing_parts`). Server
@@ -198,14 +199,14 @@ async def asyncio(
 
     Args:
         upload_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadCompleted]
+        Problem | UploadCompleted
     """
 
     return (

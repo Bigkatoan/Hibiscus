@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -32,17 +28,17 @@ class Notification:
         params (NotificationParams): i18n interpolation params
         read (bool):
         created_at (datetime.datetime):
-        workspace_id (Union[None, UUID, Unset]):
-        link (Union[None, Unset, str]): SPA path
+        workspace_id (None | Unset | UUID):
+        link (None | str | Unset): SPA path
     """
 
     id: UUID
     kind: NotificationKind
-    params: "NotificationParams"
+    params: NotificationParams
     read: bool
     created_at: datetime.datetime
-    workspace_id: Union[None, UUID, Unset] = UNSET
-    link: Union[None, Unset, str] = UNSET
+    workspace_id: None | Unset | UUID = UNSET
+    link: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -56,7 +52,7 @@ class Notification:
 
         created_at = self.created_at.isoformat()
 
-        workspace_id: Union[None, Unset, str]
+        workspace_id: None | str | Unset
         if isinstance(self.workspace_id, Unset):
             workspace_id = UNSET
         elif isinstance(self.workspace_id, UUID):
@@ -64,7 +60,7 @@ class Notification:
         else:
             workspace_id = self.workspace_id
 
-        link: Union[None, Unset, str]
+        link: None | str | Unset
         if isinstance(self.link, Unset):
             link = UNSET
         else:
@@ -103,7 +99,7 @@ class Notification:
 
         created_at = isoparse(d.pop("created_at"))
 
-        def _parse_workspace_id(data: object) -> Union[None, UUID, Unset]:
+        def _parse_workspace_id(data: object) -> None | Unset | UUID:
             if data is None:
                 return data
             if isinstance(data, Unset):
@@ -114,18 +110,18 @@ class Notification:
                 workspace_id_type_0 = UUID(data)
 
                 return workspace_id_type_0
-            except:  # noqa: E722
+            except (TypeError, ValueError, AttributeError, KeyError):
                 pass
-            return cast(Union[None, UUID, Unset], data)
+            return cast(None | Unset | UUID, data)
 
         workspace_id = _parse_workspace_id(d.pop("workspace_id", UNSET))
 
-        def _parse_link(data: object) -> Union[None, Unset, str]:
+        def _parse_link(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         link = _parse_link(d.pop("link", UNSET))
 

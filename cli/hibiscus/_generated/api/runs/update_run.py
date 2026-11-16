@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     run_id: UUID,
     *,
     body: RunUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -25,7 +26,7 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "patch",
         "url": "/runs/{run_id}".format(
-            run_id=run_id,
+            run_id=quote(str(run_id), safe=""),
         ),
     }
 
@@ -38,8 +39,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, Run]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | Run | None:
     if response.status_code == 200:
         response_200 = Run.from_dict(response.json())
 
@@ -77,8 +78,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, Run]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | Run]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -92,13 +93,13 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: RunUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, Run]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Problem | Run]:
     """Rename; change priority / requested GPU only while queued (409 `run_invalid_transition`)
 
     Args:
         run_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (RunUpdate):
 
     Raises:
@@ -106,7 +107,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, Run]]
+        Response[Problem | Run]
     """
 
     kwargs = _get_kwargs(
@@ -127,13 +128,13 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: RunUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, Run]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Problem | Run | None:
     """Rename; change priority / requested GPU only while queued (409 `run_invalid_transition`)
 
     Args:
         run_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (RunUpdate):
 
     Raises:
@@ -141,7 +142,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, Run]
+        Problem | Run
     """
 
     return sync_detailed(
@@ -157,13 +158,13 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: RunUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, Run]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[Problem | Run]:
     """Rename; change priority / requested GPU only while queued (409 `run_invalid_transition`)
 
     Args:
         run_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (RunUpdate):
 
     Raises:
@@ -171,7 +172,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, Run]]
+        Response[Problem | Run]
     """
 
     kwargs = _get_kwargs(
@@ -190,13 +191,13 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: RunUpdate,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, Run]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Problem | Run | None:
     """Rename; change priority / requested GPU only while queued (409 `run_invalid_transition`)
 
     Args:
         run_id (UUID):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (RunUpdate):
 
     Raises:
@@ -204,7 +205,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, Run]
+        Problem | Run
     """
 
     return (

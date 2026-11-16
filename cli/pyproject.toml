@@ -11,7 +11,7 @@ dependencies = [
     "rich>=13.7",
     "keyring>=24",
     "platformdirs>=4",
-    # runtime deps of the generated client (openapi-python-client 0.26.x)
+    # runtime deps of the generated client (openapi-python-client 0.28.x)
     "attrs>=23.1",
     "python-dateutil>=2.8",
 ]
@@ -43,7 +43,7 @@ dev = [
     "types-jsonschema",
     "poethepoet>=0.29",
     # pinned: 0.27+ emits `typing.Self` (Python >= 3.11 only); the CLI must run on Python 3.10
-    "openapi-python-client==0.26.2",
+    "openapi-python-client==0.28.4",
 ]
 
 [tool.poe.tasks.gen-api]

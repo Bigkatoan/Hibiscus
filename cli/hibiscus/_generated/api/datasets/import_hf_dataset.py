@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 
@@ -13,7 +13,7 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_csrf_token, Unset):
@@ -24,7 +24,6 @@ def _get_kwargs(
         "url": "/datasets/import-hf",
     }
 
-    _kwargs["json"]: Any
     _kwargs["json"] = body
 
     headers["Content-Type"] = "application/json"
@@ -34,8 +33,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[DatasetVersionAccepted, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DatasetVersionAccepted | Problem | None:
     if response.status_code == 202:
         response_202 = DatasetVersionAccepted.from_dict(response.json())
 
@@ -73,8 +72,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[DatasetVersionAccepted, Problem]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DatasetVersionAccepted | Problem]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -87,12 +86,12 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetVersionAccepted, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[DatasetVersionAccepted | Problem]:
     """Import a LeRobot dataset from the Hugging Face Hub as a new version
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (Any): Exactly one of dataset_id / new_dataset_name
 
     Raises:
@@ -100,7 +99,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersionAccepted, Problem]]
+        Response[DatasetVersionAccepted | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -119,12 +118,12 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetVersionAccepted, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> DatasetVersionAccepted | Problem | None:
     """Import a LeRobot dataset from the Hugging Face Hub as a new version
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (Any): Exactly one of dataset_id / new_dataset_name
 
     Raises:
@@ -132,7 +131,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersionAccepted, Problem]
+        DatasetVersionAccepted | Problem
     """
 
     return sync_detailed(
@@ -146,12 +145,12 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Response[Union[DatasetVersionAccepted, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> Response[DatasetVersionAccepted | Problem]:
     """Import a LeRobot dataset from the Hugging Face Hub as a new version
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (Any): Exactly one of dataset_id / new_dataset_name
 
     Raises:
@@ -159,7 +158,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[DatasetVersionAccepted, Problem]]
+        Response[DatasetVersionAccepted | Problem]
     """
 
     kwargs = _get_kwargs(
@@ -176,12 +175,12 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: Any,
-    x_csrf_token: Union[Unset, str] = UNSET,
-) -> Optional[Union[DatasetVersionAccepted, Problem]]:
+    x_csrf_token: str | Unset = UNSET,
+) -> DatasetVersionAccepted | Problem | None:
     """Import a LeRobot dataset from the Hugging Face Hub as a new version
 
     Args:
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         body (Any): Exactly one of dataset_id / new_dataset_name
 
     Raises:
@@ -189,7 +188,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[DatasetVersionAccepted, Problem]
+        DatasetVersionAccepted | Problem
     """
 
     return (

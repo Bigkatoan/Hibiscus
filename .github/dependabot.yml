@@ -42,6 +42,12 @@ updates:
     directory: /deploy
     schedule: {interval: weekly, day: monday}
     labels: ["dependencies", "docker"]
+    ignore:
+      # Stateful services: a major bump needs a dump/restore (docs/runbook/upgrade.md), done by hand.
+      - dependency-name: postgres
+        update-types: ["version-update:semver-major"]
+      - dependency-name: redis
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /

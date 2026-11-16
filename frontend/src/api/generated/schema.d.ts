@@ -17,7 +17,6 @@ export interface paths {
      * Inspect an invite link before registering / accepting (token in the body)
      * @description The invite token is sent in the body so it never appears in a URL path (access logs,
      *     CR-BE-S1). Same answer as the deprecated `GET /auth/invites/{token}`.
-     *
      */
     post: operations["previewInvite"];
     delete?: never;
@@ -81,7 +80,6 @@ export interface paths {
      * @description Only path to create an account (no open sign-up). If the invite email already has an
      *     account, use `POST /auth/invites/accept` while logged in instead (409 `email_taken`).
      *     On success the session cookies are set exactly like a successful login.
-     *
      */
     post: operations["registerWithInvite"];
     delete?: never;
@@ -131,7 +129,6 @@ export interface paths {
      *     password or an unknown email, so a lock does not reveal that an account exists (CR-BE-S1;
      *     423 is no longer returned here). `turnstile_token` is required when the server reports
      *     `turnstile_required` (always in production).
-     *
      */
     post: operations["login"];
     delete?: never;
@@ -175,7 +172,6 @@ export interface paths {
      *     aborted by a page reload) - the token is rotated again and new cookies are set; (b) within
      *     10 s of the rotation (concurrent tab) - 204 without cookies. The SPA calls this when any
      *     request returns 401 `token_expired`, then retries once.
-     *
      */
     post: operations["refreshSession"];
     delete?: never;
@@ -323,7 +319,6 @@ export interface paths {
      * @description Password / TOTP checks by a logged-in session are rate limited per user (10 per 15 min, 429)
      *     and count towards the account lockout like failed logins (423 `account_locked` while
      *     locked; CR-BE-S1).
-     *
      */
     post: operations["changePassword"];
     delete?: never;
@@ -346,7 +341,6 @@ export interface paths {
      * @description Password / TOTP checks by a logged-in session are rate limited per user (10 per 15 min, 429)
      *     and count towards the account lockout like failed logins (423 `account_locked` while
      *     locked; CR-BE-S1).
-     *
      */
     post: operations["setupTotp"];
     delete?: never;
@@ -369,7 +363,6 @@ export interface paths {
      * @description Enabling 2FA revokes every other session of the user (they never passed 2FA) and every
      *     personal access token of the user (they were minted without 2FA; `api_tokens_revoked` gives
      *     the count); the calling session becomes 2FA-verified. Rate limit / lockout as for `changePassword` (CR-BE-S1).
-     *
      */
     post: operations["enableTotp"];
     delete?: never;
@@ -392,7 +385,6 @@ export interface paths {
      * @description Password / TOTP checks by a logged-in session are rate limited per user (10 per 15 min, 429)
      *     and count towards the account lockout like failed logins (423 `account_locked` while
      *     locked; CR-BE-S1).
-     *
      */
     post: operations["disableTotp"];
     delete?: never;
@@ -415,7 +407,6 @@ export interface paths {
      * @description Password / TOTP checks by a logged-in session are rate limited per user (10 per 15 min, 429)
      *     and count towards the account lockout like failed logins (423 `account_locked` while
      *     locked; CR-BE-S1).
-     *
      */
     post: operations["regenerateRecoveryCodes"];
     delete?: never;
@@ -732,7 +723,6 @@ export interface paths {
      * @description owner can set any role; admin can set member/viewer for non-owners. Demoting the last
      *     owner => 409 `last_owner`. Promoting to owner/admin requires the target to have 2FA
      *     enabled (409 `mfa_required_by_role`).
-     *
      */
     patch: operations["updateMemberRole"];
     trace?: never;
@@ -831,7 +821,6 @@ export interface paths {
      *     The session and workspace membership are re-checked every 15 s: the stream ends when the
      *     session is revoked / logged out or the membership ends, and after at most 15 min in any
      *     case (the client reconnects with fresh credentials; CR-BE-S1).
-     *
      */
     get: operations["streamWorkspaceEvents"];
     put?: never;
@@ -1019,9 +1008,10 @@ export interface paths {
       header?: never;
       path: {
         version_id: components["parameters"]["VersionIdPath"];
-        /** @description Relative path inside the dataset, URL-encoded, restricted to `videos/**.mp4`,
+        /**
+         * @description Relative path inside the dataset, URL-encoded, restricted to `videos/**.mp4`,
          *     `meta/**` and `previews/**` (generated thumbnails, `previews/<camera_key>/<episode>.jpg`).
-         *      */
+         */
         path: string;
       };
       cookie?: never;
@@ -1072,7 +1062,6 @@ export interface paths {
      *     up front (403 `quota_exceeded`). Honors `Idempotency-Key`. If an `active` session from the
      *     same user with identical (`workspace_id`, `sha256`, `size`) exists it is returned with 200
      *     instead of 201 (natural resume).
-     *
      */
     post: operations["initUpload"];
     delete?: never;
@@ -1120,7 +1109,6 @@ export interface paths {
      *     `upload_part_checksum_mismatch`). Each successful part slides `expires_at` to now + 7 days.
      *     Max body 64 MiB (fits Cloudflare's 100 MB limit). Recommended client timeout 300 s, retry
      *     with exponential backoff (1, 2, 4 ... 60 s) on network errors / 5xx / 429.
-     *
      */
     put: operations["uploadPart"];
     post?: never;
@@ -1149,7 +1137,6 @@ export interface paths {
      *     whose first step re-hashes the whole object and compares with the declared `sha256`
      *     (mismatch => version `failed`, code `upload_checksum_mismatch`). Idempotent: calling again
      *     on a completed session returns the same body.
-     *
      */
     post: operations["completeUpload"];
     delete?: never;
@@ -1226,7 +1213,6 @@ export interface paths {
      * @description Always 200 when the body is schema-valid; blockers are reported in `checks` with
      *     `severity=error`. The resource estimate may be `source=pending` while a dry-run job is
      *     measuring it (poll again, or listen on the workspace stream for `estimate.ready`).
-     *
      */
     post: operations["preflightRun"];
     delete?: never;
@@ -1308,7 +1294,6 @@ export interface paths {
      *     (`save_freq`) is written and uploaded, then stops - no progress is lost.
      *     `mode=now` stops immediately; progress since the last checkpoint is discarded.
      *     See docs/spec/run-lifecycle.md §3.
-     *
      */
     post: operations["pauseRun"];
     delete?: never;
@@ -1406,7 +1391,6 @@ export interface paths {
      * Raw log (all attempts concatenated, tqdm `\r` frames collapsed to the last frame)
      * @description Byte-addressed: supports `Range: bytes=<from>-` for tailing; `?download=true` adds
      *     `Content-Disposition: attachment; filename=run-<number>.log`. Live tail via SSE `log` events.
-     *
      */
     get: operations["getRunLogs"];
     put?: never;
@@ -1463,7 +1447,6 @@ export interface paths {
      *     * The stream ends with `event: end` after the run reaches a terminal status and the
      *       backlog is flushed.
      *     * Response headers: `Cache-Control: no-cache`, `X-Accel-Buffering: no`.
-     *
      */
     get: operations["streamRunEvents"];
     put?: never;
@@ -2089,7 +2072,6 @@ export interface components {
      *     gpu_insufficient_vram [422], run_invalid_transition [409], run_not_resumable [409],
      *     checkpoint_not_found [404].
      *     Models/jobs: model_not_ready [409], hub_repo_invalid [422], job_not_cancellable [409].
-     *
      * @enum {string}
      */
     ErrorCode:
@@ -2341,7 +2323,7 @@ export interface components {
        * @description null = never expires (UI shows a warning)
        * @default 90
        */
-      expires_in_days?: number;
+      expires_in_days?: number | null;
     };
     ApiTokenCreated: components["schemas"]["ApiToken"] & {
       /** @description Plaintext */
@@ -2358,7 +2340,6 @@ export interface components {
      * @description owner: everything incl. delete workspace, manage owners. admin: members/invites (non-owner),
      *     all resources. member: create datasets/runs; edit/cancel/delete own runs and datasets;
      *     read all. viewer: read-only. owner/admin require 2FA.
-     *
      * @enum {string}
      */
     WorkspaceRole: "owner" | "admin" | "member" | "viewer";
@@ -2382,12 +2363,7 @@ export interface components {
        */
       default_gpu?: string;
       notify_on?: (
-        | "run.succeeded"
-        | "run.failed"
-        | "run.stalled"
-        | "model.ready"
-        | "dataset.ready"
-        | "dataset.invalid"
+        "run.succeeded" | "run.failed" | "run.stalled" | "model.ready" | "dataset.ready" | "dataset.invalid"
       )[];
     };
     WorkspaceCreate: {
@@ -2557,12 +2533,7 @@ export interface components {
       /** @description email: address; discord/webhook: https URL (server blocks private IPs, SSRF); telegram: `<bot_token>:<chat_id>` */
       target: string;
       events: (
-        | "run.succeeded"
-        | "run.failed"
-        | "run.stalled"
-        | "model.ready"
-        | "dataset.ready"
-        | "dataset.invalid"
+        "run.succeeded" | "run.failed" | "run.stalled" | "model.ready" | "dataset.ready" | "dataset.invalid"
       )[];
     };
     DatasetCreate: {
@@ -2617,6 +2588,12 @@ export interface components {
     };
     /** @description One entry of LeRobot meta/info.json `features` (verbatim) */
     FeatureSpec: {
+      /**
+       * @example float32
+       * @example int64
+       * @example video
+       * @example image
+       */
       dtype: string;
       shape: number[];
       names?: unknown[] | Record<string, never> | null;
@@ -2626,11 +2603,20 @@ export interface components {
     };
     DatasetVersion: components["schemas"]["DatasetVersionSummary"] & {
       content_hash: components["schemas"]["Sha256Hex"] | null;
+      /** @example hf://lerobot/svla_so101_pickplace@main */
       source_ref?: string | null;
       merged_from?: string[] | null;
+      /** @example v3.0 */
       codebase_version: string | null;
+      /** @example v2.1 */
       converted_from?: string | null;
+      /** @example so_follower */
       robot_type: string | null;
+      /**
+       * @example [
+       *       "observation.images.wrist_cam"
+       *     ]
+       */
       camera_keys: string[];
       features: {
         [key: string]: components["schemas"]["FeatureSpec"];
@@ -2661,6 +2647,7 @@ export interface components {
       /** Format: uuid */
       dataset_id?: string;
       new_dataset_name?: components["schemas"]["ResourceName"];
+      /** @example hf://lerobot/svla_so101_pickplace@main */
       hf_uri: string;
     } & (unknown | unknown);
     MergeRequest: {
@@ -2783,8 +2770,13 @@ export interface components {
       timestamps: number[];
       /** @description One per feature dimension (observation.state[i], action[i]) */
       series: {
+        /**
+         * @example observation.state
+         * @example action
+         */
         feature: string;
         dim: number;
+        /** @example shoulder_pan.pos */
         name: string;
         values: (number | null)[];
       }[];
@@ -2795,6 +2787,7 @@ export interface components {
         /** @description Seek offset inside the (concatenated v3.0) mp4 */
         from_timestamp_s: number;
         to_timestamp_s: number;
+        /** @example av1 */
         codec: string;
         width: number;
         height: number;
@@ -2820,6 +2813,7 @@ export interface components {
       /** Format: uuid */
       dataset_id?: string;
       new_dataset_name?: components["schemas"]["ResourceName"];
+      /** @example Picknplace_20261114_221710.rar */
       filename: string;
       /** @description Bytes (hard cap 625 GiB = 10000 x 64 MiB; quota usually lower) */
       size: number;
@@ -2926,6 +2920,7 @@ export interface components {
     OnnxSupport: "full" | "split" | "none";
     PolicySummary: {
       type: components["schemas"]["PolicyType"];
+      /** @example ACT */
       display_name: string;
       trainable: boolean;
       onnx: components["schemas"]["OnnxSupport"];
@@ -2947,6 +2942,7 @@ export interface components {
     Preset: {
       /** @enum {string} */
       id: "quick" | "standard" | "finetune";
+      /** @example preset.quick */
       label_key: string;
       /** @description Partial train options */
       train: {
@@ -3021,6 +3017,7 @@ export interface components {
       model_id?: string;
       /** Format: uuid */
       checkpoint_id?: string;
+      /** @example lerobot/smolvla_base */
       hf_repo_id?: string;
     } & (unknown | unknown | unknown);
     ExportOptions: {
@@ -3245,6 +3242,10 @@ export interface components {
       series: components["schemas"]["MetricSeriesSet"][];
       /** @description Only paths whose values differ between runs */
       config_diff: {
+        /**
+         * @example policy.chunk_size
+         * @example train.batch_size
+         */
         path: string;
         /** @description One entry per run, same order as `runs` */
         values: unknown[];
@@ -3309,6 +3310,7 @@ export interface components {
       }[];
       plots?: {
         episode_index: number;
+        /** @example eval/plots/episode_018.png */
         path: string;
       }[];
       /** @constant */
@@ -3350,6 +3352,7 @@ export interface components {
         version_id: string;
         version: number;
         content_hash: components["schemas"]["Sha256Hex"];
+        /** @example local/so101_picknplace_20261114 */
         repo_id: string;
       };
       seed: number;
@@ -3381,9 +3384,10 @@ export interface components {
         | components["schemas"]["ModelEvent"]
         | components["schemas"]["EvalEvent"];
     };
-    /** @description Documentation schema for one SSE message on /runs/{run_id}/events. `event` is the SSE
+    /**
+     * @description Documentation schema for one SSE message on /runs/{run_id}/events. `event` is the SSE
      *     `event:` field, `data` the JSON in `data:`, `id` the SSE `id:` (persisted events only).
-     *      */
+     */
     RunStreamEvent: {
       /** @description run_events.seq */
       id?: number;
@@ -3563,6 +3567,7 @@ export interface components {
       id: string;
       /** Format: uuid */
       workspace_id: string;
+      /** @example so101_picknplace_act-42-step10000 */
       name: string;
       policy_type: components["schemas"]["PolicyType"];
       /** Format: uuid */
@@ -3621,9 +3626,21 @@ export interface components {
       include_onnx?: boolean;
     };
     GpuNode: {
+      /**
+       * @example cuda0
+       * @example cuda1
+       */
       id: string;
+      /**
+       * @example NVIDIA GeForce RTX 3060
+       * @example Tesla P40
+       */
       name: string;
       total_vram_mb: number;
+      /**
+       * @example 8.6
+       * @example 6.1
+       */
       compute_capability: string;
       supports_bf16: boolean;
       supports_fast_fp16?: boolean;
@@ -5706,9 +5723,10 @@ export interface operations {
       };
       path: {
         version_id: components["parameters"]["VersionIdPath"];
-        /** @description Relative path inside the dataset, URL-encoded, restricted to `videos/**.mp4`,
+        /**
+         * @description Relative path inside the dataset, URL-encoded, restricted to `videos/**.mp4`,
          *     `meta/**` and `previews/**` (generated thumbnails, `previews/<camera_key>/<episode>.jpg`).
-         *      */
+         */
         path: string;
       };
       cookie?: never;
@@ -5976,6 +5994,7 @@ export interface operations {
         };
         content: {
           "application/json": {
+            /** @example 0.7.1 */
             lerobot_version: string;
             items: components["schemas"]["PolicySummary"][];
           };

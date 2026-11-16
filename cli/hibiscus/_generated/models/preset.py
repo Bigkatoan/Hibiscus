@@ -1,10 +1,7 @@
+from __future__ import annotations
+
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-)
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -28,14 +25,14 @@ class Preset:
         label_key (str):
         train (PresetTrain): Partial train options
         policy (PresetPolicy): Partial policy options
-        requires_init_from (Union[Unset, bool]):
+        requires_init_from (bool | Unset):
     """
 
     id: PresetId
     label_key: str
-    train: "PresetTrain"
-    policy: "PresetPolicy"
-    requires_init_from: Union[Unset, bool] = UNSET
+    train: PresetTrain
+    policy: PresetPolicy
+    requires_init_from: bool | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

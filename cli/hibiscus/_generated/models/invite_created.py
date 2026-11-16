@@ -1,12 +1,8 @@
+from __future__ import annotations
+
 import datetime
 from collections.abc import Mapping
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 from uuid import UUID
 
 from attrs import define as _attrs_define
@@ -37,8 +33,8 @@ class InviteCreated:
         status (InviteStatus):
         expires_at (datetime.datetime):
         created_at (datetime.datetime):
-        invited_by (Union[Unset, UserRef]):
-        accept_url (Union[None, Unset, str]): Only when email delivery is disabled (admin shares it manually)
+        invited_by (UserRef | Unset):
+        accept_url (None | str | Unset): Only when email delivery is disabled (admin shares it manually)
     """
 
     id: UUID
@@ -47,8 +43,8 @@ class InviteCreated:
     status: InviteStatus
     expires_at: datetime.datetime
     created_at: datetime.datetime
-    invited_by: Union[Unset, "UserRef"] = UNSET
-    accept_url: Union[None, Unset, str] = UNSET
+    invited_by: UserRef | Unset = UNSET
+    accept_url: None | str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -64,11 +60,11 @@ class InviteCreated:
 
         created_at = self.created_at.isoformat()
 
-        invited_by: Union[Unset, dict[str, Any]] = UNSET
+        invited_by: dict[str, Any] | Unset = UNSET
         if not isinstance(self.invited_by, Unset):
             invited_by = self.invited_by.to_dict()
 
-        accept_url: Union[None, Unset, str]
+        accept_url: None | str | Unset
         if isinstance(self.accept_url, Unset):
             accept_url = UNSET
         else:
@@ -111,18 +107,18 @@ class InviteCreated:
         created_at = isoparse(d.pop("created_at"))
 
         _invited_by = d.pop("invited_by", UNSET)
-        invited_by: Union[Unset, UserRef]
+        invited_by: UserRef | Unset
         if isinstance(_invited_by, Unset):
             invited_by = UNSET
         else:
             invited_by = UserRef.from_dict(_invited_by)
 
-        def _parse_accept_url(data: object) -> Union[None, Unset, str]:
+        def _parse_accept_url(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[None, Unset, str], data)
+            return cast(None | str | Unset, data)
 
         accept_url = _parse_accept_url(d.pop("accept_url", UNSET))
 

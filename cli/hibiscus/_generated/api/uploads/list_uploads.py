@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 
 import httpx
@@ -15,16 +15,16 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     *,
     workspace_id: UUID,
-    status: Union[Unset, UploadStatus] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
+    status: UploadStatus | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
 ) -> dict[str, Any]:
     params: dict[str, Any] = {}
 
     json_workspace_id = str(workspace_id)
     params["workspace_id"] = json_workspace_id
 
-    json_status: Union[Unset, str] = UNSET
+    json_status: str | Unset = UNSET
     if not isinstance(status, Unset):
         json_status = status.value
 
@@ -46,8 +46,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, UploadPage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | UploadPage | None:
     if response.status_code == 200:
         response_200 = UploadPage.from_dict(response.json())
 
@@ -75,8 +75,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, UploadPage]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | UploadPage]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -89,24 +89,24 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, UploadStatus] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadPage]]:
+    status: UploadStatus | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | UploadPage]:
     """Upload sessions of the caller in a workspace (newest first); used by the CLI to resume
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, UploadStatus]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (UploadStatus | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadPage]]
+        Response[Problem | UploadPage]
     """
 
     kwargs = _get_kwargs(
@@ -127,24 +127,24 @@ def sync(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, UploadStatus] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadPage]]:
+    status: UploadStatus | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | UploadPage | None:
     """Upload sessions of the caller in a workspace (newest first); used by the CLI to resume
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, UploadStatus]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (UploadStatus | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadPage]
+        Problem | UploadPage
     """
 
     return sync_detailed(
@@ -160,24 +160,24 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, UploadStatus] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Response[Union[Problem, UploadPage]]:
+    status: UploadStatus | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Response[Problem | UploadPage]:
     """Upload sessions of the caller in a workspace (newest first); used by the CLI to resume
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, UploadStatus]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (UploadStatus | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadPage]]
+        Response[Problem | UploadPage]
     """
 
     kwargs = _get_kwargs(
@@ -196,24 +196,24 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     workspace_id: UUID,
-    status: Union[Unset, UploadStatus] = UNSET,
-    limit: Union[Unset, int] = 50,
-    cursor: Union[Unset, str] = UNSET,
-) -> Optional[Union[Problem, UploadPage]]:
+    status: UploadStatus | Unset = UNSET,
+    limit: int | Unset = 50,
+    cursor: str | Unset = UNSET,
+) -> Problem | UploadPage | None:
     """Upload sessions of the caller in a workspace (newest first); used by the CLI to resume
 
     Args:
         workspace_id (UUID):
-        status (Union[Unset, UploadStatus]):
-        limit (Union[Unset, int]):  Default: 50.
-        cursor (Union[Unset, str]):
+        status (UploadStatus | Unset):
+        limit (int | Unset):  Default: 50.
+        cursor (str | Unset):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadPage]
+        Problem | UploadPage
     """
 
     return (

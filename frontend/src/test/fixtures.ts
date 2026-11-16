@@ -406,8 +406,8 @@ interface RawPreset {
 
 export const actPolicy: S["PolicyDetail"] = {
   ...policySummaries[0]!,
-  policy_schema: actSchema as Record<string, unknown>,
-  train_schema: trainSchema as Record<string, unknown>,
+  policy_schema: actSchema,
+  train_schema: trainSchema,
   presets: (presetsDoc.presets as RawPreset[]).map((p) => ({
     id: p.id,
     label_key: p.label_key,

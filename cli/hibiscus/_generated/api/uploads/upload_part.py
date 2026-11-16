@@ -1,5 +1,6 @@
 from http import HTTPStatus
-from typing import Any, Optional, Union
+from typing import Any
+from urllib.parse import quote
 from uuid import UUID
 
 import httpx
@@ -16,7 +17,7 @@ def _get_kwargs(
     part_number: int,
     *,
     body: str,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
     x_content_sha256: str,
     content_length: int,
 ) -> dict[str, Any]:
@@ -31,8 +32,8 @@ def _get_kwargs(
     _kwargs: dict[str, Any] = {
         "method": "put",
         "url": "/uploads/{upload_id}/parts/{part_number}".format(
-            upload_id=upload_id,
-            part_number=part_number,
+            upload_id=quote(str(upload_id), safe=""),
+            part_number=quote(str(part_number), safe=""),
         ),
     }
 
@@ -45,8 +46,8 @@ def _get_kwargs(
 
 
 def _parse_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Problem, UploadPart]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Problem | UploadPart | None:
     if response.status_code == 200:
         response_200 = UploadPart.from_dict(response.json())
 
@@ -94,8 +95,8 @@ def _parse_response(
 
 
 def _build_response(
-    *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Problem, UploadPart]]:
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[Problem | UploadPart]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -110,10 +111,10 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: str,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
     x_content_sha256: str,
     content_length: int,
-) -> Response[Union[Problem, UploadPart]]:
+) -> Response[Problem | UploadPart]:
     """Upload one part (raw bytes). Re-uploading a part replaces it.
 
      Body is exactly `part_size` bytes for parts 1..N-1 and the remainder for part N
@@ -126,7 +127,7 @@ def sync_detailed(
     Args:
         upload_id (UUID):
         part_number (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         x_content_sha256 (str):
         content_length (int):
         body (str):
@@ -136,7 +137,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadPart]]
+        Response[Problem | UploadPart]
     """
 
     kwargs = _get_kwargs(
@@ -161,10 +162,10 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: str,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
     x_content_sha256: str,
     content_length: int,
-) -> Optional[Union[Problem, UploadPart]]:
+) -> Problem | UploadPart | None:
     """Upload one part (raw bytes). Re-uploading a part replaces it.
 
      Body is exactly `part_size` bytes for parts 1..N-1 and the remainder for part N
@@ -177,7 +178,7 @@ def sync(
     Args:
         upload_id (UUID):
         part_number (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         x_content_sha256 (str):
         content_length (int):
         body (str):
@@ -187,7 +188,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadPart]
+        Problem | UploadPart
     """
 
     return sync_detailed(
@@ -207,10 +208,10 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: str,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
     x_content_sha256: str,
     content_length: int,
-) -> Response[Union[Problem, UploadPart]]:
+) -> Response[Problem | UploadPart]:
     """Upload one part (raw bytes). Re-uploading a part replaces it.
 
      Body is exactly `part_size` bytes for parts 1..N-1 and the remainder for part N
@@ -223,7 +224,7 @@ async def asyncio_detailed(
     Args:
         upload_id (UUID):
         part_number (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         x_content_sha256 (str):
         content_length (int):
         body (str):
@@ -233,7 +234,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Problem, UploadPart]]
+        Response[Problem | UploadPart]
     """
 
     kwargs = _get_kwargs(
@@ -256,10 +257,10 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: str,
-    x_csrf_token: Union[Unset, str] = UNSET,
+    x_csrf_token: str | Unset = UNSET,
     x_content_sha256: str,
     content_length: int,
-) -> Optional[Union[Problem, UploadPart]]:
+) -> Problem | UploadPart | None:
     """Upload one part (raw bytes). Re-uploading a part replaces it.
 
      Body is exactly `part_size` bytes for parts 1..N-1 and the remainder for part N
@@ -272,7 +273,7 @@ async def asyncio(
     Args:
         upload_id (UUID):
         part_number (int):
-        x_csrf_token (Union[Unset, str]):
+        x_csrf_token (str | Unset):
         x_content_sha256 (str):
         content_length (int):
         body (str):
@@ -282,7 +283,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Problem, UploadPart]
+        Problem | UploadPart
     """
 
     return (

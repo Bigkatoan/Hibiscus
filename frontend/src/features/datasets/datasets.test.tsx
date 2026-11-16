@@ -137,7 +137,7 @@ describe("datasets", () => {
 describe("upload page", () => {
   // jsdom Blobs are converted to Node Blobs before hitting the (Node) fetch stack in tests.
   const nodeTransport: PartTransport = async (url, body, headers, onProgress, signal) =>
-    fetchTransport(url, new NodeBlob([await readBlob(body)]) as unknown as Blob, headers, onProgress, signal);
+    fetchTransport(url, new NodeBlob([await readBlob(body)]), headers, onProgress, signal);
 
   it("hashes, uploads in parts and offers 'Train now'", async () => {
     const bytes = new Uint8Array(2500).map((_, i) => i % 251);

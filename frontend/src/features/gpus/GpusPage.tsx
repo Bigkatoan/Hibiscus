@@ -109,7 +109,9 @@ export function GpusPage() {
       {gpus.isPending ? <PageLoader /> : null}
       <ErrorAlert error={gpus.error} />
       <div className="grid gap-4 md:grid-cols-2">
-        {gpus.data?.items.map((g) => <GpuCard key={g.id} gpu={g} />)}
+        {gpus.data?.items.map((g) => (
+          <GpuCard key={g.id} gpu={g} />
+        ))}
       </div>
       <Card>
         <CardHeader>
@@ -117,7 +119,7 @@ export function GpusPage() {
         </CardHeader>
         <CardContent>
           <ErrorAlert error={queue.error} />
-          {queue.data && queue.data.items.length === 0 ? (
+          {queue.data?.items.length === 0 ? (
             <p className="text-sm text-muted-foreground">{t("gpu.queue_empty")}</p>
           ) : null}
           {queue.data && queue.data.items.length > 0 ? (
