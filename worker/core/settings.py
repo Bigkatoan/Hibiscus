@@ -84,7 +84,7 @@ class WorkerSettings(BaseSettings):
     nvml_index: int | None = None
     host_name: str | None = None
     worker_version: str = Field(
-        default="0.1.0", validation_alias=_env("HIBISCUS_VERSION", "HIBISCUS_WORKER_VERSION")
+        default="0.1.1", validation_alias=_env("HIBISCUS_VERSION", "HIBISCUS_WORKER_VERSION")
     )
     image_digest: str | None = None
     #: Liveness file the image's HEALTHCHECK checks (``find -mmin -2``); touched by the main loop

@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="HIBISCUS_", extra="ignore", frozen=False)
 
     env: Literal["prod", "dev", "test"] = "prod"
-    version: str = "0.1.0"
+    version: str = "0.1.1"
     lerobot_version: str = "0.7.1"
     log_level: str = "INFO"
     log_json: bool = True

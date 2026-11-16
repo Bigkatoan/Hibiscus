@@ -218,7 +218,7 @@ def test_models_ls_and_pull(logged_in: FakeHibiscus, runner: CliRunner, tmp_path
 
 def test_version_flag(runner: CliRunner) -> None:
     res = runner.invoke(app, ["--version"])
-    assert res.exit_code == 0 and "hibiscus 0.1.0" in res.output
+    assert res.exit_code == 0 and "hibiscus 0.1.1" in res.output
 
 
 def test_server_text_is_not_rich_markup(logged_in: FakeHibiscus, runner: CliRunner) -> None:

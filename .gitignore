@@ -19,3 +19,5 @@ dist/
 
 # Station SPA copied in by station/hatch_build.py at wheel build (frontend: pnpm build:station)
 /station/hibiscus_station/static/
+# upgrade.sh run logs
+deploy/upgrade-logs/

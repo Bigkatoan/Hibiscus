@@ -13,7 +13,7 @@ VCS_REF="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 # HIBISCUS_BUILD_NETWORK=host is needed on hosts where bridge containers have no egress/DNS
 # (the GPU box at the time of writing, see docs/runbook/install.md).
 COMMON=(--network "${HIBISCUS_BUILD_NETWORK:-default}"
-        --build-arg "VCS_REF=${VCS_REF}" --build-arg "HIBISCUS_VERSION=${HIBISCUS_VERSION:-0.1.0}")
+        --build-arg "VCS_REF=${VCS_REF}" --build-arg "HIBISCUS_VERSION=${HIBISCUS_VERSION:-0.1.1}")
 
 build_api() {
   docker build "${COMMON[@]}" -f "$ROOT/deploy/docker/api.Dockerfile" -t "hibiscus/api:${TAG}" "$ROOT"

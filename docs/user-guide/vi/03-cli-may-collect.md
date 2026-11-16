@@ -16,7 +16,7 @@ thể cài nhầm một gói khác trùng tên). Cài từ file `.whl` quản tr
 
 ```bash
 # từ file wheel (khuyên dùng uv; hoặc pipx install <file>)
-uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus-0.1.0-py3-none-any.whl
+uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus-0.1.1-py3-none-any.whl
 # hoặc từ mã nguồn
 cd Hibiscus/cli && uv tool install .
 hibiscus --version

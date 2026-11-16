@@ -22,7 +22,7 @@ You need [uv](https://docs.astral.sh/uv/). Then:
 
 ```bash
 # Station is not on PyPI yet: install the wheel from GitHub Releases (UI included)
-uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus_station-0.1.0-py3-none-any.whl
+uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus_station-0.1.1-py3-none-any.whl
 hibiscus-station
 ```
 

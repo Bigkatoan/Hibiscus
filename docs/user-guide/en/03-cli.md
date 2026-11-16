@@ -13,7 +13,7 @@ run `uv tool install hibiscus` / `pipx install hibiscus` (that may install an un
 Install the `.whl` your admin gives you, or from source:
 
 ```bash
-uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus-0.1.0-py3-none-any.whl   # or: pipx install <wheel>
+uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus-0.1.1-py3-none-any.whl   # or: pipx install <wheel>
 cd Hibiscus/cli && uv tool install .                  # from a source checkout
 hibiscus --version
 ```

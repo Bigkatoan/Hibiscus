@@ -45,7 +45,7 @@ x-s3-env: &s3-env
 x-api-env: &api-env
   <<: *s3-env
   HIBISCUS_ENV: ${HIBISCUS_ENV:-prod}
-  HIBISCUS_VERSION: ${HIBISCUS_VERSION:-0.1.0}
+  HIBISCUS_VERSION: ${HIBISCUS_VERSION:-0.1.1}
   HIBISCUS_PUBLIC_BASE_URL: ${HIBISCUS_PUBLIC_BASE_URL:-https://robot.example.com}
   HIBISCUS_LOG_LEVEL: ${HIBISCUS_LOG_LEVEL:-INFO}
   HIBISCUS_LOG_JSON: "true"
@@ -69,7 +69,7 @@ x-worker-env: &worker-env
   HIBISCUS_DATABASE_URL: postgresql+psycopg://${HIBISCUS_DB_USER:-hibiscus}:${HIBISCUS_DB_PASSWORD}@postgres:5432/${HIBISCUS_DB_NAME:-hibiscus}
   HIBISCUS_REDIS_URL: redis://:${HIBISCUS_REDIS_PASSWORD}@redis:6379/0
   HIBISCUS_LOG_LEVEL: ${HIBISCUS_LOG_LEVEL:-INFO}
-  HIBISCUS_WORKER_VERSION: ${HIBISCUS_VERSION:-0.1.0}
+  HIBISCUS_WORKER_VERSION: ${HIBISCUS_VERSION:-0.1.1}
   HIBISCUS_HEARTBEAT_INTERVAL_S: "10"
   HIBISCUS_LEASE_TTL_S: "60"
   # prometheus_client /metrics (worker/core/metrics.py), scraped by Prometheus job `workers`

@@ -13,7 +13,7 @@ authors:
 repository-code: "https://github.com/Bigkatoan/Hibiscus"
 url: "https://bigkatoan.github.io/Hibiscus/"
 license: AGPL-3.0-only
-version: 0.1.0
+version: "0.1.1"
 keywords:
   - robotics
   - imitation learning

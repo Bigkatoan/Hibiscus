@@ -544,7 +544,7 @@ wheels = [
 
 [[package]]
 name = "hibiscus"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "../cli" }
 dependencies = [
     { name = "attrs" },
@@ -585,7 +585,7 @@ dev = [
 
 [[package]]
 name = "hibiscus-station"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "." }
 dependencies = [
     { name = "fastapi" },

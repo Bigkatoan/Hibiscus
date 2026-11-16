@@ -23,7 +23,7 @@ Station **chưa có trên PyPI** (đừng cài `hibiscus-station` từ PyPI). T�
 [Releases](https://github.com/Bigkatoan/Hibiscus/releases) (đã kèm sẵn giao diện):
 
 ```bash
-uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus_station-0.1.0-py3-none-any.whl
+uv tool install https://github.com/Bigkatoan/Hibiscus/releases/latest/download/hibiscus_station-0.1.1-py3-none-any.whl
 hibiscus-station                  # mở giao diện
 ```
 

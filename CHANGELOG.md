@@ -8,6 +8,8 @@ may contain breaking changes; they are always called out under **Changed** or **
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-16
+
 ### Changed
 - Dependencies: SQLAlchemy 2.1, Grafana 13.3.1, react-i18next 15.7, 27 minor/patch frontend updates
   (Radix UI, TanStack Query, react-hook-form, openapi-fetch 0.17, typescript-eslint 8.72, prettier 3.10),
@@ -58,5 +60,6 @@ The first public release: **Hibiscus Trainer**.
   issue and PR templates, CI, CodeQL, gitleaks, Dependabot, GHCR image publishing, and a
   mkdocs-material documentation site.
 
-[Unreleased]: https://github.com/Bigkatoan/Hibiscus/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Bigkatoan/Hibiscus/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Bigkatoan/Hibiscus/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Bigkatoan/Hibiscus/releases/tag/v0.1.0

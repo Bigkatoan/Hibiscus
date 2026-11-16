@@ -1,6 +1,6 @@
 {
   "name": "hibiscus-email-worker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Cloudflare Worker that sends Hibiscus transactional email via the send_email binding (HMAC-signed requests from the API)",
   "type": "module",

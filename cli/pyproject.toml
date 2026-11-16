@@ -1,6 +1,6 @@
 [project]
 name = "hibiscus"
-version = "0.1.0"
+version = "0.1.1"
 description = "Hibiscus CLI: push LeRobot datasets, start training, follow logs, pull model bundles"
 readme = "README.md"
 requires-python = ">=3.10"
