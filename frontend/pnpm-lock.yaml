@@ -54,8 +54,8 @@ importers:
         specifier: 4.13.0
         version: 4.13.0
       i18next:
-        specifier: 24.2.1
-        version: 24.2.1(typescript@5.7.3)
+        specifier: 27.1.1
+        version: 27.1.1(typescript@5.7.3)
       openapi-fetch:
         specifier: 0.17.0
         version: 0.17.0
@@ -73,7 +73,7 @@ importers:
         version: 7.92.0(@types/react@18.3.18)(react@18.3.1)
       react-i18next:
         specifier: 15.7.4
-        version: 15.7.4(i18next@24.2.1(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
+        version: 15.7.4(i18next@27.1.1(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3)
       react-router-dom:
         specifier: 6.30.6
         version: 6.30.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2069,10 +2069,11 @@ packages:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
 
-  i18next@24.2.1:
-    resolution: {integrity: sha512-Q2wC1TjWcSikn1VAJg13UGIjc+okpFxQTxjVAymOnSA3RpttBQNMPf2ovcgoFVsV4QNxTfNZMAxorXZXsk4fBA==}
+  i18next@27.1.1:
+    resolution: {integrity: sha512-Qq3aJizS3RXQ30crhx9BKQLrHoa6GKpgrOJjVZ9vgj3EBxAddrmVfDNUrAMxSUimw5Jc+ld4SSZUAzf1q4nGyQ==}
+    engines: {node: '>=22'}
     peerDependencies:
-      typescript: ^5
+      typescript: ^5 || ^6 || ^7
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -5323,9 +5324,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  i18next@24.2.1(typescript@5.7.3):
-    dependencies:
-      '@babel/runtime': 7.29.14
+  i18next@27.1.1(typescript@5.7.3):
     optionalDependencies:
       typescript: 5.7.3
 
@@ -5915,11 +5914,11 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.18
 
-  react-i18next@15.7.4(i18next@24.2.1(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3):
+  react-i18next@15.7.4(i18next@27.1.1(typescript@5.7.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3):
     dependencies:
       '@babel/runtime': 7.29.14
       html-parse-stringify: 3.1.0
-      i18next: 24.2.1(typescript@5.7.3)
+      i18next: 27.1.1(typescript@5.7.3)
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)
