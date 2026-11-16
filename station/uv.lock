@@ -571,7 +571,7 @@ requires-dist = [
 dev = [
     { name = "jsonschema", specifier = ">=4.23" },
     { name = "mypy", specifier = ">=1.13" },
-    { name = "openapi-python-client", specifier = "==0.26.2" },
+    { name = "openapi-python-client", specifier = "==0.28.4" },
     { name = "poethepoet", specifier = ">=0.29" },
     { name = "pytest", specifier = ">=8.3" },
     { name = "pytest-cov", specifier = ">=6" },
