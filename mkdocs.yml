@@ -140,7 +140,6 @@ nav:
       - 7. Team và quản trị: user-guide/vi/07-team-quan-tri.md
       - 8. Xử lý sự cố: user-guide/vi/08-xu-ly-su-co.md
       - Hibiscus Station: user-guide/vi/station.md
-      - Nghiệm thu Station trên phần cứng: user-guide/vi/station-hardware-uat.md
   - User guide (English):
       - 1. Getting started: user-guide/en/01-getting-started.md
       - 2. Datasets: user-guide/en/02-datasets.md
@@ -151,7 +150,6 @@ nav:
       - 7. Teams and admin: user-guide/en/07-team-admin.md
       - 8. Troubleshooting: user-guide/en/08-troubleshooting.md
       - Hibiscus Station: user-guide/en/station.md
-      - Station hardware UAT: user-guide/en/station-hardware-uat.md
   - Self-hosting:
       - Install: runbook/install.md
       - Upgrade and rollback: runbook/upgrade.md
@@ -167,7 +165,6 @@ nav:
       - Run lifecycle: spec/run-lifecycle.md
       - Policy schemas: spec/policy-schema.md
       - Training log parsing: spec/log-parsing.md
-      - Hibiscus Station: spec/station.md
   - Architecture:
       - ADR-0001 FastAPI + Python 3.12: adr/0001-fastapi-python312.md
       - ADR-0002 Postgres job queue: adr/0002-postgres-skip-locked-queue.md

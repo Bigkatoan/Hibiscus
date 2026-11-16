@@ -1,6 +1,6 @@
 # Hibiscus — visual style (app mapping)
 
-The look of Hibiscus (web app, Hibiscus Station and these docs) comes from the **Hibiscus design
+The look of Hibiscus (web app and these docs) comes from the **Hibiscus design
 system**, kept in the private repository `github.com/Bigkatoan/hibiscus-assets`. Its style guide
 (`docs/style-guide.md` there) is the single source of truth for the palette, the mascot, the icons,
 typography, the pixel unit and motion. This page only records how the app maps onto it.
@@ -36,15 +36,15 @@ Hibi is a small robot arm holding a hibiscus (hero 48×48 art = 96 px, mini 24×
 | App state | Mood |
 |---|---|
 | Empty list, welcome, default | `idle` |
-| Login, onboarding (Station welcome) | `wave` |
-| Run preparing / running / exporting, calibration ranges, recording | `working` |
-| Run succeeded, calibration done, episodes saved | `happy` |
-| Run queued / pausing / paused, Station disconnected | `sleep` |
-| Run failed, crash screen, 404, e-stop / error, motors too hot | `sad` |
+| Login, onboarding | `wave` |
+| Run preparing / running / exporting | `working` |
+| Run succeeded | `happy` |
+| Run queued / pausing / paused | `sleep` |
+| Run failed, crash screen, 404, error | `sad` |
 | Run cancelling / cancelled | `idle` |
 
-Mapping in code: `frontend/src/lib/hibi.ts` (runs) and `hibiMood()` in
-`frontend/src/features/station/StationShell.tsx` (Station: an overheating robot "wilts" → `sad`).
+Mapping in code: `frontend/src/lib/hibi.ts` (runs). Hibiscus Station has its own mapping in
+[its repository](https://github.com/Bigkatoan/hibiscus-station).
 
 ## Feature icons (16×16 colour sprites, animate on hover via `.px-hover`)
 | Feature | Sprite |

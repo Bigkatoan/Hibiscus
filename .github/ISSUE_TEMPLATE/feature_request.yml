@@ -16,7 +16,6 @@ body:
         - Training / policies
         - Monitoring / metrics
         - Model bundle / running on the robot
-        - Hibiscus Station (robot setup, calibration, teleop, recording)
         - CLI
         - Teams / auth / admin
         - Deployment / operations

@@ -84,7 +84,7 @@ and the first admin account.
 
 </div>
 
-!!! tip "Hibiscus Station is growing"
-    Robot setup, motor calibration, teleoperation and dataset recording (with live motor
-    temperatures and camera feeds while a policy runs) are in progress. Follow the
-    [roadmap](https://github.com/Bigkatoan/Hibiscus#roadmap).
+!!! tip "Hibiscus Station"
+    The robot-side app (robot setup, motor calibration, teleoperation, dataset recording and running
+    a policy with live motor temperatures and camera feeds) lives in its own repository,
+    [Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station).

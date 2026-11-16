@@ -26,4 +26,3 @@
 - {name: "area: ui", color: c99a62, description: "Web UI, pixel art, i18n, accessibility"}
 - {name: "area: auth", color: c99a62, description: "Accounts, 2FA, tokens, RBAC"}
 - {name: "area: deploy", color: c99a62, description: "Compose, observability, backups"}
-- {name: "area: station", color: ff9eb5, description: "Hibiscus Station: robot setup, calibration, teleop, recording"}

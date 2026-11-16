@@ -76,7 +76,7 @@ lệnh vận hành (backup, nâng cấp, log).
 | 🏡 **Team** | Workspace, phân quyền RBAC, lời mời, personal access token có scope, hàng đợi GPU fair-share (Postgres `SKIP LOCKED`), quota theo người dùng. |
 | 🔒 **Bảo mật** | Mật khẩu Argon2id, 2FA TOTP + mã khôi phục, quản lý phiên, audit log, giới hạn tần suất, mục tiêu OWASP ASVS L2; chính sách chỉ mở cổng loopback. |
 | 🔭 **Vận hành** | Một file Docker Compose, dashboard Prometheus + Grafana + Loki, backup Postgres hằng đêm kèm diễn tập khôi phục, runbook nâng cấp. |
-| 🤖 **Hibiscus Station** | App chạy cục bộ cạnh robot (`uvx hibiscus-station` hoặc `hibiscus station`): kết nối → hiệu chỉnh → camera → teleop → thu dataset LeRobot → upload → tải model về → chạy trên robot, có telemetry nhiệt độ / điện áp / dòng điện của động cơ, tự dừng khi quá nhiệt và xem camera trực tiếp. [Chi tiết bên dưới](#hibiscus-station). |
+| 🤖 **Hibiscus Station** | App chạy cạnh robot, nay nằm ở repository riêng: [Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station). Kết nối → hiệu chỉnh → camera → teleop → thu dataset → upload → tải model về → chạy trên robot, có telemetry động cơ và tự dừng khi quá nhiệt. Station nói chuyện với server này qua API công khai và CLI `hibiscus`. [Xem bên dưới](#hibiscus-station). |
 | 🧑‍🌾 **Song ngữ** | Tiếng Việt và tiếng Anh ở mọi màn hình, giao diện pixel-art dễ tiếp cận (WCAG 2.1 AA, chế độ ngày và đêm). |
 
 ## Policy được hỗ trợ
@@ -140,7 +140,7 @@ hibiscus watch ~/lerobot_data                        # tự upload mỗi recordi
 hibiscus train -d so101_picknplace -p act --preset standard -f   # xếp hàng một run và theo dõi
 hibiscus logs -f '#42'                               # log trực tiếp (SSE, tự nối lại)
 hibiscus pull <model> --to ~/models                  # tải về + kiểm tra sha256 từng file
-hibiscus station --mock                              # mở Hibiscus Station (tham số chuyển cho hibiscus-station)
+hibiscus station --mock                              # mở Hibiscus Station nếu đã cài (repo riêng)
 ```
 
 Tài liệu đầy đủ: [`cli/README.md`](cli/README.md).
@@ -174,45 +174,30 @@ camera và task lấy từ dataset, bạn chỉ cần điền cổng. Lần đ�
 
 ## Hibiscus Station
 
-Hibiscus Station là nửa phía robot của Hibiscus: một web app nhỏ chạy cục bộ (FastAPI trên loopback,
-cùng giao diện pixel) trên máy nối với robot, gom cả vòng làm việc vào một chỗ.
+Hibiscus Station, nửa phía robot của Hibiscus, nằm ở repository riêng:
+**[Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station)**. Đó là một web app nhỏ chạy cục bộ (cùng giao diện pixel)
+trên máy nối với robot: kết nối và hiệu chỉnh tay SO-100 / SO-101, cài camera, teleop, thu dataset
+LeRobot, upload lên đây, tải model bundle đã train về và chạy với camera trực tiếp, telemetry động
+cơ và tự dừng khi quá nhiệt. Từ bản 0.2.0 Station có thêm quỹ đạo (trajectory), chương trình khối
+(block program) và bản sao 3D của cánh tay.
 
-<p align="center"><img src="docs/ux/screenshots/station/11-run-model.png" alt="Hibiscus Station đang chạy model, với camera trực tiếp và telemetry động cơ" width="80%"><br><sub><b>Chạy model</b>: camera trực tiếp và telemetry từng động cơ khi policy điều khiển cánh tay</sub></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Bigkatoan/hibiscus-station/main/docs/images/run-model-en.png" alt="Hibiscus Station đang chạy model, với camera trực tiếp và telemetry động cơ" width="80%"></p>
 
-1. **Kết nối** cánh tay follower và leader SO-100 / SO-101 (tự dò cổng serial).
-2. **Hiệu chỉnh** (calibrate) động cơ, rồi cài đặt và xem trước **camera**.
-3. **Teleop** và **thu** dataset LeRobot v3.0 theo từng episode.
-4. **Upload** lên server Hibiscus, train ở đó, rồi **tải** model bundle đã kiểm chứng về.
-5. **Chạy** model trên robot, xem camera trực tiếp.
-
-Trong suốt quá trình, Station hiển thị nhiệt độ, điện áp và dòng điện của động cơ và **tự dừng cánh
-tay** khi một động cơ quá nhiệt.
-
-```bash
-uvx hibiscus-station                 # không cần cài; hoặc: uv tool install hibiscus-station
-hibiscus station --mock --no-browser # qua CLI, ở đây với phần cứng giả lập
-```
-
-> **Trạng thái:** Hibiscus Station đã được kiểm thử end-to-end với phần cứng giả lập (mock) và một
-> checkpoint ACT thật. Station **chưa được kiểm chứng trên phần cứng SO-101 thật**, nên hãy coi đây là
-> bản xem trước và để tay gần công tắc nguồn.
-
-Đặc tả: [`docs/spec/station.md`](docs/spec/station.md) · cách dùng và phát triển: [`station/README.md`](station/README.md).
+Station chỉ dùng API công khai của server (upload dataset theo chunk, model bundle) và CLI `hibiscus`
+trong repository này, nên hai bên phát hành độc lập. Cài đặt theo
+[Quick start](https://github.com/Bigkatoan/hibiscus-station#quick-start); sau khi cài, `hibiscus station …` sẽ mở Station.
 
 ## Tài liệu
 
 * 📘 **Trang tài liệu**: <https://bigkatoan.github.io/Hibiscus/> (Tiếng Việt + English)
 * Hướng dẫn sử dụng: [Tiếng Việt](docs/user-guide/vi/01-bat-dau.md) · [English](docs/user-guide/en/01-getting-started.md)
 * Runbook tự host: [`docs/runbook/`](docs/runbook/README.md)
-* Đặc tả: [định dạng bundle](docs/spec/bundle.md), [vòng đời run](docs/spec/run-lifecycle.md), [schema policy](docs/spec/policy-schema.md), [Hibiscus Station](docs/spec/station.md)
+* Đặc tả: [định dạng bundle](docs/spec/bundle.md), [vòng đời run](docs/spec/run-lifecycle.md), [schema policy](docs/spec/policy-schema.md), [Hibiscus Station](https://github.com/Bigkatoan/hibiscus-station/blob/main/docs/spec/station.md)
 
 ## Lộ trình
 
 - [x] **v0.1 Hibiscus Trainer**: dataset, train, metrics trực tiếp, bundle, team, CLI, giao diện pixel
-- [x] **Hibiscus Station** (bản xem trước): cài đặt robot, hiệu chỉnh (calibration) động cơ, camera,
-      teleop và thu dataset ngay trong giao diện pixel, upload / tải model, chạy policy với telemetry
-      động cơ, tự dừng khi quá nhiệt và camera trực tiếp ([chi tiết](#hibiscus-station))
-- [ ] 🚧 Kiểm chứng Hibiscus Station trên phần cứng SO-101 thật (hiện tại: phần cứng giả lập + checkpoint ACT thật)
+- [x] **Hibiscus Station** đã chuyển sang repository riêng ([Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station), lộ trình ở đó)
 - [ ] Export ONNX cho VQ-BeT, engine TensorRT / Jetson
 - [ ] Đăng nhập SSO / OIDC
 - [ ] Đánh giá trong mô phỏng

@@ -108,8 +108,7 @@ function has(key: string): boolean {
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((f) => {
     const p = join(dir, f);
-    // features/station uses its own "station" namespace, checked by features/station/station.unit.test.ts.
-    if (statSync(p).isDirectory()) return f === "generated" || f === "test" || f === "station" ? [] : walk(p);
+    if (statSync(p).isDirectory()) return f === "generated" || f === "test" ? [] : walk(p);
     return /\.(ts|tsx)$/.test(f) && !f.includes(".test.") ? [p] : [];
   });
 }

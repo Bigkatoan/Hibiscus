@@ -10,12 +10,9 @@ export default tseslint.config(
     ignores: [
       "dist",
       "dist-mock",
-      "dist-station",
-      "dist-station-mock",
       "coverage",
       "node_modules",
       "src/api/generated",
-      "src/features/station/api/schema.d.ts",
       // Synced from hibiscus-assets (tools/sync.sh); never hand-edited, so not linted here.
       "src/hibiscus",
       "*.config.js",

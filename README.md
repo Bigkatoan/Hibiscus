@@ -76,7 +76,7 @@ every operator shortcut (backups, upgrades, logs).
 | 🏡 **Teams** | Workspaces, RBAC, invitations, personal access tokens with scopes, fair-share GPU queue (Postgres `SKIP LOCKED`), per-user quotas. |
 | 🔒 **Security** | Argon2id passwords, TOTP 2FA + recovery codes, session management, audit log, rate limits, OWASP ASVS L2 as the target; loopback-only ports by policy. |
 | 🔭 **Operations** | One Docker Compose file, Prometheus + Grafana + Loki dashboards, nightly Postgres backups with restore drills, upgrade runbooks. |
-| 🤖 **Hibiscus Station** | Local robot-side app (`uvx hibiscus-station` or `hibiscus station`): connect → calibrate → cameras → teleop → record a LeRobot dataset → upload → pull a model → run it on the robot, with motor temperature / voltage / current telemetry, thermal auto-stop and live camera previews. [Details below](#hibiscus-station). |
+| 🤖 **Hibiscus Station** | The robot-side app, now in its own repository: [Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station). Connect → calibrate → cameras → teleop → record → upload → pull a model → run it on the robot, with motor telemetry and thermal auto-stop. It talks to this server through the public API and the `hibiscus` CLI. [More below](#hibiscus-station). |
 | 🧑‍🌾 **Bilingual UI** | Vietnamese and English throughout, accessible pixel-art theme (WCAG 2.1 AA, day and night modes). |
 
 ## Supported policies
@@ -141,7 +141,7 @@ hibiscus watch ~/lerobot_data                        # auto-upload every finishe
 hibiscus train -d so101_picknplace -p act --preset standard -f   # queue a run and follow it
 hibiscus logs -f '#42'                               # live logs (SSE, auto-reconnect)
 hibiscus pull <model> --to ~/models                  # download + verify every sha256
-hibiscus station --mock                              # launch Hibiscus Station (args go to hibiscus-station)
+hibiscus station --mock                              # launch Hibiscus Station, if installed (separate repo)
 ```
 
 Full reference: [`cli/README.md`](cli/README.md).
@@ -175,45 +175,30 @@ switch the first time. Details: [Running a model on the robot](docs/user-guide/e
 
 ## Hibiscus Station
 
-Hibiscus Station is the robot-side half of Hibiscus: a small local web app (FastAPI on loopback, same
-pixel UI) that runs on the machine wired to the robot and walks the whole loop in one place.
+Hibiscus Station, the robot-side half of Hibiscus, lives in its own repository:
+**[Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station)**. It is a small local web app (same pixel UI) that runs on
+the machine wired to the robot: connect and calibrate SO-100 / SO-101 arms, set up cameras,
+teleoperate, record a LeRobot dataset, upload it here, pull the trained model bundle back and run it
+with live camera previews, motor telemetry and thermal auto-stop. Since 0.2.0 it also has
+trajectories, block programs and a 3D twin of the arm.
 
-<p align="center"><img src="docs/ux/screenshots/station/11-run-model.png" alt="Hibiscus Station running a model, with live camera previews and motor telemetry" width="80%"><br><sub><b>Run model</b>: live camera previews and per-motor telemetry while a policy drives the arm</sub></p>
+<p align="center"><img src="https://raw.githubusercontent.com/Bigkatoan/hibiscus-station/main/docs/images/run-model-en.png" alt="Hibiscus Station running a model, with live camera previews and motor telemetry" width="80%"></p>
 
-1. **Connect** the SO-100 / SO-101 follower and leader arms (serial ports are auto-detected).
-2. **Calibrate** the motors, then set up and preview the **cameras**.
-3. **Teleoperate** and **record** a LeRobot v3.0 dataset, episode by episode.
-4. **Upload** it to your Hibiscus server, train there, then **pull** the verified model bundle back.
-5. **Run** the model on the robot, with live camera previews.
-
-Throughout, it streams motor temperature, voltage and current and **stops the arm automatically** when
-a motor overheats.
-
-```bash
-uvx hibiscus-station                 # no install; or: uv tool install hibiscus-station
-hibiscus station --mock --no-browser # through the CLI, here with simulated hardware
-```
-
-> **Status:** Hibiscus Station has been tested end to end against mock hardware and a real trained ACT
-> checkpoint. It has **not yet been validated on real SO-101 hardware**, so treat it as a preview and
-> keep a hand on the power switch.
-
-Spec: [`docs/spec/station.md`](docs/spec/station.md) · usage and development: [`station/README.md`](station/README.md).
+Station uses only the server's public API (chunked dataset upload, model bundles) and the `hibiscus`
+CLI from this repository, so the two release independently. Install it from its
+[Quick start](https://github.com/Bigkatoan/hibiscus-station#quick-start); once installed, `hibiscus station …` launches it.
 
 ## Documentation
 
 * 📘 **Docs site**: <https://bigkatoan.github.io/Hibiscus/> (English + Tiếng Việt)
 * User guide: [English](docs/user-guide/en/01-getting-started.md) · [Tiếng Việt](docs/user-guide/vi/01-bat-dau.md)
 * Self-hosting runbooks: [`docs/runbook/`](docs/runbook/README.md)
-* Specs: [bundle format](docs/spec/bundle.md), [run lifecycle](docs/spec/run-lifecycle.md), [policy schema](docs/spec/policy-schema.md), [Hibiscus Station](docs/spec/station.md)
+* Specs: [bundle format](docs/spec/bundle.md), [run lifecycle](docs/spec/run-lifecycle.md), [policy schema](docs/spec/policy-schema.md), [Hibiscus Station](https://github.com/Bigkatoan/hibiscus-station/blob/main/docs/spec/station.md)
 
 ## Roadmap
 
 - [x] **v0.1 Hibiscus Trainer**: datasets, training, live metrics, bundles, teams, CLI, pixel UI
-- [x] **Hibiscus Station** (preview): robot setup, motor calibration, cameras, teleoperation and
-      dataset recording in the same pixel UI, upload / pull, and running a policy with live motor
-      telemetry, thermal auto-stop and camera feeds ([details](#hibiscus-station))
-- [ ] 🚧 Hibiscus Station validated on real SO-101 hardware (so far: mock hardware + a real ACT checkpoint)
+- [x] **Hibiscus Station** moved to its own repository ([Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station), roadmap there)
 - [ ] VQ-BeT ONNX export, TensorRT / Jetson engines
 - [ ] SSO / OIDC login
 - [ ] Simulation-based evaluation

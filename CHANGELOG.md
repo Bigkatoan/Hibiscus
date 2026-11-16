@@ -8,6 +8,15 @@ may contain breaking changes; they are always called out under **Changed** or **
 
 ## [Unreleased]
 
+### Removed
+- **Hibiscus Station moved to its own repository**,
+  [Bigkatoan/hibiscus-station](https://github.com/Bigkatoan/hibiscus-station) (0.2.0 adds
+  trajectories, block programs and a 3D twin). `station/`, the Station UI build in `frontend/`, its
+  CI jobs and the Station wheel on GitHub releases are gone from this repository; the docs pages now
+  point there. The server API Station uses (chunked dataset upload, model bundles, tokens) and the
+  `hibiscus` CLI stay here; `hibiscus station` still launches an installed Station and now links to
+  the new repository when it is missing.
+
 ## [0.1.1] - 2026-11-16
 
 ### Changed

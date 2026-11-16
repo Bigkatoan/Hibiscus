@@ -3,8 +3,6 @@ coverage
 node_modules
 pnpm-lock.yaml
 dist-mock
-dist-station
-dist-station-mock
 # synced from hibiscus-assets (tools/sync.sh) — never hand-edit
 src/hibiscus
 public/pixel

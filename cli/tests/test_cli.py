@@ -254,8 +254,7 @@ def test_station_not_installed(runner: CliRunner, monkeypatch: pytest.MonkeyPatc
     monkeypatch.setattr(main_mod.os, "execvp", lambda *a: pytest.fail("must not exec"))
     r = runner.invoke(app, ["station", "--mock"])
     assert r.exit_code == 1
-    assert "uv tool install hibiscus-station" in r.output
-    assert "uvx hibiscus-station" in r.output
+    assert "github.com/Bigkatoan/hibiscus-station" in r.output
 
 
 def test_json_output_is_plain(

@@ -799,14 +799,16 @@ STATION_BIN = "hibiscus-station"
 def station(ctx: typer.Context) -> None:
     """Launch Hibiscus Station (the local robot app); every argument is passed to `hibiscus-station`.
 
+    Station is installed separately: https://github.com/Bigkatoan/hibiscus-station
+
     Examples: `hibiscus station --mock`, `hibiscus station url`, `hibiscus station --help`.
     """
     exe = shutil.which(STATION_BIN)
     if exe is None:
         err.print(f"[bold red]error:[/] `{STATION_BIN}` is not installed (or not on PATH).")
         err.print(
-            "[yellow]hint:[/] install it with `uv tool install hibiscus-station`, "
-            "or run it once without installing: `uvx hibiscus-station`"
+            "[yellow]hint:[/] Hibiscus Station ships from its own repository; see "
+            "https://github.com/Bigkatoan/hibiscus-station#quick-start to install it"
         )
         raise typer.Exit(1)
     os.execvp(exe, [STATION_BIN, *ctx.args])  # noqa: S606 - argv list, no shell
