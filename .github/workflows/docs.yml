@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: astral-sh/setup-uv@v10.3.3
+      - uses: astral-sh/setup-uv@v10.4.0
         with: {version: "${{ env.UV_VERSION }}"}
       - name: mkdocs build --strict
         run: uv run --no-project --python 3.12 --with-requirements docs/requirements.txt mkdocs build --strict --site-dir site
