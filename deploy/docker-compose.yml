@@ -557,7 +557,7 @@ services:
   gpu-exporter:
     # nvidia-smi based (works for both the GeForce 3060 and the Tesla P40; dcgm-exporter does not
     # support GeForce cards). Read-only telemetry: no CUDA context is created.
-    image: ${HIBISCUS_GPU_EXPORTER_IMAGE:-utkuozdemir/nvidia_gpu_exporter:1.18.0@sha256:26c2a24ddb97356ae9461113a32697a1d7d1697b9e24b5faf86e0d643594a104}
+    image: ${HIBISCUS_GPU_EXPORTER_IMAGE:-utkuozdemir/nvidia_gpu_exporter:2.0.0@sha256:bd7ca0426cbfd4a5e5b33625b873541c5da58c52569f9e141db8e76c7d3e9256}
     restart: unless-stopped
     logging: *logging
     <<: *hardening
